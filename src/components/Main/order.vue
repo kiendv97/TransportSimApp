@@ -9,8 +9,8 @@
                 <v-flex xs6>
                   <p class="text-xs-left headline font-weight-light">{{data.name.split(' ').slice(1, -1).toString()}}</p>
                 </v-flex>
-                <v-flex xs6>
-                  <p class="text-xs-right font-weight-thin ">{{new Date(data.finished_date).getHours()}}:{{new Date(data.finished_date).getMinutes()}}  {{new Date(data.finished_date).getDate()}}-{{new Date(data.finished_date).getMonth()}}-{{new Date(data.finished_date).getFullYear()}}</p>
+                <v-flex xs6 v-if="data.finished_date">
+                  <p class="text-xs-right font-weight-thin">{{new Date(data.finished_date).getHours()}}:{{new Date(data.finished_date).getMinutes()}}  {{new Date(data.finished_date).getDate()}}-{{new Date(data.finished_date).getMonth()}}-{{new Date(data.finished_date).getFullYear()}}</p>
                 </v-flex>
               </v-layout>
             </v-container>
