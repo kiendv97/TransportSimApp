@@ -1,7 +1,7 @@
 <template>
   <v-layout wrap>
     <v-flex v-for="data in datas" :key="data.id" xs12>
-      <v-card>
+      <v-card @click="detail(data.id)">
         <v-card-text>
           <div class="header-info">
             <v-container fluid>
@@ -29,7 +29,7 @@
               <v-flex
                 shrink
                 pa-1
-              >{{data.orders[0].receiver_info.receiver_phone}} - {{data.orders[0].receiver_info.receiver_name}}</v-flex>
+              ><a href="">{{data.orders[0].receiver_info.receiver_phone}}</a> - {{data.orders[0].receiver_info.receiver_name}}</v-flex>
             </v-layout>
             <v-layout v-if="data.orders[0].receiver_info" row>
               <v-flex grow pa-1>
@@ -43,7 +43,7 @@
               </v-flex>
               <v-flex shrink pa-1>
                 <strong>htadmin:</strong>
-                <span>{{data.orders[0].assignee_phone_number}}</span>
+                <span><a href="">{{data.orders[0].assignee_phone_number}}</a></span>
               </v-flex>
             </v-layout>
 
@@ -108,6 +108,12 @@ export default {
     }
   },
   methods: {
+    detail(val){
+      console.log(val);
+      
+      this.$router.push({name: 'detail', params: {id: val}});
+      
+    },
     srollBottom() {
       window.onscroll = () => {
         let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight > document.documentElement.offsetHeight -1;
@@ -136,6 +142,7 @@ export default {
         )
         .then(responses => {
           console.log(responses);
+          this.$emit('numberTotal',responses.data.paging.total)
           this.datas = [...this.datas, ...responses.data.response];
         });
     },
