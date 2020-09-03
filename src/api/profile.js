@@ -9,8 +9,8 @@ let profileUser = () => {
     })
         .then(result => {
             return result.data.response;
-        })
-}
-export { profileUser }
+        });
+};
+export { profileUser };
 
 

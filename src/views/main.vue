@@ -1,7 +1,11 @@
 <template>
   <v-app>
     <v-layout>
-      <v-flex xs12 sm6 offset-sm3>
+      <v-flex
+        xs12
+        sm6
+        offset-sm3
+      >
         <div class="main_header">
           <div class="Header">
             <div class="Search">
@@ -13,22 +17,35 @@
                 hide-details
                 clearable
                 clear-icon="mdi-close-circle-outline"
-              ></v-text-field>
+              />
             </div>
             
-              <div class="text-xs-center">
-                <v-avatar>
-                  <img  @click="Profile()"  src="https://randomuser.me/api/portraits/men/35.jpg" alt="trevor" />
-                </v-avatar>
-              </div>
-            
+            <div class="text-xs-center">
+              <v-avatar>
+                <img
+                  src="https://randomuser.me/api/portraits/men/35.jpg"
+                  alt="trevor"
+                  @click="Profile()"
+                >
+              </v-avatar>
+            </div>
           </div>
-          <v-divider></v-divider>
-          <v-tabs fixed-tabs align-with-title background-color="white" v-model="tab">
-            <v-tab v-for="item in items" :key="item.id">
-              <v-icon small>{{ item.icon }}</v-icon>
+          <v-divider />
+          <v-tabs
+            v-model="tab"
+            fixed-tabs
+            align-with-title
+            background-color="white"
+          >
+            <v-tab
+              v-for="item in items"
+              :key="item.id"
+            >
+              <v-icon small>
+                {{ item.icon }}
+              </v-icon>
               <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              <p>{{item.total}}</p>
+              <p>{{ item.total }}</p>
             </v-tab>
           </v-tabs>
         </div>
@@ -56,26 +73,6 @@ export default {
   components: {
     OrderComponent
   },
-  methods: {
-    switchS(id) {
-      this.switch_val = id;
-    },
-    Profile() {
-      this.$router.push({ name: "Profile" });
-    }
-  },
-  watch: {
-    tab: function(val) {
-      console.log(val);
-    },
-    item: function(val) {
-      this.items[this.tab].total = val;
-    }
-  },
-beforeMount(){
-  
-}
-,
   data() {
     return {
       tab: 0,
@@ -114,7 +111,27 @@ beforeMount(){
       right: null,
       search: ""
     };
+  },
+  watch: {
+    tab: function(val) {
+      console.log(val);
+    },
+    item: function(val) {
+      this.items[this.tab].total = val;
+    }
+  },
+beforeMount(){
+  
+},
+  methods: {
+    switchS(id) {
+      this.switch_val = id;
+    },
+    Profile() {
+      this.$router.push({ name: "Profile" });
+    }
   }
+
 };
 </script>
 

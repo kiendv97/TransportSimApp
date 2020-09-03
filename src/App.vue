@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <main>
-      <router-view></router-view>
+      <router-view />
     </main>
   </div>
 </template>
@@ -11,7 +11,7 @@
 // import Header from './components/header'
 // import Login from './views/login'
 export default {
-  name: "app",
+  name: "App",
   data:() => ({
     authenticated : localStorage.authenticated
   }),

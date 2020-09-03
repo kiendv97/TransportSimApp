@@ -1,9 +1,23 @@
 <template>
-  <v-card tile flat>
-    <v-progress-linear :indeterminate="true" background-color="green" value="50"></v-progress-linear>
+  <v-card
+    tile
+    flat
+  >
+    <v-progress-linear
+      :indeterminate="true"
+      background-color="green"
+      value="50"
+    />
     <div class="status">
-      <p class="title" id="text">{{name_status}}</p>
-      <p class="font-weight-medium">{{mount}}</p>
+      <p
+        id="text"
+        class="title"
+      >
+        {{ name_status }}
+      </p>
+      <p class="font-weight-medium">
+        {{ mount }}
+      </p>
     </div>
   </v-card>
 </template>
@@ -14,12 +28,12 @@ import moment from "moment";
 import { access } from "fs";
 export default {
   name: "CardComponent",
+  props: ["nameStatus"],
   data() {
     return {
       mount: 0
     };
   },
-  props: ["name_status"],
   mounted() {
     var fromDate;
     var dateNow = new Date();

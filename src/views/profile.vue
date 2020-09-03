@@ -1,44 +1,87 @@
 <template>
   <v-layout row>
-    <v-flex xs12 sm6 offset-sm3>
+    <v-flex
+      xs12
+      sm6
+      offset-sm3
+    >
       <v-card>
-        <v-toolbar color="cyan" dark>
-          <v-btn icon @click="$router.go(-1)">
+        <v-toolbar
+          color="cyan"
+          dark
+        >
+          <v-btn
+            icon
+            @click="$router.go(-1)"
+          >
             <v-icon>arrow_back</v-icon>
           </v-btn>
 
           <v-toolbar-title>Thông tin cá nhân</v-toolbar-title>
 
-          <v-spacer></v-spacer>
+          <v-spacer />
         </v-toolbar>
 
         <v-list two-line>
           <template v-for="(item, index) in items">
-            <v-subheader v-if="item.header" :key="item.header">{{ item.header }}</v-subheader>
+            <v-subheader
+              v-if="item.header"
+              :key="item.header"
+            >
+              {{ item.header }}
+            </v-subheader>
 
-            <v-divider v-else-if="item.divider" :key="index" :inset="item.inset"></v-divider>
+            <v-divider
+              v-else-if="item.divider"
+              :key="index"
+              :inset="item.inset"
+            />
 
-            <v-list-tile v-else :key="item.title" avatar @click="canClick(item)">
-              <v-icon large>{{item.avatar}}</v-icon>
+            <v-list-tile
+              v-else
+              :key="item.title"
+              avatar
+              @click="canClick(item)"
+            >
+              <v-icon large>
+                {{ item.avatar }}
+              </v-icon>
 
               <v-list-tile-content>
-                <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                <v-list-tile-title v-html="item.title" />
+                <v-list-tile-sub-title v-html="item.subtitle" />
               </v-list-tile-content>
             </v-list-tile>
           </template>
-          <v-dialog v-model="dialog" max-width="290">
+          <v-dialog
+            v-model="dialog"
+            max-width="290"
+          >
             <v-card>
-              <v-card-title class="headline">Use Google's location service?</v-card-title>
+              <v-card-title class="headline">
+                Use Google's location service?
+              </v-card-title>
 
               <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
 
               <v-card-actions>
-                <v-spacer></v-spacer>
+                <v-spacer />
 
-                <v-btn color="green darken-1" text @click="dialog = false">Disagree</v-btn>
+                <v-btn
+                  color="green darken-1"
+                  text
+                  @click="dialog = false"
+                >
+                  Disagree
+                </v-btn>
 
-                <v-btn color="green darken-1" text @click="dialog = false">Agree</v-btn>
+                <v-btn
+                  color="green darken-1"
+                  text
+                  @click="dialog = false"
+                >
+                  Agree
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>

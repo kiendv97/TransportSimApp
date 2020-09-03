@@ -22,7 +22,7 @@
     data () {
       return {
         alert: false
-      }
+      };
     }
-  }
+  };
 </script>
