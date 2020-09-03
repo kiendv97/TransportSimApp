@@ -141,7 +141,7 @@ if (dateNow.getMonth() > 6) {
 export default {
     name: "OrderComponent",
     props: {
-        nameStatus: {
+        name_status: {
             type: String,
             require: true
         }
