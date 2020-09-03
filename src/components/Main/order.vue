@@ -142,7 +142,7 @@ export default {
     name: "OrderComponent",
     props: {
         nameStatus: {
-            type: string,
+            type: String,
             require: true
         }
     },
