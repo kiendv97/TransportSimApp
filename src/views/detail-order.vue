@@ -1,205 +1,162 @@
 <template>
-  <v-app>
-    <v-layout row>
-      <v-flex
-        xs12
-        sm6
-        offset-sm3
-      >
-        <v-card min-height="600">
-          <v-toolbar
-            color="cyan"
-            dark
-          >
-            <v-btn
-              icon
-              @click="$router.go(-1)"
-            >
-              <v-icon>arrow_back</v-icon>
-            </v-btn>
+<v-card min-height="100vh">
+    <v-toolbar color="cyan" dark>
+        <v-btn icon @click="$router.go(-1)">
+            <v-icon>arrow_back</v-icon>
+        </v-btn>
 
-            <v-toolbar-title>Chi tiết</v-toolbar-title>
+        <v-toolbar-title>Chi tiết</v-toolbar-title>
 
-            <v-spacer />
-          </v-toolbar>
-          <v-layout column>
-            <v-flex>
-              <p class="display-1 text-lg-left font-weight-medium">
-                {{ item.items[0].sold_product }}
-              </p>
-              <p class="text-lg-left">
-                {{ item.created_at }}
-              </p>
-              <v-btn
-                large
-                color="primary"
-              >
-                Giao xong
-              </v-btn>
-            </v-flex>
-            <v-divider />
-            <v-flex>
-              <v-card color="blue lighten-5">
-                <p class="text-md-center">
-                  Số tiền phải thu
+        <v-spacer />
+    </v-toolbar>
+    <v-layout class="mt-3" column>
+        <div style="width: 50%; float: left" class="text-left">
+            <p class="text-left mb-0" style="color: blue">
+                <strong class="display-1">{{ item.items[0].sold_product }}</strong>
+               
+            </p>
+            
+            <p class="text-lg-left">
+              <small>{{ item.created_at }}</small>
+            </p>
+          
+        </div>
+        <div style="width: 40%; float: right">
+          <v-btn small color="primary">
+            Giao xong
+        </v-btn>
+        </div>
+        <v-divider />
+        <div style="width: 95%">
+            <v-card color="blue lighten-5">
+                <p class="text-md-center pt-1 ">
+                    Số tiền phải thu
                 </p>
-                <p class="text-md-center display-3 font-weight-bold">
-                  {{ parseFloat(item.total_order_price.toString().replace('.','')).toFixed(0) }}
-                </p>VND
-              </v-card>
-            </v-flex>
-            <v-divider />
-            <v-flex>
-              <div class="inline inline-icon">
+                <p class="text-center display-2 font-weight-bold" style="color: chocolate; text-align: center;">
+                    {{ convertMoney(item.total_order_price) }}
+                </p>
+            </v-card>
+          </div>
+        <v-divider />
+        <div style="text-align: left; width: 100%;" class="ml-5">
+            <div class="inline inline-icon">
                 <v-icon color="purple darken-2">
-                  home
+                    home
                 </v-icon>
-                <p>{{ item.customer_profile.customer_name }}</p>
-              </div>
-              <div class="inline inline-icon">
+                <span>{{ item.customer_profile.customer_name }}</span>
+            </div>
+            <div class="inline inline-icon">
                 <v-icon color="red darken-2">
-                  phone
+                    phone
                 </v-icon>
-                <p><a href="">{{ item.customer_profile.customer_phone }}</a></p>
-              </div>
-              <div class="inline inline-icon">
+                <span><a href="">{{ item.customer_profile.customer_phone }}</a></span>
+            </div>
+            <div class="inline inline-icon">
                 <v-icon color="blue darken-2">
-                  info
+                    info
                 </v-icon>
-                <p>{{ item.customer_profile.customer_province }}</p>
-              </div>
-            </v-flex>
-            <v-divider />
-            <v-flex>
-              <div class="inline">
+                <span>{{ item.customer_profile.customer_province }}</span>
+            </div>
+          </div>
+        <v-divider />
+        <div class="ml-5 mt-5" style="width: 100%;">
+            <div class="inline">
                 <p>Giá bán:</p>
                 <p class="title">
-                  {{ item.items[0].sell_price }} đ
+                    {{ item.items[0].sell_price }} đ
                 </p>
-              </div>
-              <div class="inline">
+            </div>
+            <div class="inline">
                 <p>Người bán:</p>
                 <p class="title">
-                  {{ item.assignee_email }}
+                    {{ item.assignee_email }}
                 </p>
-              </div>
-              <div class="inline">
+            </div>
+            <div class="inline">
                 <p>Liên hệ:</p>
                 <p class="title">
-                  <a href="">{{ item.items[0].sold_product }}</a>
+                    <a href="">{{ item.items[0].sold_product }}</a>
                 </p>
-              </div>
-            </v-flex>
-            <v-divider />
-            <v-flex>
-              <div class="text-md-left">
-                <p>Thuê bao:</p>
-                <p>Trả trước (32234324 Trả góp anh Huy )</p>
-              </div>
-            </v-flex>
-            <v-divider />
-            <v-flex>
-              <v-layout row>
-                <v-flex
-                  grow
-                  pa-1
-                >
-                  <v-textarea
-                    outlined
-                    name="input-7-4"
-                    label="Nhập comment đơn hàng"
-                  />
+            </div>
+            <div class="inline">
+              <p>Thuê bao: <small><i>Trả trước (32234324 Trả góp anh Huy )</i></small></p>
+            </div>
+          </div>
+        <v-divider />
+        <div style="width: 90%;">
+            <v-layout row>
+                <v-flex grow pa-1>
+                    <v-textarea outlined name="input-7-4" label="Nhập comment" />
                 </v-flex>
-                <v-flex
-                  shrink
-                  pa-1
-                >
-                  <v-btn color="success">
-                    Comment
-                  </v-btn>
+                <v-flex shrink pa-1>
+                    <v-btn color="success">
+                        Comment
+                    </v-btn>
                 </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-flex>
-              <div
-                class="inline"
-                style="display: flex"
-              >
+            </v-layout>
+        </div>
+        <div class="ma-2">
+            <div class="inline">
                 (15:41:11)
-
                 Diệu ngu:
                 tao ban nè
-              </div>
-              <div class="inline">
+            </div>
+            <div class="inline">
                 (15:41:11)
                 Hoc got:
                 khach thanh toan luon tien sim 096564655
-              </div>
-            </v-flex>
-            <v-divider />
-            <v-flex>
-              <v-text-field label="Series Sim" />
-            </v-flex>
-            <p class="text-lg-left">
-              Ngày giao xong 04/07/2019 : 4:11:24 CH
-            </p>
-            <p class="text-lg-left">
-              Số tiền thực nhận
-            </p>-----
-            <v-textarea
-              outlined
-              name="input-7-4"
-              width="100"
-              label="Ghi chú"
-            />
-          </v-layout>
-        </v-card>
-      </v-flex>
+            </div>
+        </div>
+        <v-divider />
+        <div style="width: 90%;" class="d-flex justify-start">
+            <v-text-field type="number" label="Nhập seri sim" />
+            <v-btn color="success">
+              Gửi
+          </v-btn>
+        </div>
+        <div style="width: 90%;" class="mt-3">
+          <p class="text-lg-left">
+            Ngày giao xong 04/07/2019 : 4:11:24 CH
+        </p>
+        <p class="text-lg-left">
+            Số tiền thực nhận
+        </p>-----
+        <v-textarea outlined name="input-7-4" width="100" label="Ghi chú" />
+        </div>
+        
     </v-layout>
-  </v-app>
+</v-card>
+</v-flex>
+</v-layout>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+    data() {
+        return {
+            item: {}
+        };
+    },
+    async created() {
+        let Response = await axios
+            .get("https://banhang.topsim.vn/api/orders/orders/" + this.$route.params.id, {
+                headers: {
+                    "x-access-token": localStorage.access_token,
+                    "Access-Control-Allow-Origin": "*"
+                }
+            })
+        this.item = Response.data.response;
+
+    }
+};
+</script>
+
 <style scoped>
-.font-weight-bold{
-  color:palevioletred;
-}
-.v-card {
-    margin: 0 5px;
-}
- .inline-icon > p {
-     margin: auto 0;
- }
- .inline-icon {
-     height:40px;
- }
 .inline{
   display: flex;
   text-align: start;
   
 }
 </style>
-<script>
-import axios from "axios";
-
-export default {
-  data() {
-   return {
-       item: {}
-   }; 
-  },
-  mounted() {
-    axios
-      .get("http://beta4.topsim.vn/api/orders/orders/" + this.$route.params.id, {
-        headers: {
-          "x-access-token": localStorage.access_token,
-          "Access-Control-Allow-Origin": "*"
-        }
-      })
-      .then(Response => {
-        console.log(Response.data.response);
-        
-        this.item = Response.data.response;
-      });
-  }
-};
-</script>
-

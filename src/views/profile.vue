@@ -48,8 +48,12 @@
               </v-icon>
 
               <v-list-tile-content>
-                <v-list-tile-title v-html="item.title" />
-                <v-list-tile-sub-title v-html="item.subtitle" />
+                <v-list-tile-title 
+                  v-html="item.title"
+                />
+                <v-list-tile-sub-title 
+                  v-html="item.subtitle"
+                />
               </v-list-tile-content>
             </v-list-tile>
           </template>
@@ -59,20 +63,17 @@
           >
             <v-card>
               <v-card-title class="headline">
-                Use Google's location service?
+                Xuất
               </v-card-title>
-
-              <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
-
               <v-card-actions>
                 <v-spacer />
 
                 <v-btn
                   color="green darken-1"
                   text
-                  @click="dialog = false"
+                  @click="logout()"
                 >
-                  Disagree
+                  Đăng xuất
                 </v-btn>
 
                 <v-btn
@@ -80,7 +81,7 @@
                   text
                   @click="dialog = false"
                 >
-                  Agree
+                  Huỷ
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -142,20 +143,23 @@ export default {
       this.items[5].subtitle = `<span class='text--primary'>${val.phone_number}</span> `;
     }
   },
-  beforeMount() {
-    axios
-      .get("http://beta4.topsim.vn/api/account-admin/detail/1", {
+  async created() {
+    let profileLocal = JSON.parse(localStorage.getItem('user'))
+    let result = await axios
+      .get(`https://banhang.topsim.vn/api/account-admin/detail/${profileLocal.id}`, {
         headers: {
           "x-access-token": localStorage.access_token,
           "Access-Control-Allow-Origin": "*"
         }
       })
-      .then(result => {
-        console.log(result);
-        this.profile = result.data.response;
-      });
+      this.profile = result.data.response;
+
   },
   methods: {
+    logout() {
+      localStorage.clear()
+      this.$router.push('login')
+    },
     canClick(item) {
       if (item.canClick) {
         if (item.linkTo) {

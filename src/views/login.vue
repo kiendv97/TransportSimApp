@@ -3,13 +3,13 @@
     <v-layout row>
         <v-flex xs12 sm6 offset-sm3>
             <v-spacer>
-                <v-avatar centered>
-                    <img src="https://picsum.photos/510/300?random">
+                <v-avatar>
+                    <img width="48px" height="48px" src="https://picsum.photos/510/300?random">
                 </v-avatar>
                 <v-form ref="form" lazy-validation>
-                    <v-text-field v-model="username" label="Tên đăng nhập" required />
-                    <v-text-field v-model="password" type="password" label="Mật khẩu" required />
-                    <v-text-field v-model="otp" type="text" label="OTP" required />
+                    <v-text-field @keyup.enter="login()" v-model="username" label="Tên đăng nhập" required />
+                    <v-text-field @keyup.enter="login()" v-model="password" type="password" label="Mật khẩu" required />
+                    <v-text-field @keyup.enter="login()" v-model="otp" type="text" label="OTP" required />
 
                     <v-btn color="success" @click="login()">
                         Đăng nhập
@@ -18,7 +18,7 @@
                 <div class="contact">
                     <v-list-tile-content>
                         <p class="headline">
-                            Hotline: 0964 199 991
+                            Hotline: 0969 997 197
                         </p>
                     </v-list-tile-content>
                 </div>
@@ -46,8 +46,9 @@ export default {
                 });
                 this.authenticated = true;
                 localStorage.authenticated = true;
+
             } else {
-                alert("User or password incorrect");
+                alert("Tên đăng nhập hoặc mật khẩu không đúng!");
             }
         }
     },
@@ -63,24 +64,29 @@ export default {
             var self = this;
             if (this.username != "" && this.password != "") {
                 axios
-                    .post("http://beta4.topsim.vn/api/login-backend ", {
+                    .post("https://banhang.topsim.vn/api/login-backend ", {
                         username: this.username,
                         password: this.password,
                         otp: this.otp
                     })
                     .then(function (response) {
-                        console.log(response);
                         if (response.status == 200) {
                             self.statusResponse = true;
                             localStorage.access_token = response.data.response.token;
+                            localStorage.user = JSON.stringify(response.data.response);
+
                         }
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        console.log(error.response.data.message)
+                        if (error && error.response && error.response.data.message) {
+                            alert(error.response.data.message)
+                        } else {
+                            alert("Có gì đó không đúng!")
+                        }
+
                     });
-            } else {
-                console.log("username and password must be present");
-            }
+            } else {}
 
         }
     }
@@ -96,6 +102,12 @@ export default {
     .layout {
         display: flex;
         align-items: center;
+    }
+
+    .v-avatar {
+        text-align: center;
+        display: inherit;
+        margin: auto;
     }
 
     .spacer {

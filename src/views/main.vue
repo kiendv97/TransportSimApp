@@ -7,15 +7,16 @@
         offset-sm3
       >
         <div class="main_header">
-          <div class="Header">
+          <div class="d-flex">
             <div class="Search">
               <v-text-field
                 v-model="search"
                 label="Tìm kiếm"
+                @click:append="searchOrder()"
                 flat
+                append-icon="search"
                 solo-inverted
                 hide-details
-                clearable
                 clear-icon="mdi-close-circle-outline"
               />
             </div>
@@ -34,7 +35,6 @@
           <v-tabs
             v-model="tab"
             fixed-tabs
-            align-with-title
             background-color="white"
           >
             <v-tab
@@ -45,15 +45,14 @@
                 {{ item.icon }}
               </v-icon>
               <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              <p>{{ item.total }}</p>
             </v-tab>
           </v-tabs>
         </div>
-        <v-tabs-items>
+        <v-tabs-items class="content">
           <v-tab-item>
             <v-container>
               <OrderComponent
-                :name_status="items[tab].status"
+                :name-status="items[tab].status"
                 @numberTotal="items[tab].total = $event"
               />
             </v-container>
@@ -81,21 +80,21 @@ export default {
       items: [
         {
           id: 0,
-          title: "Chờ giao",
+          title: "Chờ",
           icon: "dashboard",
           status: "NOT_DELIVERED",
           total: 0
         },
         {
           id: 1,
-          title: "Đang giao",
+          title: "Đang",
           icon: "dashboard",
           status: "SHIPPING",
           total: 0
         },
         {
           id: 2,
-          title: "Giao xong",
+          title: "Xong",
           icon: "dashboard",
           status: "DELIVERED",
           total: 0
@@ -114,18 +113,18 @@ export default {
   },
   watch: {
     tab: function(val) {
-      console.log(val);
+      console.log('val');
     },
     item: function(val) {
       this.items[this.tab].total = val;
     }
   },
-beforeMount(){
-  
-},
   methods: {
     switchS(id) {
       this.switch_val = id;
+    },
+    searchOrder() {
+        console.log(this.search);
     },
     Profile() {
       this.$router.push({ name: "Profile" });
@@ -135,19 +134,26 @@ beforeMount(){
 };
 </script>
 
-<style scored>
+<style scoped>
 #app {
   margin-top: 0px;
 }
+.main_header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+    background: #fff
+}
 .content {
-  margin-top: 30px;
+  padding-top: 100px;
+}
+.v-window {
+    min-height: 100vh;
 }
 .v-list__tile__action {
   display: flex;
   justify-content: center;
-}
-.Header {
-  display: flex;
 }
 .Search {
   flex: 3;
@@ -155,4 +161,5 @@ beforeMount(){
 .text-xs-center {
   flex: 1;
 }
+
 </style>

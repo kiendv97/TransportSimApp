@@ -1,13 +1,13 @@
 <template>
 <v-card tile flat>
-    <v-progress-linear :indeterminate="true" background-color="green" value="50" />
+    <v-progress-linear background-color="green" />
     <div class="status">
-        <p id="text" class="title">
-            {{ name_status }}
-        </p>
-        <p class="font-weight-medium">
+        <div id="text" class="title">
+            {{ statusObject.text }}
+        </div>
+        <div class="font-weight-medium display-2 mt-4">
             {{ mount }}
-        </p>
+        </div>
     </div>
 </v-card>
 </template>
@@ -20,7 +20,13 @@ import {
 } from "fs";
 export default {
     name: "CardComponent",
-    props: ["name_status"],
+    props: {
+        statusObject: {
+            type: Object,
+            default: {},
+            require: true
+        }
+    },
     data() {
         return {
             mount: 0
@@ -48,7 +54,7 @@ export default {
         }
         axios
             .get(
-                `http://beta4.topsim.vn/api/transaction-trader/packages?create_date_from=${fromDate}&create_date_to=${moment().format('YYYY-MM-DD')}&status=${this.$props.name_status}`, {
+                `https://banhang.topsim.vn/api/transaction-trader/packages?create_date_from=${fromDate}&create_date_to=${moment().format('YYYY-MM-DD')}&status=${this.$props.statusObject.key}`, {
                     headers: {
                         "x-access-token": localStorage.access_token,
                         "Access-Control-Allow-Origin": "*"
@@ -73,8 +79,6 @@ export default {
 }
 
 .status {
-    display: flex;
-    justify-content: space-around;
     margin-top: 50px;
 }
 </style>
