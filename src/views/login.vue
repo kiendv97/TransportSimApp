@@ -30,7 +30,9 @@
 
 <script>
 import axios from "axios";
-
+import {
+    login
+} from '@/api/fetch.js'
 export default {
     data: () => ({
         statusResponse: false,
@@ -60,33 +62,28 @@ export default {
         }
     },
     methods: {
-        login() {
-            var self = this;
-            if (this.username != "" && this.password != "") {
-                axios
-                    .post("https://banhang.topsim.vn/api/login-backend ", {
-                        username: this.username,
-                        password: this.password,
-                        otp: this.otp
-                    })
-                    .then(function (response) {
-                        if (response.status == 200) {
-                            self.statusResponse = true;
-                            localStorage.access_token = response.data.response.token;
-                            localStorage.user = JSON.stringify(response.data.response);
+        async login() {
+            try {
+                var self = this;
+                if (this.username != "" && this.password != "") {
+                    let response = await login(this.username, this.password, this.otp)
+                    if (response.status == 200) {
+                        self.statusResponse = true;
+                        localStorage.access_token = response.data.response.token;
+                        localStorage.user = JSON.stringify(response.data.response);
 
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error.response.data.message)
-                        if (error && error.response && error.response.data.message) {
-                            alert(error.response.data.message)
-                        } else {
-                            alert("Có gì đó không đúng!")
-                        }
-
-                    });
-            } else {}
+                    }
+                } else {
+                    alert("Vui lòng nhập");
+                }
+            } catch (error) {
+                console.log(error.response.data.message)
+                if (error && error.response && error.response.data.message) {
+                    alert(error.response.data.message)
+                } else {
+                    alert("Có gì đó không đúng!")
+                }
+            }
 
         }
     }

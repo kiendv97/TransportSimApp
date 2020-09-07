@@ -1,5 +1,5 @@
 <template>
-<v-card min-height="100vh">
+<v-card v-if="Object.entries(item).length > 0" min-height="100vh">
     <v-toolbar color="cyan" dark>
         <v-btn icon @click="$router.go(-1)">
             <v-icon>arrow_back</v-icon>
@@ -12,7 +12,7 @@
     <v-layout class="mt-3" column>
         <div style="width: 50%; float: left" class="text-left">
             <p class="text-left mb-0" style="color: blue">
-                <strong class="display-1">{{ item.items[0].sold_product }}</strong>
+                <strong class="display-1">{{ item.sold_product }}</strong>
                
             </p>
             
@@ -22,8 +22,8 @@
           
         </div>
         <div style="width: 40%; float: right">
-          <v-btn small color="primary">
-            Giao xong
+          <v-btn small class="primary--text">
+            {{showStatus(item.status)}}
         </v-btn>
         </div>
         <v-divider />
@@ -33,7 +33,7 @@
                     Số tiền phải thu
                 </p>
                 <p class="text-center display-2 font-weight-bold" style="color: chocolate; text-align: center;">
-                    {{ convertMoney(item.total_order_price) }}
+                    {{ convertMoney(item.total_sell_price) }}
                 </p>
             </v-card>
           </div>
@@ -55,73 +55,68 @@
                 <v-icon color="blue darken-2">
                     info
                 </v-icon>
-                <span>{{ item.customer_profile.customer_province }}</span>
+                <span>{{ item.customer_profile.customer_address }}</span>
             </div>
           </div>
         <v-divider />
         <div class="ml-5 mt-5" style="width: 100%;">
             <div class="inline">
                 <p>Giá bán:</p>
-                <p class="title">
-                    {{ item.items[0].sell_price }} đ
+                <p class="ml-1">
+                    {{ convertMoney( item.total_sell_price) }}
                 </p>
             </div>
             <div class="inline">
                 <p>Người bán:</p>
-                <p class="title">
-                    {{ item.assignee_email }}
+                <p class="ml-1">
+                    {{ item.assignee_full_name }}
                 </p>
             </div>
             <div class="inline">
                 <p>Liên hệ:</p>
-                <p class="title">
-                    <a href="">{{ item.items[0].sold_product }}</a>
+                <p class="ml-1">
+                    <a href="">{{ item.assignee_phone_number }}</a>
                 </p>
             </div>
             <div class="inline">
-              <p>Thuê bao: <small><i>Trả trước (32234324 Trả góp anh Huy )</i></small></p>
+              <p>Thuê bao: <small><i>{{item.subscription_type_name}}</i></small></p>
             </div>
           </div>
         <v-divider />
         <div style="width: 90%;">
             <v-layout row>
                 <v-flex grow pa-1>
-                    <v-textarea outlined name="input-7-4" label="Nhập comment" />
+                    <v-textarea outlined label="Nhập comment" v-model="textComment" />
                 </v-flex>
                 <v-flex shrink pa-1>
-                    <v-btn color="success">
+                    <v-btn @click="comment" class="text--darken-1 red--text"  color="success">
                         Comment
                     </v-btn>
                 </v-flex>
             </v-layout>
         </div>
         <div class="ma-2">
-            <div class="inline">
-                (15:41:11)
-                Diệu ngu:
-                tao ban nè
-            </div>
-            <div class="inline">
-                (15:41:11)
-                Hoc got:
-                khach thanh toan luon tien sim 096564655
+            <div class="inline ma-2 " v-for="comment in listComment">
+                ({{dateTimeFormat(comment.date)}})
+                {{comment.username}}: 
+                {{comment.content}}
             </div>
         </div>
         <v-divider />
         <div style="width: 90%;" class="d-flex justify-start">
-            <v-text-field type="number" label="Nhập seri sim" />
-            <v-btn color="success">
+            <v-text-field v-model="seriNumber" type="number" label="Nhập seri sim" />
+            <v-btn @click="putSeriSim" class="red--text" color="success">
               Gửi
           </v-btn>
         </div>
         <div style="width: 90%;" class="mt-3">
           <p class="text-lg-left">
-            Ngày giao xong 04/07/2019 : 4:11:24 CH
+            Ngày giao xong: {{item.finished_date}}
         </p>
         <p class="text-lg-left">
-            Số tiền thực nhận
-        </p>-----
-        <v-textarea outlined name="input-7-4" width="100" label="Ghi chú" />
+            Số tiền thực nhận {{total_receivable_price}}
+        </p>
+        <v-textarea outlined name="input-7-4" width="100" :label="item.note" :disabled />
         </div>
         
     </v-layout>
@@ -132,24 +127,73 @@
 
 <script>
 import axios from "axios";
-
+import { getComment, postComment, putSeriSim, changeStatus, getOrder } from '@/api/fetch'
 export default {
     data() {
+      let idUser = localStorage.getItem('user')
         return {
-            item: {}
+            idUser: idUser,
+            item: {},
+            listComment: [],
+            textComment: '',
+            seriNumber: ''
         };
     },
     async created() {
-        let Response = await axios
-            .get("https://banhang.topsim.vn/api/orders/orders/" + this.$route.params.id, {
-                headers: {
-                    "x-access-token": localStorage.access_token,
-                    "Access-Control-Allow-Origin": "*"
-                }
-            })
-        this.item = Response.data.response;
+        let result = await getOrder(this.$route.query.id)
+        this.item = result
+        this.listComment = await getComment(this.$route.query.id)
+    },
+    methods: {
+      showStatus(status) {
+        switch (status) {
+          case 'NOT_DELIVERED':
+            return 'Chưa giao'
+            break;
+        
+          case 'SHIPPING':
+            return 'Đang giao'
+            break;
+        
+          case 'DELIVERED':
+            return 'Đã giao'
+            break;
+        
+          case 'FAIL':
+            return 'Thất bại'
+            break;
+        
+          default:
+            break;
+        }
+      },
+      async putSeriSim() {
+        try {
+          let result = await putSeriSim(this.item.id, this.seriNumber)
+          alert(result.message)
+        } catch (error) {
+          if(error &&  error.response && error.response.data.message) {
+            alert(error.response.data.message)
+          } else {
+            alert(error)
+          }
+        }
+      },
+      async comment() {
+        try {
+          let result = await postComment(this.idUser, this.textComment)
+          alert(result.message)
+          this.listComment = await getComment(this.$route.query.id)
+        } catch (error) {
+          if(error &&  error.response && error.response.data.message) {
+            alert(error.response.data.message)
+          } else {
+            alert(error)
+          }
+        }
+      }
+    },
 
-    }
 };
 </script>
 

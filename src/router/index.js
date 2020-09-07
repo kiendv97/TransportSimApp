@@ -10,7 +10,7 @@ import ChangePassword from '@/views/change_password.vue';
 import DetailOrder from '@/views/detail-order.vue';
 Vue.use(Vuetify);
 Vue.use(Router);
-export default new Router(
+let router = new Router(
 
     {
         mode: 'history',
@@ -48,3 +48,5 @@ export default new Router(
             }
         ]
     });
+
+export default router

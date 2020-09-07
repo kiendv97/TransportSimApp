@@ -1,6 +1,6 @@
 <template>
 <v-layout wrap>
-    <v-flex v-for="data in datas" :key="data.id" xs12>
+    <v-flex v-for="(data,index) in datas" :key="index" xs12>
         <v-card @click="detail(data.id)">
             <v-card-text>
                 <div class="header-info">
@@ -63,12 +63,12 @@
                     </v-layout>
                 </div>
             </v-card-text>
-            <v-card-actions>
-              <v-btn @click.stop="changeStatus(data,1)" class="" small >
-                <v-icon left color="green">done</v-icon> Nhận
+            <v-card-actions v-if="nameStatus == 'SHIPPING' || nameStatus == 'NOT_DELIVERED'">
+              <v-btn @click.stop="changeStatus(data,index,1)" class="" small >
+                <v-icon left color="green">done</v-icon> {{nameStatus == 'SHIPPING' ? 'Xong' : 'Nhận'}}
               </v-btn>
-              <v-btn @click.stop="changeStatus(data, 0)" class="" small tile outlined>
-                <v-icon left color="red">delete_forever</v-icon> Từ chối
+              <v-btn @click.stop="changeStatus(data,index, 0)" class="" small tile outlined>
+                <v-icon left color="red">delete_forever</v-icon> {{nameStatus == 'SHIPPING' ? 'Thất bại' : 'Từ chối'}}
               </v-btn>
               <v-btn @click.stop="callPhone(data)" class="" small tile outlined >
                 <v-icon left color="primary">call</v-icon> Gọi
@@ -138,22 +138,23 @@ export default {
             }
         }
     },
-    beforeMount() {
+    created() {
         this.getInitDatas();
     },
     mounted() {
         this.srollBottom();
     },
     methods: {
-      async changeStatus(data) {
+      async changeStatus(data,index, type) {
+        this.datas.splice(index, 1)
       },
       callPhone(data) {
         window.location.href = "tel:123123"
-      },
+      }, 
         detail(val) {
             this.$router.push({
                 name: 'Detail',
-                params: {
+                query: {
                     id: val
                 }
             });

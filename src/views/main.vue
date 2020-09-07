@@ -76,7 +76,6 @@ export default {
     return {
       tab: 0,
       switch_val: 0,
-      // status: ['NOT_DELIVERED','SHIPPING','DELIVERED','FAIL'],
       items: [
         {
           id: 0,
@@ -112,12 +111,12 @@ export default {
     };
   },
   watch: {
-    tab: function(val) {
-      console.log('val');
-    },
     item: function(val) {
       this.items[this.tab].total = val;
     }
+  },
+  created() {
+      this.tab = this.$route.params.id || 1
   },
   methods: {
     switchS(id) {

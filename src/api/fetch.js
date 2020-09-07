@@ -1,7 +1,7 @@
 const axios = require('axios');
-
-let profileUser = async () => {
-    let result = await axios.get('https://banhang.topsim.vn/api/account-admin/detail/1', {
+const URL = 'https://banhang.topsim.vn/api'
+let profileUser = async (id) => {
+    let result = await axios.get(`${URL}/account-admin/detail/${id}`, {
         headers: {
             "x-access-token": localStorage.access_token,
             "Access-Control-Allow-Origin": "*"
@@ -10,18 +10,29 @@ let profileUser = async () => {
     return result.data.response;
 
 };
-let getTransaction = () => {
-
+let countTractionTrader = async () => {
+    let result = await axios.get(`${URL}/transaction-trader/count-transaction-group-status-for-app`, {
+        headers: {
+            "x-access-token": localStorage.access_token,
+            "Access-Control-Allow-Origin": "*"
+        }
+    })
+    return result.data.response;
 }
-let login = () => {
-
+let login = async (username, password, otp) => {
+    let response = await axios.post(`${URL}/login-backend`, {
+        username: username,
+        password: password,
+        otp: otp
+    })
+    return response
 }
-let countTractionTrader = async(id,)
 let changeStatus = async (data, type) => {
-    let result = await axios.put(`https://banhang.topsim.vn/api/transaction-trader/package-item/${data.id}/status`,
+    let result = await axios.put(`${URL}/transaction-trader/package-item/${data.id}/status`,
         {
             data: {
-
+                // module
+                // status
             },
             headers: {
                 "x-access-token": localStorage.access_token,
@@ -30,6 +41,75 @@ let changeStatus = async (data, type) => {
         })
     return result.data.response;
 }
-export { profileUser, changeStatus };
+let postComment = async (userId, content) => {
+    let result = await axios.post(`${URL}/commons/comments`,
+        {
+            ref_id: userId,
+            content: content
+        },
+        {
+            headers: {
+                "x-access-token": localStorage.access_token,
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+    return result.data.response;
+}
+let getComment = async (id) => {
+    let result = await axios.get(`${URL}/commons/comments?type=ORDER&id=${id}`, {
+        headers: {
+            "x-access-token": localStorage.access_token,
+            "Access-Control-Allow-Origin": "*"
+        }
+    })
+    return result.data.response;
+}
+let putSeriSim = async (packageId, seri) => {
+    let result = await axios.put(`${URL}/orders/items/${packageId}`,
+        { sim_series: seri },
+        {
+            headers: {
+                "x-access-token": localStorage.access_token,
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+    return result.data.response;
+}
+let resetPwd = async (userId, oldPwd, newPwd, reNewPwd) => {
+    let result = await axios.put(`${URL}/account-admin/reset-pass/${userId}`,
+        {
+            password: newPwd,
+            old_password: oldPwd,
+            repassword: reNewPwd
+        },
+        {
+            headers: {
+                "x-access-token": localStorage.access_token,
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+    return result.data.response;
+}
+let getOrder = async (packageId) => {
+    let result = await axios.get(`${URL}/transaction-trader/detail/${packageId}`,
+        {
+            headers: {
+                "x-access-token": localStorage.access_token,
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+    return result.data.response;
+}
+export {
+    resetPwd,
+    getOrder,
+    profileUser,
+    changeStatus,
+    countTractionTrader,
+    login,
+    getComment,
+    putSeriSim,
+    postComment
+};
 
 
