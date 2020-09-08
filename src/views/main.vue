@@ -5,7 +5,7 @@
             <div class="main_header">
                 <div class="d-flex">
                     <div class="Search">
-                        <v-text-field v-model="search" label="Tìm kiếm" flat append-icon="search" solo-inverted hide-details clear-icon="mdi-close-circle-outline" @click:append="searchOrder()" />
+                        <v-text-field v-model="search" label="Tìm kiếm" flat append-icon="search" ref="searchRef" @keyup.enter="searchOrder" solo-inverted hide-details clear-icon="mdi-close-circle-outline" @click:append="searchOrder" />
                     </div>
 
                     <div class="text-xs-center">
@@ -27,7 +27,7 @@
             <v-tabs-items class="content">
                 <v-tab-item>
                     <v-container>
-                        <OrderComponent :name-status="items[tab].status" @numberTotal="items[tab].total = $event" />
+                        <OrderComponent :search="searchEmit" :name-status="items[tab].status" />
                     </v-container>
                 </v-tab-item>
             </v-tabs-items>
@@ -40,6 +40,7 @@
 import OrderComponent from "@/components/Main/order.vue";
 import axios from "axios";
 import moment from "moment";
+import { searchTransation } from '@/api/fetch'
 export default {
     components: {
         OrderComponent
@@ -78,7 +79,8 @@ export default {
                 }
             ],
             right: null,
-            search: ""
+            search: "",
+            searchEmit: ""
         };
     },
     watch: {
@@ -93,8 +95,8 @@ export default {
         switchS(id) {
             this.switch_val = id;
         },
-        searchOrder() {
-            console.log(this.search);
+        async searchOrder(e) {
+          this.searchEmit = this.$refs.searchRef.value
         },
         Profile() {
             this.$router.push({

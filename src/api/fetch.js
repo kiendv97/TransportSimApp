@@ -129,11 +129,12 @@ let listTransactionForApp = async (status, page, page_size) => {
         })
     return result.data.response;
 }
-let searchTransation = async (sold_product) => {
+let searchTransation = async (sold_product, status) => {
     let result = await axios.get(`${URL}/transaction-trader/list-transaction-for-app`,
         {
             params: {
-                sold_product: sold_product
+                sold_product: sold_product,
+                status: status
             },
             headers: {
                 "x-access-token": localStorage.access_token,

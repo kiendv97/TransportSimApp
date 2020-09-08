@@ -158,7 +158,7 @@
 <script>
 import axios from "axios";
 import moment from "moment";
-import {listTransactionForApp , changeStatus} from '@/api/fetch'
+import {listTransactionForApp , changeStatus, searchTransation} from '@/api/fetch'
 import ConfirmDialog from '@/components/Dialog/Confirm'
 import {
     win32
@@ -172,6 +172,10 @@ export default {
         nameStatus: {
             type: String,
             default: ""
+        },
+        search: {
+            type: String, 
+            default: ''
         }
     },
     data() {
@@ -198,6 +202,12 @@ export default {
                 this.addData(this.page);
                 this.bottom = false;
             }
+        }, 
+        search: async function (e) {
+            this.loading = true
+            let result = await searchTransation(e, this.nameStatus)
+            this.datas = result;
+            this.loading = false
         }
     },
     created() {
@@ -207,10 +217,10 @@ export default {
         this.srollBottom();
     },
     methods: {
+       
         async onEventConfirm(e)  {
-            // let result = await changeStatus(e.package_item_id, e.note, e.status, e.receivePrice )
+            let result = await changeStatus(e.package_item_id, e.note, e.status, e.receivePrice)
             this.datas.splice(e.index, 1);
-            console.log(e);
         },
         async changeStatusComponent(data, index, type) {
             this.dialog = true
@@ -243,21 +253,25 @@ export default {
             try {
                 this.loading = true
                 let responses  = await listTransactionForApp(this.nameStatus, page, 20)
-                this.$emit('numberTotal', responses.length);
                 this.datas = [...this.datas, ...responses];
                 this.loading = false
             } catch (error) {
                 this.loading = false
                 this.errorLoading = error
             }
-           
         },
         async getInitDatas() {
             try {
                 this.loading = true
-                let responses  = await listTransactionForApp(this.nameStatus, 1, 20)
+                let responses 
+                if(this.search && this.search.length) {
+                     responses = await searchTransation(this.search, this.nameStatus)
+                } else {
+                     responses  = await listTransactionForApp(this.nameStatus, 1, 20)
+                }
                 this.datas = responses;
                 this.loading = false
+                
             } catch (error) {
                 this.loading = false
                 this.errorLoading = error

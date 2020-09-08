@@ -188,7 +188,7 @@
     <v-card-actions style="text-align: center; display: inherit;" class="text-center fixed-action"  v-if="item.status == 'SHIPPING' || item.status == 'NOT_DELIVERED'">
         <v-btn
           small
-          @click.stop="changeStatus(data,index,1)"
+          @click.stop="changeStatusComponent(item,'APPROVE')"
         >
           <v-icon
             left
@@ -201,7 +201,7 @@
           small
           tile
           outlined
-          @click.stop="changeStatus(data,index, 0)"
+          @click.stop="changeStatusComponent(item, 'REJECT')"
         >
           <v-icon
             left
@@ -224,9 +224,8 @@
           </v-icon> Gọi
         </v-btn>
       </v-card-actions>
-  </v-card>
-  </v-flex>
-  </v-layout>
+    <ConfirmDialog v-if="dialog" :event="eventDialog" :data-emit="dataEmit" :status="item.status" :dialog="dialog" @confirm="onEventConfirm($event)" @cancel="dialog = false" />
+    </v-card>
 </template>
 
 <script>
@@ -238,13 +237,20 @@ import {
     changeStatus,
     getOrder
 } from '@/api/fetch';
+import ConfirmDialog from '@/components/Dialog/Confirm'
 export default {
+    components: {
+        ConfirmDialog
+    },
     data() {
         return {
             item: {},
             listComment: [],
             textComment: '',
-            seriNumber: ''
+            seriNumber: '',
+            dataEmit: {},
+            dialog: false,
+            eventDialog: ''
         };
     },
     async created() {
@@ -253,8 +259,15 @@ export default {
         this.listComment = await getComment(this.$route.query.id);
     },
     methods: {
-        async changeStatus(data, index, type) {
-            this.datas.splice(index, 1);
+        async onEventConfirm(e)  {
+            let result = await changeStatus(e.package_item_id, e.note, e.status, e.receivePrice)
+        },
+        async changeStatusComponent(data, type) {
+            this.dialog = true
+            this.eventDialog = type
+            this.dataEmit = {
+                package_item_id: data.package_item_id,
+            }
         },
         callPhone(data) {
             window.location.href = "tel:123123";
