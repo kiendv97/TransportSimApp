@@ -231,7 +231,7 @@ export default {
             }
         },
         callPhone(data) {
-            window.location.href = "tel:123123";
+            window.location.href = `tel:${data.customer_profile.customer_phone}`;
         },
         detail(val) {
             this.$router.push({
