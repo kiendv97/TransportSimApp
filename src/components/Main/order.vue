@@ -1,116 +1,173 @@
 <template>
-<v-layout wrap>
-    <v-flex v-for="(data,index) in datas" :key="index" xs12>
-        <v-card @click="detail(data.id)">
-            <v-card-text>
-                <div class="header-info">
-                    <v-container fluid>
-                        <v-layout row>
-                            <v-flex xs6>
-                                <p class="text-xs-left headline font-weight-light">
-                                    {{ data.name.split(' ').slice(1, -1).toString() }}
-                                </p>
-                            </v-flex>
-                            <v-flex v-if="data.finished_date" xs6>
-                                <p class="text-xs-right font-weight-thin">
-                                    {{ new Date(data.finished_date).getHours() }}:{{ new Date(data.finished_date).getMinutes() }} {{ new Date(data.finished_date).getDate() }}-{{ new Date(data.finished_date).getMonth() }}-{{ new Date(data.finished_date).getFullYear() }}
-                                </p>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
-                </div>
-                <div class="main-info">
-                    <v-layout row>
-                        <v-flex grow pa-1>
-                            <v-icon color="green darken-2">
-                                money
-                            </v-icon>
-                        </v-flex>
-                        <v-flex shrink pa-1>
-                            Phải thu {{convertMoney( data.orders[0].total_receivable_price) }}
-                        </v-flex>
-                    </v-layout>
-                    <v-layout v-if="data.orders[0].receiver_info" row>
-                        <v-flex grow pa-1>
-                            <v-icon color="red darken-2">
-                                phone
-                            </v-icon>
-                        </v-flex>
-                        <v-flex shrink pa-1>
-                            <a href="">{{ data.orders[0].receiver_info.receiver_phone }}</a> - {{ data.orders[0].receiver_info.receiver_name }}
-                        </v-flex>
-                    </v-layout>
-                    <v-layout v-if="data.orders[0].receiver_info" row>
-                        <v-flex grow pa-1>
-                            <v-icon color="purple darken-2">
-                                home
-                            </v-icon>
-                        </v-flex>
-                        <v-flex shrink pa-1>
-                            {{ data.orders[0].receiver_info.receiver_address }}
-                        </v-flex>
-                    </v-layout>Trả trước
-                    <v-layout row>
-                        <v-flex grow pa-1>
-                            <v-icon color="red darken-2">
-                                phone
-                            </v-icon>
-                        </v-flex>
-                        <v-flex shrink pa-1>
-                            <strong>{{data.orders[0].assignee_full_name}}: </strong>
-                            <span><a href="">{{ data.orders[0].assignee_phone_number }}</a></span>
-                        </v-flex>
-                    </v-layout>
-                </div>
-            </v-card-text>
-            <v-card-actions v-if="nameStatus == 'SHIPPING' || nameStatus == 'NOT_DELIVERED'">
-              <v-btn @click.stop="changeStatus(data,index,1)" class="" small >
-                <v-icon left color="green">done</v-icon> {{nameStatus == 'SHIPPING' ? 'Xong' : 'Nhận'}}
+  <v-layout wrap>
+    <v-flex
+      v-for="(data,index) in datas"
+      :key="index"
+      xs12
+    >
+      <v-card @click="detail(data.package_item_id)">
+        <v-card-text>
+          <div class="header-info">
+            <v-container fluid>
+              <v-layout row>
+                <v-flex xs6>
+                  <p class="text-xs-left headline font-weight-light">
+                    {{ data.sold_product }}
+                  </p>
+                </v-flex>
+                <v-flex
+                  v-if="data.finished_date"
+                  xs6
+                >
+                  <p class="text-xs-right font-weight-thin">
+                    {{dateTimeFormat(data.finished_date) }}
+                  </p>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </div>
+          <div class="main-info">
+            <v-layout row>
+              <v-flex
+                grow
+                pa-1
+              >
+                <v-icon color="green darken-2">
+                  money
+                </v-icon>
+              </v-flex>
+              <v-flex
+                shrink
+                pa-1
+              >
+                Phải thu {{ convertMoney(data.total_receivable_price) }}
+              </v-flex>
+            </v-layout>
+            <v-layout
+              v-if="data.receiver_info"
+              row
+            >
+              <v-flex
+                grow
+                pa-1
+              >
+                <v-icon color="red darken-2">
+                  phone
+                </v-icon>
+              </v-flex>
+              <v-flex
+                shrink
+                pa-1
+              >
+                <a href="">{{ data.receiver_info.receiver_phone }}</a> - {{ data.receiver_info.receiver_name }}
+              </v-flex>
+            </v-layout>
+            <v-layout
+              v-if="data.receiver_info"
+              row
+            >
+              <v-flex
+                grow
+                pa-1
+              >
+                <v-icon color="purple darken-2">
+                  home
+                </v-icon>
+              </v-flex>
+              <v-flex
+                shrink
+                pa-1
+              >
+                {{ data.receiver_info.receiver_address }}
+              </v-flex>
+            </v-layout>Trả trước
+            <v-layout row>
+              <v-flex
+                grow
+                pa-1
+              >
+                <v-icon color="red darken-2">
+                  phone
+                </v-icon>
+              </v-flex>
+              <v-flex
+                shrink
+                pa-1
+              >
+                <strong>{{ data.assignee_full_name }}: </strong>
+                <span><a href="">{{ data.assignee_phone_number }}</a></span>
+              </v-flex>
+            </v-layout>
+          </div>
+        </v-card-text>
+        <v-card-actions v-if="nameStatus == 'SHIPPING' || nameStatus == 'NOT_DELIVERED'">
+            <div>
+                <v-btn
+                @click.stop="changeStatusComponent(data,index,'APPROVE')"
+              >
+                <v-icon
+                  left
+                  class="mr-0"
+                  color="green"
+                >
+                  done
+                </v-icon> {{ nameStatus == 'SHIPPING' ? 'Xong' : 'Nhận' }}
               </v-btn>
-              <v-btn @click.stop="changeStatus(data,index, 0)" class="" small tile outlined>
-                <v-icon left color="red">delete_forever</v-icon> {{nameStatus == 'SHIPPING' ? 'Thất bại' : 'Từ chối'}}
+              <v-btn
+                tile
+                outlined
+                @click.stop="changeStatusComponent(data,index, 'REJECT')"
+              >
+                <v-icon
+                  left
+                  class="mr-0"
+                  color="red"
+                >
+                  delete_forever
+                </v-icon> {{ nameStatus == 'SHIPPING' ? 'Thất bại' : 'Từ chối' }}
               </v-btn>
-              <v-btn @click.stop="callPhone(data)" class="" small tile outlined >
-                <v-icon left color="primary">call</v-icon> Gọi
+              <v-btn
+                tile
+                outlined
+                @click.stop="callPhone(data)"
+              >
+                <v-icon
+                  left
+                  class="mr-0"
+                  color="primary"
+                >
+                  call
+                </v-icon> Gọi
               </v-btn>
-            </v-card-actions>
-        </v-card>
+            </div>
+        </v-card-actions>
+      </v-card>    
     </v-flex>
-    <v-flex>
-    </v-flex>
-    <v-text-field color="success" loading disabled />
-</v-layout>
+    <ConfirmDialog v-if="dialog" :event="eventDialog" :data-emit="dataEmit" :status="nameStatus" :dialog="dialog" @confirm="onEventConfirm($event)" @cancel="dialog = false" />
+    <v-text-field
+        style="text-align: center; display: inline-block; width: 100%;"
+        v-if="loading"
+        color="success"
+        :loading="loading"
+        disabled
+    />
+    <strong style="text-align: center; display: inline-block; width: 100%;"  v-if="!loading && !datas.length">Chưa có bản ghi</strong>
+  </v-layout>
 </template>
 
 <script>
 import axios from "axios";
 import moment from "moment";
+import {listTransactionForApp , changeStatus} from '@/api/fetch'
+import ConfirmDialog from '@/components/Dialog/Confirm'
 import {
     win32
 } from 'path';
-// can use relative time moment js 
-
-var fromDate;
-var dateNow = new Date();
-if (dateNow.getMonth() > 6) {
-    fromDate = moment([
-            dateNow.getFullYear(),
-            dateNow.getMonth(),
-            dateNow.getDate()
-        ])
-        .month(dateNow.getMonth() - 6)
-        .format("YYYY-MM-DD");
-} else {
-    fromDate = moment([
-            dateNow.getFullYear() - 1,
-            dateNow.getMonth(),
-            dateNow.getDate()
-        ])
-        .month(dateNow.getMonth() + 6)
-        .format("YYYY-MM-DD");
-}
 export default {
     name: "OrderComponent",
+    components: {
+        ConfirmDialog
+    },
     props: {
         nameStatus: {
             type: String,
@@ -121,14 +178,19 @@ export default {
         return {
             datas: [],
             page: 1,
-            bottom: false
+            bottom: false,
+            loading: false,
+            errorLoading: '',
+            dialog: false,
+            eventDialog: '',
+            dataEmit: {}
         };
     },
     watch: {
         nameStatus(val) {
             this.page = 1;
             this.datas = [];
-            this.addData(this.page);
+            this.getInitDatas();
         },
         bottom: function (bottom) {
             if (this.bottom) {
@@ -145,12 +207,22 @@ export default {
         this.srollBottom();
     },
     methods: {
-      async changeStatus(data,index, type) {
-        this.datas.splice(index, 1)
-      },
-      callPhone(data) {
-        window.location.href = "tel:123123"
-      }, 
+        async onEventConfirm(e)  {
+            // let result = await changeStatus(e.package_item_id, e.note, e.status, e.receivePrice )
+            this.datas.splice(e.index, 1);
+            console.log(e);
+        },
+        async changeStatusComponent(data, index, type) {
+            this.dialog = true
+            this.eventDialog = type
+            this.dataEmit = {
+                package_item_id: data.package_item_id,
+                index: index
+            }
+        },
+        callPhone(data) {
+            window.location.href = "tel:123123";
+        },
         detail(val) {
             this.$router.push({
                 name: 'Detail',
@@ -167,40 +239,30 @@ export default {
                 }
             };
         },
-        addData(page) {
-            axios
-                .get(
-                    `https://banhang.topsim.vn/api/transaction-trader/packages?page=${page}&create_date_from=${fromDate}&create_date_to=${moment().format(
-            "YYYY-MM-DD"
-          )}&status=${this.$props.nameStatus}`, {
-                        headers: {
-                            "x-access-token": localStorage.access_token,
-                            "Access-Control-Allow-Origin": "*"
-                        }
-                    }
-                )
-                .then(responses => {
-                    console.log(responses);
-                    this.$emit('numberTotal', responses.data.paging.total);
-                    this.datas = [...this.datas, ...responses.data.response];
-                });
+        async addData(page) {
+            try {
+                this.loading = true
+                let responses  = await listTransactionForApp(this.nameStatus, page, 20)
+                this.$emit('numberTotal', responses.length);
+                this.datas = [...this.datas, ...responses];
+                this.loading = false
+            } catch (error) {
+                this.loading = false
+                this.errorLoading = error
+            }
+           
         },
-        getInitDatas() {
-            axios
-                .get(
-                    `https://banhang.topsim.vn/api/transaction-trader/packages?create_date_from=${fromDate}&create_date_to=${moment().format(
-            "YYYY-MM-DD"
-          )}&status=${this.$props.nameStatus}`, {
-                        headers: {
-                            "x-access-token": localStorage.access_token,
-                            "Access-Control-Allow-Origin": "*"
-                        }
-                    }
-                )
-                .then(responses => {
-                    console.log(responses);
-                    this.datas = responses.data.response;
-                });
+        async getInitDatas() {
+            try {
+                this.loading = true
+                let responses  = await listTransactionForApp(this.nameStatus, 1, 20)
+                this.datas = responses;
+                this.loading = false
+            } catch (error) {
+                this.loading = false
+                this.errorLoading = error
+            }
+           
         }
     }
 };

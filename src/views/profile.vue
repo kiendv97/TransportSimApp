@@ -144,21 +144,21 @@ export default {
     }
   },
   async created() {
-    let profileLocal = JSON.parse(localStorage.getItem('user'))
+    let profileLocal = JSON.parse(localStorage.getItem('user'));
     let result = await axios
       .get(`https://banhang.topsim.vn/api/account-admin/detail/${profileLocal.id}`, {
         headers: {
           "x-access-token": localStorage.access_token,
           "Access-Control-Allow-Origin": "*"
         }
-      })
+      });
       this.profile = result.data.response;
 
   },
   methods: {
     logout() {
-      localStorage.clear()
-      this.$router.push('login')
+      localStorage.clear();
+      this.$router.push('login');
     },
     canClick(item) {
       if (item.canClick) {
