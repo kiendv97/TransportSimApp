@@ -1,62 +1,31 @@
 <template>
-  <v-app>
+<v-app>
     <v-layout row>
-      <v-flex
-        xs12
-        sm6
-        offset-sm3
-      >
-        <v-spacer>
-          <v-avatar>
-            <img
-              width="48px"
-              height="48px"
-              src="https://picsum.photos/510/300?random"
-            >
-          </v-avatar>
-          <v-form
-            ref="form"
-            lazy-validation
-          >
-            <v-text-field
-              v-model="username"
-              label="Tên đăng nhập"
-              required
-              @keyup.enter="login()"
-            />
-            <v-text-field
-              v-model="password"
-              type="password"
-              label="Mật khẩu"
-              required
-              @keyup.enter="login()"
-            />
-            <v-text-field
-              v-model="otp"
-              type="text"
-              label="OTP"
-              required
-              @keyup.enter="login()"
-            />
+        <v-flex xs12 sm6 offset-sm3>
+            <v-spacer>
+                <v-avatar>
+                    <img width="48px" height="48px" src="https://picsum.photos/510/300?random">
+                </v-avatar>
+                <v-form ref="form" lazy-validation>
+                    <v-text-field v-model="username" label="Tên đăng nhập" required @keyup.enter="login()" />
+                    <v-text-field v-model="password" type="password" label="Mật khẩu" required @keyup.enter="login()" />
+                    <v-text-field v-model="otp" type="text" label="OTP" required @keyup.enter="login()" />
 
-            <v-btn
-              color="success"
-              @click="login()"
-            >
-              Đăng nhập
-            </v-btn>
-          </v-form>
-          <div class="contact">
-            <v-list-tile-content>
-              <p class="headline">
-                Hotline: 0969 997 197
-              </p>
-            </v-list-tile-content>
-          </div>
-        </v-spacer>
-      </v-flex>
+                    <v-btn color="success" :loading="loading" @click="login()">
+                        Đăng nhập
+                    </v-btn>
+                </v-form>
+                <div class="contact">
+                    <v-list-tile-content>
+                        <p class="headline">
+                            Hotline: 0969 997 197
+                        </p>
+                    </v-list-tile-content>
+                </div>
+            </v-spacer>
+        </v-flex>
     </v-layout>
-  </v-app>
+</v-app>
 </template>
 
 <script>
@@ -69,7 +38,8 @@ export default {
         statusResponse: false,
         username: "",
         password: "",
-        otp: ""
+        otp: "",
+        loading: false
     }),
     watch: {
         statusResponse(val) {
@@ -97,6 +67,7 @@ export default {
             try {
                 var self = this;
                 if (this.username != "" && this.password != "") {
+                    this.loading = true
                     let response = await login(this.username, this.password, this.otp);
                     if (response.status == 200) {
                         self.statusResponse = true;
@@ -104,11 +75,12 @@ export default {
                         localStorage.user = JSON.stringify(response.data.response);
 
                     }
+                    this.loading = false
                 } else {
                     alert("Vui lòng nhập");
                 }
             } catch (error) {
-                console.log(error.response.data.message);
+                this.loading = false
                 if (error && error.response && error.response.data.message) {
                     alert(error.response.data.message);
                 } else {

@@ -96,12 +96,17 @@
               >
                 <strong>{{ data.assignee_full_name }}: </strong>
                 <span><a href="">{{ data.assignee_phone_number }}</a></span>
+              </v-flex>            
+            </v-layout>
+            <v-layout class="d-block text-center" column>
+              <v-flex v-for="(cmt,index) in data.comments" :key="index">
+                <p><strong>{{cmt.username}}: </strong> <span> {{cmt.content}}</span></p>
               </v-flex>
             </v-layout>
           </div>
         </v-card-text>
         <v-card-actions v-if="nameStatus == 'SHIPPING' || nameStatus == 'NOT_DELIVERED'">
-            <div>
+            <div style="text-align: center; width: 100%;">
                 <v-btn
                 @click.stop="changeStatusComponent(data,index,'APPROVE')"
               >
@@ -146,7 +151,7 @@
     <ConfirmDialog v-if="dialog" :event="eventDialog" :data-emit="dataEmit" :status="nameStatus" :dialog="dialog" @confirm="onEventConfirm($event)" @cancel="dialog = false" />
     <v-text-field
         style="text-align: center; display: inline-block; width: 100%;"
-        v-if="loading"
+        v-if="loading && !end "
         color="success"
         :loading="loading"
         disabled
@@ -187,13 +192,15 @@ export default {
             errorLoading: '',
             dialog: false,
             eventDialog: '',
-            dataEmit: {}
+            dataEmit: {},
+            end: false
         };
     },
     watch: {
         nameStatus(val) {
             this.page = 1;
             this.datas = [];
+            this.end = false
             this.getInitDatas();
         },
         bottom: function (bottom) {
@@ -204,7 +211,9 @@ export default {
             }
         }, 
         search: async function (e) {
+            this.datas = []
             this.loading = true
+            this.end = false
             let result = await searchTransation(e, this.nameStatus)
             this.datas = result;
             this.loading = false
@@ -219,8 +228,15 @@ export default {
     methods: {
        
         async onEventConfirm(e)  {
+          try {
             let result = await changeStatus(e.package_item_id, e.note, e.status, e.receivePrice)
             this.datas.splice(e.index, 1);
+          } catch (error) {
+            if(error && error.response && error.response.data) {
+              alert(error.response.data.message)
+            }
+          }
+          
         },
         async changeStatusComponent(data, index, type) {
             this.dialog = true
@@ -244,7 +260,7 @@ export default {
         srollBottom() {
             window.onscroll = () => {
                 let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight > document.documentElement.offsetHeight - 1;
-                if (bottomOfWindow) {
+                if (bottomOfWindow && !this.loading) {
                     this.bottom = true;
                 }
             };
@@ -253,11 +269,17 @@ export default {
             try {
                 this.loading = true
                 let responses  = await listTransactionForApp(this.nameStatus, page, 20)
-                this.datas = [...this.datas, ...responses];
+                if(responses.length) {
+                  this.datas = [...this.datas, ...responses];
+                } else {
+                  this.end = true
+                }
                 this.loading = false
             } catch (error) {
                 this.loading = false
-                this.errorLoading = error
+                if(error && error.response && error.response.data) {
+                  alert(error.response.data.message)
+                } 
             }
         },
         async getInitDatas() {
@@ -273,8 +295,10 @@ export default {
                 this.loading = false
                 
             } catch (error) {
-                this.loading = false
-                this.errorLoading = error
+              this.loading = false
+              if(error && error.response && error.response.data) {
+                alert(error.response.data.message)
+              }
             }
            
         }

@@ -13,11 +13,9 @@
 
             <v-card-text >
                 <v-textarea label="Ghi chú" v-if="event == 'REJECT' && status == 'SHIPPING'" v-model="note">
-
                 </v-textarea>
-                <v-text-field label="Số tiền thực nhận" v-else-if="event == 'APPROVE' && status == 'SHIPPING'" type="number" v-model="receivePrice">
-
-                </v-text-field>
+                <!-- <v-text-field :label="'Số tiền thực nhận là: ' +  convertMoneySubcriber" v-if="event == 'APPROVE' && status == 'SHIPPING'" type="number" v-model="receivePrice">
+                </v-text-field> -->
                 <p v-else>Xác nhận</p>
             </v-card-text>
 
@@ -78,7 +76,7 @@ export default {
     data() {
         return {
             note: '',
-            receivePrice: 0,
+            receivePrice: '',
             statusChange: ''
         }
     },

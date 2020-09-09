@@ -41,8 +41,6 @@ let changeStatus = async (packageItemId, note, status, receivablePrice) => {
             note: note ? note : ''
         }
     }
-    console.log(postData);
-    console.log(packageItemId, note, status, receivablePrice);
     let result = await axios.put(`${URL}/transaction-trader/package-item/${packageItemId}/status`,
         {
             ...postData,

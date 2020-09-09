@@ -18,6 +18,14 @@ Vue.mixin({
       }).format(money);
     }
   },
+  computed: {
+    convertMoneySubcriber: function () {
+      return new Intl.NumberFormat('vn-VN', {
+        style: 'currency',
+        currency: 'VND',
+      }).format(this.receivePrice);
+    }
+  },
 });
 new Vue({
   router,

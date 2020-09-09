@@ -1,6 +1,8 @@
 <template>
-  <v-card
-    v-if="Object.entries(item).length > 0"
+  <div>
+    
+    <vcl-bullet-list v-if="!Object.entries(item).length"></vcl-bullet-list>
+    <v-card v-else
     min-height="100vh"
   >
     <v-toolbar
@@ -23,22 +25,22 @@
       column
     >
       <div
-        style="width: 50%; float: left"
-        class="text-left"
+        class="text-center"
       >
         <p
-          class="text-left mb-0"
+          class="text-center mb-0"
           style="color: blue"
         >
           <strong class="display-1">{{ item.sold_product }}</strong>
         </p>
-        <p class="text-center">
+        <p class="text-center" style="text-align: center;">
           <small class="pa-auto">{{ dateTimeFormat(item.created_at) }}</small>
         </p>
       </div>
-      <div style="width: 40%; float: right">
+      <div>
         <v-btn
           small
+          outline
           color="primary"
         >
           {{ showStatus(item.status) }}
@@ -67,19 +69,19 @@
           <v-icon color="purple darken-2">
             home
           </v-icon>
-          <span>{{ item.customer_profile.customer_name }}</span>
+          <span class="pt-1">{{ item.customer_profile.customer_name }}</span>
         </div>
         <div class="inline inline-icon">
           <v-icon color="darken-2">
             phone
           </v-icon>
-          <span><a href="">{{ item.customer_profile.customer_phone }}</a></span>
+          <span class="pt-1"><a  href="">{{ item.customer_profile.customer_phone }}</a></span>
         </div>
         <div class="inline inline-icon">
           <v-icon color="blue darken-2">
             info
           </v-icon>
-          <span style="width: 90%;">{{ item.customer_profile.customer_address }}</span>
+          <span class="pt-1" style="width: 90%;">{{ item.customer_profile.customer_address }}</span>
         </div>
       </div>
       <v-divider />
@@ -131,6 +133,7 @@
             pa-1
           >
             <v-btn
+              outline
               class="text--darken-1"
               color="success"
               @click="comment"
@@ -160,6 +163,7 @@
           :label="item.sim_series ? item.sim_series : 'Nhập seri sim'"
         />
         <v-btn
+          outline
           color="success"
           @click="putSeriSimFunc"
         >
@@ -214,7 +218,7 @@
           small
           tile
           outlined
-          @click.stop="callPhone(data)"
+          @click.stop="callPhone"
         >
           <v-icon
             left
@@ -226,9 +230,12 @@
       </v-card-actions>
     <ConfirmDialog v-if="dialog" :event="eventDialog" :data-emit="dataEmit" :status="item.status" :dialog="dialog" @confirm="onEventConfirm($event)" @cancel="dialog = false" />
     </v-card>
+  </div>
+  
 </template>
 
 <script>
+import {  VclBulletList } from 'vue-content-loading';
 import axios from "axios";
 import {
     getComment,
@@ -240,7 +247,8 @@ import {
 import ConfirmDialog from '@/components/Dialog/Confirm'
 export default {
     components: {
-        ConfirmDialog
+        ConfirmDialog,
+        VclBulletList
     },
     data() {
         return {
@@ -260,7 +268,15 @@ export default {
     },
     methods: {
         async onEventConfirm(e)  {
+          try {
             let result = await changeStatus(e.package_item_id, e.note, e.status, e.receivePrice)
+            this.$router.go()
+          } catch (error) {
+            if(error && error.response && error.response.data) {
+              alert(error.response.data.message)
+            }
+          }
+         
         },
         async changeStatusComponent(data, type) {
             this.dialog = true
@@ -269,8 +285,8 @@ export default {
                 package_item_id: data.package_item_id,
             }
         },
-        callPhone(data) {
-            window.location.href = "tel:123123";
+        callPhone() {
+            window.location.href = `tel:${this.item.customer_profile.customer_phone}`
         },
         showStatus(status) {
             switch (status) {

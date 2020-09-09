@@ -141,4 +141,7 @@ export default {
 .text-xs-center {
     flex: 1;
 }
+.v-list__tile__title {
+    text-align: center;
+}
 </style>
