@@ -59,7 +59,7 @@
                 shrink
                 pa-1
               >
-                <a href="">{{ data.receiver_info.receiver_phone }}</a> - {{ data.receiver_info.receiver_name }}
+                <a @click.stop="callPhone(data.receiver_info.receiver_phone)">{{ data.receiver_info.receiver_phone }}</a> - {{ data.receiver_info.receiver_name }}
               </v-flex>
             </v-layout>
             <v-layout
@@ -95,7 +95,7 @@
                 pa-1
               >
                 <strong>{{ data.assignee_full_name }}: </strong>
-                <span><a href="">{{ data.assignee_phone_number }}</a></span>
+                <span><a @click.stop="callPhone(data.assignee_phone_number)">{{ data.assignee_phone_number }}</a></span>
               </v-flex>            
             </v-layout>
             <v-layout class="d-block text-center" column>
@@ -134,7 +134,7 @@
               <v-btn
                 tile
                 outlined
-                @click.stop="callPhone(data)"
+                @click.stop="callPhone(data.receiver_info.receiver_phone)"
               >
                 <v-icon
                   left
@@ -246,8 +246,8 @@ export default {
                 index: index
             }
         },
-        callPhone(data) {
-            window.location.href = `tel:${data.customer_profile.customer_phone}`;
+        callPhone(phone) {
+            window.location.href = `tel:${phone}`;
         },
         detail(val) {
             this.$router.push({

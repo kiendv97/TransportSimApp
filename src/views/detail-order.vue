@@ -75,7 +75,7 @@
           <v-icon color="darken-2">
             phone
           </v-icon>
-          <span class="pt-1"><a  href="">{{ item.customer_profile.customer_phone }}</a></span>
+          <span class="pt-1"><a @click="callPhone(item.customer_profile.customer_phone)">{{ item.customer_profile.customer_phone }}</a></span>
         </div>
         <div class="inline inline-icon">
           <v-icon color="blue darken-2">
@@ -104,7 +104,7 @@
         <div class="inline">
           <p>Liên hệ:</p>
           <p class="ml-1">
-            <a href="">{{ item.assignee_phone_number }}</a>
+            <a @click="callPhone(item.assignee_phone_number)">{{ item.assignee_phone_number }}</a>
           </p>
         </div>
         <div
@@ -218,7 +218,7 @@
           small
           tile
           outlined
-          @click.stop="callPhone"
+          @click.stop="callPhone(item.customer_profile.customer_phone)"
         >
           <v-icon
             left
@@ -285,8 +285,8 @@ export default {
                 package_item_id: data.package_item_id,
             }
         },
-        callPhone() {
-            window.location.href = `tel:${this.item.customer_profile.customer_phone}`
+        callPhone(phone) {
+            window.location.href = `tel:${phone}`
         },
         showStatus(status) {
             switch (status) {

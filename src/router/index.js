@@ -10,43 +10,51 @@ import ChangePassword from '@/views/change_password.vue';
 import DetailOrder from '@/views/detail-order.vue';
 Vue.use(Vuetify);
 Vue.use(Router);
+let routers = [
+
+    {
+        path: '/detail',
+        name: 'Detail',
+        component: DetailOrder
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login
+    },
+    {
+        path: '/homepage',
+        name: 'HomePage',
+        component: HomePage
+    },
+    {
+        path: '/main',
+        name: 'Main',
+        component: Main
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile
+    },
+    {
+        path: '/change-password',
+        name: 'change Password',
+        component: ChangePassword
+    }
+]
 let router = new Router(
 
     {
         mode: 'history',
-        routes: [
-
-            {
-                path: '/detail',
-                name: 'Detail',
-                component: DetailOrder
-            },
-            {
-                path: '/login',
-                name: 'Login',
-                component: Login
-            },
-            {
-                path: '/homepage',
-                name: 'HomePage',
-                component: HomePage
-            },
-            {
-                path: '/main',
-                name: 'Main',
-                component: Main
-            },
-            {
-                path: '/profile',
-                name: 'Profile',
-                component: Profile
-            },
-            {
-                path: '/change-password',
-                name: 'change Password',
-                component: ChangePassword
-            }
-        ]
+        routes: routers
     });
-
+router.beforeEach((to, from, next) => {
+    console.log(to.path);
+    if (routers.find(item => item.path == to.path)) {
+        next()
+    } else {
+        next({ path: '/main' })
+    }
+})
 export default router;
