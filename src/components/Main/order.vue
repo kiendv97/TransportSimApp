@@ -1,5 +1,8 @@
 <template>
   <v-layout wrap>
+    <v-flex v-if="nameStatus == 'CONNECT'">
+      <ListConnect />
+    </v-flex>
     <v-flex
       v-for="(data,index) in datas"
       :key="index"
@@ -59,7 +62,7 @@
                 shrink
                 pa-1
               >
-                <a href="">{{ data.receiver_info.receiver_phone }}</a> - {{ data.receiver_info.receiver_name }}
+                <a @click.stop="callPhone(data.receiver_info.receiver_phone)">{{ data.receiver_info.receiver_phone }}</a> - {{ data.receiver_info.receiver_name }}
               </v-flex>
             </v-layout>
             <v-layout
@@ -95,7 +98,7 @@
                 pa-1
               >
                 <strong>{{ data.assignee_full_name }}: </strong>
-                <span><a href="">{{ data.assignee_phone_number }}</a></span>
+                <span><a @click.stop="callPhone(data.assignee_phone_number)">{{ data.assignee_phone_number }}</a></span>
               </v-flex>            
             </v-layout>
             <v-layout class="d-block text-center" column>
@@ -121,7 +124,7 @@
               <v-btn
                 tile
                 outlined
-                @click.stop="changeStatusComponent(data,index, 'REJECT')"
+                @click.stop="changeStatusComponent(data, index, 'REJECT')"
               >
                 <v-icon
                   left
@@ -134,7 +137,7 @@
               <v-btn
                 tile
                 outlined
-                @click.stop="callPhone(data)"
+                @click.stop="callPhone(data.receiver_info.receiver_phone)"
               >
                 <v-icon
                   left
@@ -164,14 +167,16 @@
 import axios from "axios";
 import moment from "moment";
 import {listTransactionForApp , changeStatus, searchTransation} from '@/api/fetch'
-import ConfirmDialog from '@/components/Dialog/Confirm'
+import ConfirmDialog from '@/components/Dialog/DialogConfirm'
+import ListConnect from '@/components/Main/list-connect'
 import {
     win32
 } from 'path';
 export default {
     name: "OrderComponent",
     components: {
-        ConfirmDialog
+        ConfirmDialog,
+        ListConnect
     },
     props: {
         nameStatus: {
@@ -198,10 +203,12 @@ export default {
     },
     watch: {
         nameStatus(val) {
-            this.page = 1;
-            this.datas = [];
-            this.end = false
+          this.page = 1;
+          this.datas = [];
+          this.end = false
+          if(val !== 'CONNECT') {
             this.getInitDatas();
+          }
         },
         bottom: function (bottom) {
             if (this.bottom) {
@@ -246,8 +253,8 @@ export default {
                 index: index
             }
         },
-        callPhone(data) {
-            window.location.href = `tel:${data.customer_profile.customer_phone}`;
+        callPhone(phone) {
+            window.location.href = `tel:${phone}`;
         },
         detail(val) {
             this.$router.push({

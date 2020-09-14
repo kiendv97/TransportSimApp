@@ -141,7 +141,35 @@ let searchTransation = async (sold_product, status) => {
         })
     return result.data.response;
 }
+let getRequestConnect = async (orderCode) => {
+    let result = await axios.get(`${URL}/transaction-trader/detail-request-connected`,
+        {
+            params: {
+                order_code: 'ORD20200903VUJAK6DR'
+            },
+            headers: {
+                "x-access-token": localStorage.access_token,
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+    return result.data.response;
+}
+let putConnect = async (orderCode, status) => {
+    let result = await axios.put(`${URL}/orders/change-status-connected`, {
+        order_code: orderCode,
+        status: status
+    },
+        {
+            headers: {
+                "x-access-token": localStorage.access_token,
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+    return result.data.response;
+}
 export {
+    putConnect,
+    getRequestConnect,
     searchTransation,
     listTransactionForApp,
     resetPwd,

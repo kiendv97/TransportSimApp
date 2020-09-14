@@ -218,16 +218,17 @@
           small
           tile
           outlined
-          @click.stop="callPhone"
+          @click="orderConenct"
         >
           <v-icon
             left
             color="primary"
           >
-            call
-          </v-icon> Gọi
+          settings_input_antenna
+          </v-icon> Đấu nối
         </v-btn>
       </v-card-actions>
+    <DialogConnected v-if="dialogConnect" :order-code="item.order_code" :dialog="dialogConnect" :descriptionDialog="descriptionDialog" @cancel="dialogConnect = false"/>
     <ConfirmDialog v-if="dialog" :event="eventDialog" :data-emit="dataEmit" :status="item.status" :dialog="dialog" @confirm="onEventConfirm($event)" @cancel="dialog = false" />
     </v-card>
   </div>
@@ -244,11 +245,13 @@ import {
     changeStatus,
     getOrder
 } from '@/api/fetch';
-import ConfirmDialog from '@/components/Dialog/Confirm'
+import ConfirmDialog from '@/components/Dialog/DialogConfirm'
+import DialogConnected from '@/components/Dialog/DialogConnected'
 export default {
     components: {
         ConfirmDialog,
-        VclBulletList
+        VclBulletList,
+        DialogConnected,
     },
     data() {
         return {
@@ -258,6 +261,8 @@ export default {
             seriNumber: '',
             dataEmit: {},
             dialog: false,
+            dialogConnect: false,
+            descriptionDialog: '',
             eventDialog: ''
         };
     },
@@ -276,7 +281,6 @@ export default {
               alert(error.response.data.message)
             }
           }
-         
         },
         async changeStatusComponent(data, type) {
             this.dialog = true
@@ -284,6 +288,10 @@ export default {
             this.dataEmit = {
                 package_item_id: data.package_item_id,
             }
+        },
+        orderConenct() {
+          this.descriptionDialog = 'Đấu nối đang được thực hiện!'
+          this.dialogConnect = true
         },
         callPhone() {
             window.location.href = `tel:${this.item.customer_profile.customer_phone}`
