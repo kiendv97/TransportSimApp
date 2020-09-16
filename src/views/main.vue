@@ -76,6 +76,13 @@ export default {
                     icon: "dashboard",
                     status: "FAIL",
                     total: 0
+                },
+                {
+                    id: 4,
+                    title: "Đấu nối",
+                    icon: "dashboard",
+                    status: "CONNECT",
+                    total: 0
                 }
             ],
             right: null,

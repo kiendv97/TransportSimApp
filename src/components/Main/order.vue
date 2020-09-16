@@ -1,5 +1,8 @@
 <template>
   <v-layout wrap>
+    <v-flex xs12 class="pa-0" v-if="nameStatus == 'CONNECT'">
+      <ListConnect :search="search"/>
+    </v-flex>
     <v-flex
       v-for="(data,index) in datas"
       :key="index"
@@ -121,7 +124,7 @@
               <v-btn
                 tile
                 outlined
-                @click.stop="changeStatusComponent(data,index, 'REJECT')"
+                @click.stop="changeStatusComponent(data, index, 'REJECT')"
               >
                 <v-icon
                   left
@@ -151,27 +154,29 @@
     <ConfirmDialog v-if="dialog" :event="eventDialog" :data-emit="dataEmit" :status="nameStatus" :dialog="dialog" @confirm="onEventConfirm($event)" @cancel="dialog = false" />
     <v-text-field
         style="text-align: center; display: inline-block; width: 100%;"
-        v-if="loading && !end "
+        v-if="loading && !end && nameStatus != 'CONNECT'"
         color="success"
         :loading="loading"
         disabled
     />
-    <strong style="text-align: center; display: inline-block; width: 100%;"  v-if="!loading && !datas.length">Chưa có bản ghi</strong>
+    <strong style="text-align: center; display: inline-block; width: 100%;"  v-if="!loading && !datas.length && nameStatus != 'CONNECT'">Chưa có bản ghi</strong>
   </v-layout>
-</template>
+</template>s
 
 <script>
 import axios from "axios";
 import moment from "moment";
 import {listTransactionForApp , changeStatus, searchTransation} from '@/api/fetch'
-import ConfirmDialog from '@/components/Dialog/Confirm'
+import ConfirmDialog from '@/components/Dialog/DialogConfirm'
+import ListConnect from '@/components/Main/list-connect'
 import {
     win32
 } from 'path';
 export default {
     name: "OrderComponent",
     components: {
-        ConfirmDialog
+        ConfirmDialog,
+        ListConnect
     },
     props: {
         nameStatus: {
@@ -198,10 +203,12 @@ export default {
     },
     watch: {
         nameStatus(val) {
-            this.page = 1;
-            this.datas = [];
-            this.end = false
+          this.page = 1;
+          this.datas = [];
+          this.end = false
+          if(val !== 'CONNECT') {
             this.getInitDatas();
+          }
         },
         bottom: function (bottom) {
             if (this.bottom) {
@@ -211,12 +218,15 @@ export default {
             }
         }, 
         search: async function (e) {
+          if(this.nameStatus != 'CONNECT') {
             this.datas = []
             this.loading = true
             this.end = false
             let result = await searchTransation(e, this.nameStatus)
             this.datas = result;
             this.loading = false
+          }
+            
         }
     },
     created() {
@@ -315,5 +325,8 @@ export default {
 
 .v-card {
     margin: 5px 0px;
+}
+div.v-window.content > div > div > div {
+  padding: 0px;
 }
 </style>

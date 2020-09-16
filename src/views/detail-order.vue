@@ -4,9 +4,10 @@
     <vcl-bullet-list v-if="!Object.entries(item).length"></vcl-bullet-list>
     <v-card v-else
     min-height="100vh"
+    class="ma-0"
   >
     <v-toolbar
-      color="cyan"
+      color="blue"
       dark
     >
       <v-btn
@@ -49,7 +50,7 @@
       <v-divider />
       <div style="width: 95%">
         <v-card color="blue lighten-5">
-          <p class="text-md-center pt-1 ">
+          <p class="text-center pt-1" style="text-align: center;">
             Số tiền phải thu
           </p>
           <p
@@ -134,8 +135,9 @@
           >
             <v-btn
               outline
+              :loading="loadingSendComment"
               class="text--darken-1"
-              color="success"
+              color="blue"
               @click="comment"
             >
               Comment
@@ -143,7 +145,8 @@
           </v-flex>
         </v-layout>
       </div>
-      <div class="ma-2" style="width: 100%;">
+      <vcl-bullet-list v-if="loadingComment"></vcl-bullet-list>
+      <div v-else class="ma-2" style="width: 100%;">
         <div
           v-for="comment in listComment"
           class="inline ma-2 "
@@ -161,10 +164,12 @@
         <v-text-field
           v-model="seriNumber"
           :label="item.sim_series ? item.sim_series : 'Nhập seri sim'"
+          required
         />
         <v-btn
           outline
-          color="success"
+          color="blue"
+          :loading="loadingSendSeri"
           @click="putSeriSimFunc"
         >
           Gửi
@@ -218,16 +223,32 @@
           small
           tile
           outlined
-          @click.stop="callPhone(item.customer_profile.customer_phone)"
+          v-if="item.sold_product.startsWith('087')"
+          @click="orderConenct"
         >
           <v-icon
             left
             color="primary"
           >
-            call
-          </v-icon> Gọi
+          settings_input_antenna
+          </v-icon> Đấu nối
+        </v-btn>
+        <v-btn
+            tile
+            outlined
+            v-else
+            @click.stop="callPhone(item.customer_profile.customer_phone)"
+          >
+            <v-icon
+              left
+              class="mr-0"
+              color="primary"
+            >
+              call
+            </v-icon> Gọi
         </v-btn>
       </v-card-actions>
+    <DialogConnected v-if="dialogConnect" :order-code="item.order_code" :dialog="dialogConnect" :descriptionDialog="descriptionDialog" @cancel="dialogConnect = false"/>
     <ConfirmDialog v-if="dialog" :event="eventDialog" :data-emit="dataEmit" :status="item.status" :dialog="dialog" @confirm="onEventConfirm($event)" @cancel="dialog = false" />
     </v-card>
   </div>
@@ -244,11 +265,13 @@ import {
     changeStatus,
     getOrder
 } from '@/api/fetch';
-import ConfirmDialog from '@/components/Dialog/Confirm'
+import ConfirmDialog from '@/components/Dialog/DialogConfirm'
+import DialogConnected from '@/components/Dialog/DialogConnected'
 export default {
     components: {
         ConfirmDialog,
-        VclBulletList
+        VclBulletList,
+        DialogConnected,
     },
     data() {
         return {
@@ -258,13 +281,20 @@ export default {
             seriNumber: '',
             dataEmit: {},
             dialog: false,
-            eventDialog: ''
+            dialogConnect: false,
+            descriptionDialog: '',
+            eventDialog: '',
+            loadingComment: false,
+            loadingSendSeri: false,
+            loadingSendComment: false
         };
     },
     async created() {
         let result = await getOrder(this.$route.query.id);
         this.item = result;
+        this.loadingComment = true
         this.listComment = await getComment(this.$route.query.id);
+        this.loadingComment = false
     },
     methods: {
         async onEventConfirm(e)  {
@@ -276,7 +306,10 @@ export default {
               alert(error.response.data.message)
             }
           }
-         
+        },
+        orderConenct() {
+          this.descriptionDialog = ''
+          this.dialogConnect = true
         },
         async changeStatusComponent(data, type) {
             this.dialog = true
@@ -312,11 +345,14 @@ export default {
         },
         async putSeriSimFunc() {
             try {
+                this.loadingSendSeri = true
                 let result = await putSeriSim(this.item.order_item_id, this.seriNumber);
                 alert('Thay đổi seri thành công!');
+                this.loadingSendSeri = false
             } catch (error) {
                 if (error && error.response && error.response.data.message) {
                     alert(error.response.data.message);
+                    this.loadingSendSeri = false
                 } else {
                     alert(error);
                 }
@@ -324,15 +360,18 @@ export default {
         },
         async comment() {
             try {
-                let result = await postComment(this.item.package_item_id, this.textComment);
-                this.textComment = ''
-                this.listComment = await getComment(this.$route.query.id);
+              this.loadingSendComment = true
+              let result = await postComment(this.item.package_item_id, this.textComment);
+              this.textComment = ''
+              this.listComment = await getComment(this.$route.query.id);
+              this.loadingSendComment = false
             } catch (error) {
-                if (error && error.response && error.response.data.message) {
-                    alert(error.response.data.message);
-                } else {
-                    alert(error);
-                }
+              this.loadingSendComment = false
+              if (error && error.response && error.response.data.message) {
+                  alert(error.response.data.message);
+              } else {
+                  alert(error);
+              }
             }
         }
     },
@@ -347,7 +386,7 @@ export default {
 .fixed-action {
     position: fixed;
     bottom: -5px;    
-    background-color: green;
+    background-color: blue;
     width: 90%;
 }
 </style>

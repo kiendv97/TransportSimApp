@@ -1,5 +1,6 @@
 const axios = require('axios');
 const URL = 'https://banhang.topsim.vn/api';
+const user = JSON.parse(localStorage.getItem('user'))
 let profileUser = async (id) => {
     let result = await axios.get(`${URL}/account-admin/detail/${id}`, {
         headers: {
@@ -141,7 +142,53 @@ let searchTransation = async (sold_product, status) => {
         })
     return result.data.response;
 }
+let getRequestConnect = async (orderCode) => {
+    let result = await axios.get(`${URL}/transaction-trader/detail-request-connected`,
+        {
+            params: {
+                order_code: orderCode
+            },
+            headers: {
+                "x-access-token": localStorage.access_token,
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+    return result.data.response;
+}
+let getListConnect = async (status, page, sold_product = '') => {
+    let result = await axios.get(`${URL}/transaction-trader/list-request`,
+        {
+            params: {
+                shipper_id: user.id,
+                status: status.length ? status : undefined,
+                page: page,
+                page_size: 10,
+                sold_product: sold_product.length ? sold_product : undefined
+            },
+            headers: {
+                "x-access-token": localStorage.access_token,
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+    return result.data.response;
+}
+let putConnect = async (orderCode, status) => {
+    let result = await axios.put(`${URL}/orders/change-status-connected`, {
+        order_code: orderCode,
+        status: status
+    },
+        {
+            headers: {
+                "x-access-token": localStorage.access_token,
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
+    return result.data.response;
+}
 export {
+    getListConnect,
+    putConnect,
+    getRequestConnect,
     searchTransation,
     listTransactionForApp,
     resetPwd,
