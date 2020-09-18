@@ -6,7 +6,7 @@ import Login from '../views/login';
 import HomePage from '../views/homepage';
 import Main from '@/views/main.vue';
 import Profile from '@/views/profile.vue';
-import ChangePassword from '@/views/change_password.vue';
+import ChangePassword from '@/views/change-password';
 import DetailOrder from '@/views/detail-order.vue';
 Vue.use(Vuetify);
 Vue.use(Router);

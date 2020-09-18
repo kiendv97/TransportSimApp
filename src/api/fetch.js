@@ -21,7 +21,7 @@ let countTractionTrader = async () => {
     return result.data.response;
 };
 let login = async (username, password, otp) => {
-    let response = await axios.post(`${URL}/login-backend`, {
+    let response = await axios.post(`${URL}/login`, {
         username: username,
         password: password,
         otp: otp

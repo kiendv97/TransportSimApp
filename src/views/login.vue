@@ -31,6 +31,9 @@
 <script>
 import axios from "axios";
 import {
+    postDevice
+} from '@/api/firebase.js'
+import {
     login
 } from '@/api/fetch.js';
 export default {
@@ -71,9 +74,11 @@ export default {
                     let response = await login(this.username, this.password, this.otp);
                     if (response.status == 200) {
                         self.statusResponse = true;
+                        let user = response.data.response
                         localStorage.access_token = response.data.response.token;
-                        localStorage.user = JSON.stringify(response.data.response);
-
+                        localStorage.user = JSON.stringify(user);
+                        let result1 = await postDevice(user.username)
+                        console.log(result1)
                     }
                     this.loading = false
                 } else {
@@ -84,6 +89,7 @@ export default {
                 if (error && error.response && error.response.data.message) {
                     alert(error.response.data.message);
                 } else {
+                    console.log(error)
                     alert("Có gì đó không đúng!");
                 }
             }

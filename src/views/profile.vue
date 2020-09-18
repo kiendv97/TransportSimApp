@@ -157,7 +157,8 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.clear();
+      localStorage.removeItem('user');
+      localStorage.removeItem('access_token');
       this.$router.push('login');
     },
     canClick(item) {

@@ -5,8 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="manifest" href="/manifest.json">
     <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
-
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.18.0/firebase-messaging.js"></script>
+    <script src="./firebase-init.js"></script>
   </head>
   <body>
     <noscript>
@@ -16,23 +20,56 @@
     <!-- built files will be auto injected -->
   </body>
 </html>
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 
 <script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyB1BHs4F0IZ3Rre8pXaTjl9PC32oCHQ0Xc",
-    authDomain: "giaosim-25a66.firebaseapp.com",
-    databaseURL: "https://giaosim-25a66.firebaseio.com",
-    projectId: "giaosim-25a66",
-    storageBucket: "giaosim-25a66.appspot.com",
-    messagingSenderId: "1002712245481",
-    appId: "1:1002712245481:web:e4e71ed57c09b03d3ebc78"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+  console.log(navigator, 'navigator');
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+
+    navigator.serviceWorker.register('firebase-messaging-sw.js', {
+      scope: '/'
+    })
+      .then(registration => {
+
+        //Confirm user permission for notification
+        Notification.requestPermission()
+          .then(permission => {
+            
+            messaging.getToken().then(
+              token => {
+                console.log(token)
+                localStorage.setItem('tokenDevice', token)
+              })
+
+
+            if (permission === 'granted') {
+              //If notification is allowed
+              console.log('granted!!!!!')
+              navigator.serviceWorker.ready.then(p => {
+
+                p.pushManager.getSubscription().then(subscription => {
+                  if (subscription === null) {
+
+                    //If there is no notification subscription, register.
+                    let re = p.pushManager.subscribe({
+                      userVisibleOnly: true
+                    })
+
+                  }
+                })
+
+              })
+
+            } else {
+              //If notification is not allowed
+              console.log(permission)
+            }
+          })
+      })
+  })
+}
 </script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
