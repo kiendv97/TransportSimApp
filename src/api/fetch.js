@@ -113,7 +113,7 @@ let getOrder = async (packageId) => {
         });
     return result.data.response;
 };
-let listTransactionForApp = async (status, page, page_size = 20) => {
+let listTransactionForApp = async (status, page = 1, page_size = 20) => {
     let result = await axios.get(`${URL}/transaction-trader/list-transaction-for-app`,
         {
             params: {

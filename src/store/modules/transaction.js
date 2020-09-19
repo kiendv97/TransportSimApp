@@ -49,6 +49,14 @@ const actions = {
         } catch (error) {
             alert(error)
         }
+    },
+    async CHANGE_STATUS({ commit }, payload) {
+        try {
+            // let result = await changeStatus(payload.package_item_id, payload.note, payload.status, payload.receivePrice)
+            console.log('xx');
+        } catch (error) {
+            alert(error)
+        }
     }
 
 };

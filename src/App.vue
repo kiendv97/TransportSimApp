@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
+<div id="app">
     <main>
-      <router-view keep-alive />
+        <router-view keep-alive />
     </main>
-  </div>
+</div>
 </template>
 
 <script>
@@ -30,7 +30,7 @@ export default {
 
 <style>
 #app {
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    font-family: "Nunito Sans", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;

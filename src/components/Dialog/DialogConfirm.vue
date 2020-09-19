@@ -1,17 +1,12 @@
 <template>
-    <div>
-        <v-dialog
-            v-model="dialog"
-            round
-            persistent
-            width="300"
-        >
+<div>
+    <v-dialog v-model="dialog" round persistent width="300">
         <v-card>
             <v-card-title class="">
                 {{descriptionEvent}}
             </v-card-title>
 
-            <v-card-text >
+            <v-card-text>
                 <v-textarea label="Ghi chú" v-if="event == 'REJECT' && status == 'SHIPPING'" v-model="note">
                 </v-textarea>
                 <!-- <v-text-field :label="'Số tiền thực nhận là: ' +  convertMoneySubcriber" v-if="event == 'APPROVE' && status == 'SHIPPING'" type="number" v-model="receivePrice">
@@ -23,33 +18,26 @@
 
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn
-                    color="primary"
-                    text
-                    @click="$emit('cancel')"
-                >
-                 Huỷ
+                <v-btn color="primary" text @click="$emit('cancel')">
+                    Huỷ
                 </v-btn>
-                <v-btn
-                    color="success"
-                    text
-                    @click="confirmFunc"
-                >
-                Đồng ý
+                <v-btn color="success" text @click="confirmFunc">
+                    Đồng ý
                 </v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
-    </div>
+</div>
 </template>
+
 <script>
 export default {
     props: {
         status: {
-            type: String, 
+            type: String,
             default: ''
         },
-        dialog:  {
+        dialog: {
             type: Boolean,
             default: true
         },
@@ -63,10 +51,11 @@ export default {
         }
     },
     computed: {
-        descriptionEvent() { 
-            if(this.status == 'NOT_DELIVERED' && this.event == 'APPROVE') {
+        descriptionEvent() {
+            console.log(this.status, this.event)
+            if (this.status == 'NOT_DELIVERED' && this.event == 'APPROVE') {
                 return 'Chuyển trạng thái sang đang giao?'
-            } else if(this.status == 'SHIPPING' && this.event == 'APPROVE') {
+            } else if (this.status == 'SHIPPING' && this.event == 'APPROVE') {
                 return 'Chuyển trạng thái sang đã giao xong?'
             } else {
                 return 'Thất bại?'
@@ -85,9 +74,9 @@ export default {
     },
     methods: {
         changeStatusFunc() {
-            if(this.status == 'NOT_DELIVERED' && this.event == 'APPROVE') {
+            if (this.status == 'NOT_DELIVERED' && this.event == 'APPROVE') {
                 return 'SHIPPING'
-            } else if(this.status == 'SHIPPING' && this.event == 'APPROVE') {
+            } else if (this.status == 'SHIPPING' && this.event == 'APPROVE') {
                 return 'DELIVERED'
             } else {
                 return 'FAIL'
@@ -105,6 +94,6 @@ export default {
             this.$emit('cancel')
         }
     },
-   
+
 }
 </script>

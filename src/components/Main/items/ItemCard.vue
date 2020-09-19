@@ -28,7 +28,7 @@
             <ItemComments :comments="data.comments" />
         </v-card-text>
         <v-card-actions class="d-inline-block" style="width: 100%">
-            <ItemButton :name-status="currentStatus" :transaction="data" />
+            <ItemButton :transaction="data" />
         </v-card-actions>
     </v-card>
 </div>
@@ -116,26 +116,6 @@ export default {
                     break;
             }
         },
-        async onEventConfirm(e) {
-            try {
-                let result = await changeStatus(e.package_item_id, e.note, e.status, e.receivePrice)
-                this.data.splice(e.index, 1);
-            } catch (error) {
-                if (error && error.response && error.response.data) {
-                    alert(error.response.data.message)
-                }
-            }
-
-        },
-        async changeStatusComponent(data, index, type) {
-            this.dialog = true
-            this.eventDialog = type
-            this.dataEmit = {
-                package_item_id: data.package_item_id,
-                index: index
-            }
-        },
-
         detail(val) {
             this.$router.push({
                 name: 'Detail',
