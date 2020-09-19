@@ -3,12 +3,12 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-import transacsion from "./modules/transacsion";
+import transaction from "./modules/transaction";
 import token from "./modules/token";
 
 export default new Vuex.Store({
     modules: {
-        transacsion,
+        transaction,
         token
     },
     state: {

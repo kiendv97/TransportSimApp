@@ -7,7 +7,7 @@ import HomePage from '../views/homepage';
 import Main from '@/views/main.vue';
 import Profile from '@/views/profile.vue';
 import ChangePassword from '@/views/change-password';
-import DetailOrder from '@/views/detail-order.vue';
+import DetailOrder from '@/views/detail-order2.vue';
 Vue.use(Vuetify);
 Vue.use(Router);
 let routers = [
