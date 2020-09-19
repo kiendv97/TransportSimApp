@@ -2,12 +2,12 @@
 <div>
     <v-dialog v-model="dialog" round persistent width="300">
         <v-card>
-            <v-card-title class="">
+            <v-card-title class="text-xs-center mx-0">
                 {{descriptionEvent}}
             </v-card-title>
 
             <v-card-text>
-                <v-textarea label="Ghi chú" v-if="event == 'REJECT' && status == 'SHIPPING'" v-model="note">
+                <v-textarea solo label="Ghi chú" v-if="event == 'REJECT' && status == 'SHIPPING'" v-model="note">
                 </v-textarea>
                 <!-- <v-text-field :label="'Số tiền thực nhận là: ' +  convertMoneySubcriber" v-if="event == 'APPROVE' && status == 'SHIPPING'" type="number" v-model="receivePrice">
                 </v-text-field> -->
@@ -18,10 +18,10 @@
 
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="$emit('cancel')">
+                <v-btn outline color="error" text @click="$emit('cancel')">
                     Huỷ
                 </v-btn>
-                <v-btn color="success" text @click="confirmFunc">
+                <v-btn outline color="success" text @click="confirmFunc">
                     Đồng ý
                 </v-btn>
             </v-card-actions>

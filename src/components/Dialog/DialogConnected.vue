@@ -7,9 +7,9 @@
             </v-card-title>
 
             <v-card-text>
-                <ConnectDetail :order-code="orderCode"/>
+                <ConnectDetail :order-code="orderCode" />
             </v-card-text>
-            
+
             <v-divider></v-divider>
 
             <v-card-actions>
@@ -28,12 +28,15 @@
 
 <script>
 import ConnectDetail from '@/components/Connect/ConnectDetail'
-import { putConnect } from '@/api/fetch'
-import {    
+import {
+    putConnect
+} from '@/api/fetch'
+import {
     APPROVED,
     FAIL,
     SUCCESS,
-    PENDING } from '@/enums/status-connect'
+    PENDING
+} from '@/enums/status-connect'
 export default {
     components: {
         ConnectDetail,
@@ -46,11 +49,13 @@ export default {
     methods: {
         async connect() {
             try {
-                if(confirm('Đấu nối !')) {
-                // let result = await putConnect(this.orderCode, APPROVED)
-                    this.$router.push({path: '/list-connect'})
+                if (confirm('Đấu nối !')) {
+                    // let result = await putConnect(this.orderCode, APPROVED)
+                    this.$router.push({
+                        path: '/list-connect'
+                    })
                 }
-                
+
             } catch (error) {
                 alert(error)
             }

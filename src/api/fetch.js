@@ -161,8 +161,8 @@ let getListConnect = async (status, page, sold_product = '') => {
             params: {
                 shipper_id: user.id,
                 status: status.length ? status : undefined,
-                page: page,
-                page_size: 10,
+                page: page || 1,
+                page_size: 15,
                 sold_product: sold_product.length ? sold_product : undefined
             },
             headers: {

@@ -1,8 +1,9 @@
 import { search } from 'core-js/fn/symbol';
 
-const { listTransactionForApp, changeStatus, searchTransation } = require('../../api/fetch')
+const { listTransactionForApp, changeStatus, searchTransation, getListConnect } = require('../../api/fetch')
 const state = {
     listTransaction: [],
+    listConnect: [],
     currenStatus: 'SHIPPING',
     page: 1,
     loadingItem: false,
@@ -11,6 +12,9 @@ const state = {
 const mutations = {
     lisTransaction(state, data) {
         state.listTransaction = data
+    },
+    lisConnect(state, data) {
+        state.listConnect = data
     },
     changeStatus(state, data) {
         state.currenStatus = data
@@ -39,12 +43,32 @@ const actions = {
             alert(error)
         }
     },
+    async GET_LIST_CONNECT({ commit }, payload) {
+        try {
+            commit('lisConnect', [])
+            commit('lisTransaction', [])
+            commit('changeLoading', true)
+            let result = await getListConnect(payload.status, payload.page, payload.sold_product)
+            commit('lisConnect', result)
+            commit('changeLoading', false)
+        } catch (error) {
+            alert(error)
+        }
+    },
     async SEARCH({ commit, state }, payload) {
         try {
             commit('lisTransaction', [])
+            commit('lisConnect', [])
             commit('changeLoading', true)
-            let result = await searchTransation(payload.search, state.currenStatus)
-            commit('lisTransaction', result)
+            let result = []
+            if (state.currenStatus == 'CONNECT') {
+                console.log(payload);
+                let result = await getListConnect('', 1, payload.search)
+                commit('lisConnect', result)
+            } else {
+                let result = await searchTransation(payload.search, state.currenStatus)
+                commit('lisTransaction', result)
+            }
             commit('changeLoading', false)
         } catch (error) {
             alert(error)
