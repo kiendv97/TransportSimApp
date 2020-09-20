@@ -12,19 +12,6 @@
 // import Login from './views/login'
 export default {
     name: "App",
-    data: () => ({
-        authenticated: localStorage.authenticated
-    }),
-    mounted() {
-        if (!this.authenticated) {
-            this.$router.replace({
-                name: 'Login'
-            });
-        }
-    },
-    methods: {
-
-    }
 };
 </script>
 

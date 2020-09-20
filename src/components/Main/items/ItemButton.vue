@@ -7,14 +7,14 @@
         <v-btn outline color="red" @click.stop="showDialog('REJECT')">
             <v-icon left color="red">clear</v-icon> Từ chối
         </v-btn>
-        <v-btn v-if="!canConnect" outline color="blue" @click.stop="callPhone(transaction.assignee_phone_number)">
+        <v-btn v-if="!canConnect()" outline color="blue" @click.stop="callPhone(transaction.assignee_phone_number)">
             <v-icon left color="blue">call</v-icon> Gọi
         </v-btn>
-        <v-btn v-if="canConnect" outline color="blue" @click.stop="callPhone(transaction.assignee_phone_number)">
+        <v-btn v-if="canConnect()" outline color="blue" @click.stop="showDialogConnected()">
             <v-icon left color="blue">wifi</v-icon> Đấu nối
         </v-btn>
     </div>
-    <DialogConnected />
+    <DialogConnected v-if="dialogConnect" :order-code="transaction.order_code" :dialog="dialogConnect" :descriptionDialog="descriptionDialog" @cancel="dialogConnect = false" />
     <ConfirmDialog v-if="dialog" :event="event" :data-emit="transaction" :status="currenStatus" :dialog="dialog" @confirm="onEventConfirm($event)" @cancel="dialog = false" />
 </div>
 </template>
@@ -52,13 +52,18 @@ export default {
     data() {
         return {
             dialog: false,
-            event: ''
+            dialogConnect: false,
+            event: '',
+            descriptionDialog: ''
         }
     },
     methods: {
+        showDialogConnected() {
+            this.dialogConnect = true
+            this.descriptionDialog = 'Đơn hàng có thể đấu nối'
+        },
         canConnect() {
-            console.log(this.transaction)
-            return this.transaction.sold_product.padStart(Itel.itel)
+            return this.transaction.sold_product.startsWith(Itel.itel)
         },
         showDialog(type) {
             this.dialog = true

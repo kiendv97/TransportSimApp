@@ -2,7 +2,10 @@
 <div>
     <v-card class="order-card-status pa-2">
         <ProcessStatus v-if="nameStatus" :name-status="nameStatus" :finished-date="finishedDate" :total-receivable-price="totalReceivablePrice" />
-        <ItemComments :comments="listComment" />
+        <ItemComments v-if="!loadingComment" :comments="listComment" />
+        <div v-else>
+            <vcl-list></vcl-list>
+        </div>
         <v-layout class="mt-2">
             <v-flex xs8>
                 <v-text-field outline v-model="textComment" outlined height="10vh" label="Nhập comment">
@@ -29,6 +32,9 @@
 import ItemComments from '@/components/main/items/ItemComments'
 import ProcessStatus from '@/components/detail/ProcessStatus'
 import {
+    VclList
+} from 'vue-content-loading';
+import {
     getComment,
     postComment,
     putSeriSim,
@@ -38,13 +44,17 @@ import {
 export default {
     components: {
         ItemComments,
-        ProcessStatus
+        ProcessStatus,
+        VclList
     },
     data() {
+        let username = JSON.parse(localStorage.getItem('user')).username
         return {
             listComment: [],
+            username: username,
             textComment: '',
-            loadingSendComment: false
+            loadingSendComment: false,
+            loadingComment: false
         }
     },
     props: {
@@ -63,18 +73,30 @@ export default {
         finishedDate: {
             type: String,
             default: ''
+        },
+        orderId: {
+            type: Number,
+            default: ''
         }
     },
-    async created() {
-        this.listComment = await getComment(this.$route.query.id);
+    async mounted() {
+        this.loadingComment = true
+        this.listComment = await getComment(this.orderId);
+        this.listComment.reverse()
+        this.loadingComment = false
     },
     methods: {
         async comment() {
             try {
+                let localCommentPush = {
+                    date: new Date(),
+                    username: this.username,
+                    content: this.textComment
+                }
                 this.loadingSendComment = true
-                let result = await postComment(this.item.package_item_id, this.textComment);
+                this.listComment.push(localCommentPush)
+                let result = await postComment(this.orderId, this.textComment);
                 this.textComment = ''
-                this.listComment = await getComment(this.$route.query.id);
                 this.loadingSendComment = false
             } catch (error) {
                 this.loadingSendComment = false

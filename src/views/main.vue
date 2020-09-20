@@ -4,7 +4,7 @@
         <v-flex class="fixed top-0 headermain" xs12 lg12 md12 sm12>
             <Header />
         </v-flex>
-        <v-flex xs12 lg12 md12 sm12>
+        <v-flex style="height:90vh;" xs12 lg12 md12 sm12>
             <ListItem />
         </v-flex>
 
@@ -48,5 +48,4 @@ export default {
     top: 0px;
     z-index: 2;
 }
-
 </style>

@@ -26,7 +26,7 @@ const messaging = firebase.messaging();
 // When a notification is received, the push event is called.
 self.addEventListener('push', function (event) {
 
-    console.log("event:push")
+    console.log("event:push", event)
     let messageTitle = "MESSAGETITLE"
     let messageBody = "MESSAGEBODY"
     let messageTag = "MESSAGETAG"

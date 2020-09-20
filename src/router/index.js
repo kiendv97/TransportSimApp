@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
-import Login from '../views/login';
+import Login from '../views/login2';
 import HomePage from '../views/homepage';
 import Main from '@/views/main.vue';
 import Profile from '@/views/profile.vue';
@@ -50,7 +50,6 @@ let router = new Router(
         routes: routers
     });
 router.beforeEach((to, from, next) => {
-    console.log(to.path);
     if (routers.find(item => item.path == to.path)) {
         next()
     } else {

@@ -1,7 +1,7 @@
 <template>
 <v-layout row>
     <v-flex xs12 sm6 offset-sm3>
-        <v-card>
+        <v-card class="ma-0">
             <v-toolbar color="cyan" dark class="ma-0">
                 <v-btn icon @click="$router.go(-1)">
                     <v-icon>arrow_back</v-icon>

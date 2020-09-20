@@ -11,7 +11,7 @@
     <div v-if="loadingItem" v-for="i in 4" :key="i">
         <vcl-twitch></vcl-twitch>
     </div>
-    <div style="height:90vh;" v-if="!listTransaction.length && !loadingItem && currenStatus !== 'CONNECT'">
+    <div v-if="!listTransaction.length && !loadingItem && currenStatus !== 'CONNECT'">
         <p class="text-xs-center body-2 font-weight-bold">Không có bản ghi nào</p>
     </div>
 </div>

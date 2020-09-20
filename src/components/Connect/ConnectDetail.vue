@@ -113,14 +113,7 @@ export default {
                     break;
             }
         },
-        async getRequest(orderCode) {
-            try {
-                let result = await getRequestConnect(orderCode)
-                this.item = result
-            } catch (error) {
-                alert(error)
-            }
-        }
+
     }
 }
 </script>

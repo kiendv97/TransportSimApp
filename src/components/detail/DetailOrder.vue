@@ -75,7 +75,7 @@ export default {
             try {
                 this.loadingSendSeri = true
                 let result = await putSeriSim(this.data.order_item_id, this.seriNumber);
-                alert('Thay đổi seri thành công!');
+                alert(result);
                 this.loadingSendSeri = false
             } catch (error) {
                 if (error && error.response && error.response.data.message) {
@@ -130,5 +130,4 @@ export default {
     border-radius: 17px;
     margin: 0 auto;
 }
-
 </style>

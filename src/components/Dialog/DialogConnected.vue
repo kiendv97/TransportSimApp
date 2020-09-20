@@ -7,14 +7,14 @@
             </v-card-title>
 
             <v-card-text>
-                <ConnectDetail :order-code="orderCode" />
+                <ConnectDetail :order-code="orderCode" :item="detailConnect" />
             </v-card-text>
 
             <v-divider></v-divider>
 
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn outline color="primary" text @click="$emit('cancel')">
+                <v-btn outline color="error" text @click="$emit('cancel')">
                     Huỷ
                 </v-btn>
                 <v-btn outline color="primary" text @click="connect">
@@ -29,7 +29,8 @@
 <script>
 import ConnectDetail from '@/components/Connect/ConnectDetail'
 import {
-    putConnect
+    putConnect,
+    getRequestConnect
 } from '@/api/fetch'
 import {
     APPROVED,
@@ -43,22 +44,8 @@ export default {
     },
     data() {
         return {
-            dialogBase: false
-        }
-    },
-    methods: {
-        async connect() {
-            try {
-                if (confirm('Đấu nối !')) {
-                    // let result = await putConnect(this.orderCode, APPROVED)
-                    this.$router.push({
-                        path: '/list-connect'
-                    })
-                }
-
-            } catch (error) {
-                alert(error)
-            }
+            dialogBase: false,
+            detailConnect: {}
         }
     },
     props: {
@@ -74,6 +61,30 @@ export default {
             type: String,
             default: ''
         }
-    }
+    },
+    mounted() {
+        this.getRequest(this.orderCode.split(' ')[0])
+    },
+    methods: {
+        async getRequest(orderCode) {
+            try {
+                let result = await getRequestConnect(orderCode)
+                this.detailConnect = result
+            } catch (error) {
+                alert(error)
+            }
+        },
+        async connect() {
+            try {
+                if (confirm('Đấu nối !')) {
+                    // let result = await putConnect(this.orderCode, APPROVED)
+                    alert('Yêu cầu đấu nối đang được xử lý')
+                }
+            } catch (error) {
+                alert(error)
+            }
+        }
+    },
+
 }
 </script>

@@ -7,8 +7,8 @@
                     <img width="48px" height="48px" src="https://picsum.photos/510/300?random">
                 </v-avatar>
                 <v-form ref="form" lazy-validation>
-                    <v-text-field v-model="username" label="Tên đăng nhập" required @keyup.enter="login()" />
-                    <v-text-field v-model="password" type="password" label="Mật khẩu" required @keyup.enter="login()" />
+                    <v-text-field solo v-model="username" label="Tên đăng nhập" required @keyup.enter="login()" />
+                    <v-text-field solo v-model="password" type="password" label="Mật khẩu" required @keyup.enter="login()" />
                     <v-text-field v-model="otp" type="text" label="OTP" required @keyup.enter="login()" />
 
                     <v-btn color="success" :loading="loading" @click="login()">

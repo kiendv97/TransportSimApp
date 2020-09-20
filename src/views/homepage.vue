@@ -1,51 +1,30 @@
 <template>
-  <v-layout row>
-    <v-flex
-      xs12
-      sm6
-      offset-sm3
-    >
-      <v-card>
-        <v-toolbar
-          color="cyan"
-          dark
-        >
-          <v-btn icon />
+<v-layout row>
+    <v-flex xs12 sm6 offset-sm3>
+        <v-card class="ma-0">
+            <v-toolbar color="cyan" dark>
+                <v-btn icon />
 
-          <v-toolbar-title>App Giao Sim</v-toolbar-title>
+                <v-toolbar-title>App Giao Sim</v-toolbar-title>
 
-          <v-spacer />
-          <v-avatar>
-            <img
-              src="https://avatars0.githubusercontent.com/u/9064066?v=4"
-              alt="avatar"
-              @click="$router.push({name: &quot;Profile&quot;})"
-            >
-          </v-avatar>
-        </v-toolbar>
-        <v-subheader>Xin chao {{ nameClient }}</v-subheader>
-        <v-layout
-          row
-          wrap
-        >
-          <v-flex
-            v-for="(item,index) in items"
-            :key="index"
-            xs6
-          >
-            <v-card @click="directToMain(index)">
-              <v-container>
-                <CardComponent
-                  :name="item.text"
-                  :mount="item.mount"
-                />
-              </v-container>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-card>
+                <v-spacer />
+                <v-avatar>
+                    <img src="https://avatars0.githubusercontent.com/u/9064066?v=4" alt="avatar" @click="$router.push({name: &quot;Profile&quot;})">
+                </v-avatar>
+            </v-toolbar>
+            <v-subheader>Xin chao {{ nameClient }}</v-subheader>
+            <v-layout row wrap>
+                <v-flex v-for="(item,index) in items" :key="index" xs6>
+                    <v-card @click="directToMain(index)">
+                        <v-container>
+                            <CardComponent :name="item.text" :mount="item.mount" />
+                        </v-container>
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </v-card>
     </v-flex>
-  </v-layout>
+</v-layout>
 </template>
 
 <script>
@@ -92,7 +71,6 @@ export default {
         }
         this.nameClient = userLocal.username;
         let result = await countTractionTrader();
-        console.log(result);
         this.items = [...this.items].map(item => {
             item.mount = result[item.key];
             return item;

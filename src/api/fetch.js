@@ -66,7 +66,7 @@ let postComment = async (userId, content) => {
                 "Access-Control-Allow-Origin": "*"
             }
         });
-    return result.data.response;
+    return result.data.message;
 };
 let getComment = async (id) => {
     let result = await axios.get(`${URL}/commons/comments?type=ORDER&id=${id}`, {
@@ -86,7 +86,7 @@ let putSeriSim = async (packageId, seri) => {
                 "Access-Control-Allow-Origin": "*"
             }
         });
-    return result.data.response;
+    return result.data.message;
 };
 let resetPwd = async (userId, oldPwd, newPwd, reNewPwd) => {
     let result = await axios.put(`${URL}/account-admin/reset-pass/${userId}`,
