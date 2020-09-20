@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import OrderComponent from "@/components/main/Order.vue";
 import Header from "@/components/main/header/Index";
 import ListItem from "@/components/main/items/Index";
 import axios from "axios";
@@ -23,7 +22,6 @@ import {
 } from '@/api/fetch'
 export default {
     components: {
-        OrderComponent,
         ListItem,
         Header
     },
