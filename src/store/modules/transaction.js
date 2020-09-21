@@ -34,6 +34,7 @@ const mutations = {
 const actions = {
     async GET_LIST_TRACSACTION({ commit }, payload) {
         try {
+            console.log('5')
             commit('lisTransaction', [])
             commit('changeLoading', true)
             let result = await listTransactionForApp(payload.status, payload.page, payload.page_size)
@@ -76,7 +77,9 @@ const actions = {
     },
     async CHANGE_STATUS({ commit }, payload) {
         try {
+            console.log('3')
             let result = await changeStatus(payload.package_item_id, payload.note, payload.status, payload.receivePrice)
+            console.log('3', result)
         } catch (error) {
             alert(error)
         }
