@@ -71,14 +71,22 @@ const actions = {
             }
             commit('changeLoading', false)
         } catch (error) {
-            alert(error)
+            if (error && error.response && error.response.data) {
+                alert(error.response.data.message)
+            } else {
+                alert(error)
+            }
         }
     },
     async CHANGE_STATUS({ commit }, payload) {
         try {
             let result = await changeStatus(payload.package_item_id, payload.note, payload.status, payload.receivePrice)
         } catch (error) {
-            alert(error)
+            if (error && error.response && error.response.data) {
+                alert(error.response.data.message)
+            } else {
+                alert(error)
+            }
         }
     }
 

@@ -88,27 +88,20 @@ export default {
             }
         },
         async confirmFunc() {
-            try {
-                let payloadChangeStatus = {
-                    note: this.note,
-                    receivePrice: this.receivePrice,
-                    package_item_id: this.dataEmit.package_item_id,
-                    status: this.changeStatusFunc()
-                }
-
-                let payloadGetlist = {
-                    status: this.currenStatus,
-                    page: 1,
-                    page_size: 150
-                }
-                await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
-                await this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
-            } catch (error) {
-                console.log(error)
-                if (error && error.response && error.response.data) {
-                    alert(error.response.data.message)
-                }
+            let payloadChangeStatus = {
+                note: this.note,
+                receivePrice: this.receivePrice,
+                package_item_id: this.dataEmit.package_item_id,
+                status: this.changeStatusFunc()
             }
+
+            let payloadGetlist = {
+                status: this.currenStatus,
+                page: 1,
+                page_size: 150
+            }
+            await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
+            await this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
         }
     },
 
