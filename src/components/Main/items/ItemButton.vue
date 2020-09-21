@@ -92,6 +92,7 @@ export default {
                 await this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
                 console.log('2')
             } catch (error) {
+                console.log(error)
                 if (error && error.response && error.response.data) {
                     alert(error.response.data.message)
                 }

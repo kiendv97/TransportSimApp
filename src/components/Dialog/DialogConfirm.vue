@@ -85,7 +85,6 @@ export default {
             let emitData = {
                 note: this.note,
                 receivePrice: this.receivePrice,
-                index: this.dataEmit.index,
                 package_item_id: this.dataEmit.package_item_id,
                 status: this.changeStatusFunc()
             }
