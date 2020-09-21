@@ -74,6 +74,8 @@ export default {
         },
         async onEventConfirm(e) {
             try {
+                this.dialog = false
+                console.log('0/5')
                 let payloadChangeStatus = {
                     package_item_id: e.package_item_id,
                     note: e.note,
@@ -85,7 +87,7 @@ export default {
                     page: 1,
                     page_size: 150
                 }
-                console.log('1')
+                console.log('1', payloadChangeStatus, payloadGetlist)
                 await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
                 await this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
                 console.log('2')

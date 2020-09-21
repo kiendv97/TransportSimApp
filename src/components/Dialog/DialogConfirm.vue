@@ -52,7 +52,6 @@ export default {
     },
     computed: {
         descriptionEvent() {
-            console.log(this.status, this.event)
             if (this.status == 'NOT_DELIVERED' && this.event == 'APPROVE') {
                 return 'Chuyển trạng thái sang đang giao?'
             } else if (this.status == 'SHIPPING' && this.event == 'APPROVE') {
@@ -90,9 +89,8 @@ export default {
                 package_item_id: this.dataEmit.package_item_id,
                 status: this.changeStatusFunc()
             }
-            console.log('0')
+            console.log('0', emitData)
             this.$emit('confirm', emitData)
-            this.$emit('cancel')
         }
     },
 
