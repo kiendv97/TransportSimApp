@@ -101,7 +101,7 @@ export default {
                     page: 1,
                     page_size: 150
                 }
-                // await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
+                await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
                 await this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
             } catch (error) {
                 console.log(error)
