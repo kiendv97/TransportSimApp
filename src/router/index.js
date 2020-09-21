@@ -51,7 +51,12 @@ let router = new Router(
     });
 router.beforeEach((to, from, next) => {
     if (routers.find(item => item.path == to.path)) {
-        next()
+        console.log(localStorage.getItem('access_token'));
+        if (to.path !== '/login' && !localStorage.getItem('access_token')) {
+            next({ path: '/login' })
+        } else {
+            next()
+        }
     } else {
         next({ path: '/main' })
     }
