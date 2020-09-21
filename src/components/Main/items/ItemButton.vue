@@ -15,7 +15,7 @@
         </v-btn>
     </div>
     <DialogConnected v-if="dialogConnect" :order-code="transaction.order_code" :dialog="dialogConnect" :descriptionDialog="descriptionDialog" @cancel="dialogConnect = false" />
-    <ConfirmDialog v-if="dialog" :event="event" :data-emit="transaction" :status="currenStatus" :dialog="dialog" @confirm="onEventConfirm($event)" @cancel="hideDialog" />
+    <ConfirmDialog v-if="dialog" :event="event" :data-emit="transaction" :status="currenStatus" :dialog="dialog" @confirm="dialog = false" @cancel="dialog = false" />
 </div>
 </template>
 
@@ -58,32 +58,6 @@ export default {
         }
     },
     methods: {
-        hideDialog(e) {
-            try {
-                this.dialog = false
-                console.log('0/5')
-                let payloadChangeStatus = {
-                    package_item_id: e.package_item_id,
-                    note: e.note,
-                    status: e.status,
-                    receivePrice: e.receivePrice
-                }
-                let payloadGetlist = {
-                    status: this.currenStatus,
-                    page: 1,
-                    page_size: 150
-                }
-                console.log('1', payloadChangeStatus, payloadGetlist)
-                // await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
-                this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
-                console.log('2')
-            } catch (error) {
-                console.log(error)
-                if (error && error.response && error.response.data) {
-                    alert(error.response.data.message)
-                }
-            }
-        },
         showDialogConnected() {
             this.dialogConnect = true
             this.descriptionDialog = 'Đơn hàng có thể đấu nối'
@@ -97,34 +71,7 @@ export default {
         },
         callPhone(phone) {
             window.location.href = `tel:${phone}`;
-        },
-        async onEventConfirm(e) {
-            try {
-                this.dialog = false
-                console.log('0/5')
-                let payloadChangeStatus = {
-                    package_item_id: e.package_item_id,
-                    note: e.note,
-                    status: e.status,
-                    receivePrice: e.receivePrice
-                }
-                let payloadGetlist = {
-                    status: this.currenStatus,
-                    page: 1,
-                    page_size: 150
-                }
-                console.log('1', payloadChangeStatus, payloadGetlist)
-                // await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
-                await this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
-                console.log('2')
-            } catch (error) {
-                console.log(error)
-                if (error && error.response && error.response.data) {
-                    alert(error.response.data.message)
-                }
-            }
-
-        },
+        }
     },
 }
 </script>
