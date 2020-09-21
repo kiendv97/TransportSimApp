@@ -15,7 +15,7 @@
         </v-btn>
     </div>
     <DialogConnected v-if="dialogConnect" :order-code="transaction.order_code" :dialog="dialogConnect" :descriptionDialog="descriptionDialog" @cancel="dialogConnect = false" />
-    <ConfirmDialog v-if="dialog" :event="event" :data-emit="transaction" :status="currenStatus" :dialog="dialog" @confirm-test="onEventConfirm($event)" @cancel="dialog = false" />
+    <ConfirmDialog v-if="dialog" :event="event" :data-emit="transaction" :status="currenStatus" :dialog="dialog" @confirm="onEventConfirm($event)" @cancel="hideDialog" />
 </div>
 </template>
 
@@ -58,6 +58,9 @@ export default {
         }
     },
     methods: {
+        hideDialog() {
+            this.dialog = false
+        },
         showDialogConnected() {
             this.dialogConnect = true
             this.descriptionDialog = 'Đơn hàng có thể đấu nối'
@@ -88,7 +91,7 @@ export default {
                     page_size: 150
                 }
                 console.log('1', payloadChangeStatus, payloadGetlist)
-                await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
+                // await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
                 await this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
                 console.log('2')
             } catch (error) {
