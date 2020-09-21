@@ -89,7 +89,7 @@ export default {
                 status: this.changeStatusFunc()
             }
             console.log('0', emitData)
-            this.$emit('confirm', emitData)
+            this.$emit('confirm-test', emitData)
         }
     },
 

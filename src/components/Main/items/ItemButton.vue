@@ -15,7 +15,7 @@
         </v-btn>
     </div>
     <DialogConnected v-if="dialogConnect" :order-code="transaction.order_code" :dialog="dialogConnect" :descriptionDialog="descriptionDialog" @cancel="dialogConnect = false" />
-    <ConfirmDialog v-if="dialog" :event="event" :data-emit="transaction" :status="currenStatus" :dialog="dialog" @confirm="onEventConfirm($event)" @cancel="dialog = false" />
+    <ConfirmDialog v-if="dialog" :event="event" :data-emit="transaction" :status="currenStatus" :dialog="dialog" @confirm-test="onEventConfirm($event)" @cancel="dialog = false" />
 </div>
 </template>
 
