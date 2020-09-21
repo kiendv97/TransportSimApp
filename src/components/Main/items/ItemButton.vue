@@ -58,8 +58,31 @@ export default {
         }
     },
     methods: {
-        hideDialog() {
-            this.dialog = false
+        hideDialog(e) {
+            try {
+                this.dialog = false
+                console.log('0/5')
+                let payloadChangeStatus = {
+                    package_item_id: e.package_item_id,
+                    note: e.note,
+                    status: e.status,
+                    receivePrice: e.receivePrice
+                }
+                let payloadGetlist = {
+                    status: this.currenStatus,
+                    page: 1,
+                    page_size: 150
+                }
+                console.log('1', payloadChangeStatus, payloadGetlist)
+                // await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
+                this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
+                console.log('2')
+            } catch (error) {
+                console.log(error)
+                if (error && error.response && error.response.data) {
+                    alert(error.response.data.message)
+                }
+            }
         },
         showDialogConnected() {
             this.dialogConnect = true
