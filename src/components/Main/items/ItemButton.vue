@@ -72,7 +72,7 @@ export default {
         callPhone(phone) {
             window.location.href = `tel:${phone}`;
         },
-        onEventConfirm(e) {
+        async onEventConfirm(e) {
             try {
                 let payloadChangeStatus = {
                     package_item_id: e.package_item_id,
@@ -85,8 +85,8 @@ export default {
                     page: 1,
                     page_size: 150
                 }
-                this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
-                this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
+                await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
+                await this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
 
             } catch (error) {
                 if (error && error.response && error.response.data) {
