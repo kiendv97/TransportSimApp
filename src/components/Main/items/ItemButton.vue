@@ -85,8 +85,9 @@ export default {
                     page: 1,
                     page_size: 150
                 }
-                this.$store.dispatch('transaction/CHANGE_STATUS', payload)
+                this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
                 this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
+
             } catch (error) {
                 if (error && error.response && error.response.data) {
                     alert(error.response.data.message)

@@ -41,17 +41,17 @@ let changeStatus = async (packageItemId, note, status, receivablePrice) => {
             note: note ? note : ''
         }
     }
-    // let result = await axios.put(`${URL}/transaction-trader/package-item/${packageItemId}/status`,
-    //     {
-    //         ...postData,
-    //     },
-    //     {
-    //         headers: {
-    //             "x-access-token": localStorage.access_token,
-    //             "Access-Control-Allow-Origin": "*"
-    //         }
-    //     });
-    // return result.data.response;
+    let result = await axios.put(`${URL}/transaction-trader/package-item/${packageItemId}/status`,
+        {
+            ...postData,
+        },
+        {
+            headers: {
+                "x-access-token": localStorage.access_token,
+                "Access-Control-Allow-Origin": "*"
+            }
+        });
+    return result.data.response;
 };
 let postComment = async (userId, content) => {
     let result = await axios.post(`${URL}/commons/comments`,
