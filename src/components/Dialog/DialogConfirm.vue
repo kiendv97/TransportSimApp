@@ -21,7 +21,7 @@
                 <v-btn outline color="error" text @click="$emit('cancel')">
                     Huỷ
                 </v-btn>
-                <v-btn outline color="success" text @click="confirmFunc">
+                <v-btn outline color="success" text @click="confirmFunc()">
                     Đồng ý
                 </v-btn>
             </v-card-actions>
@@ -90,6 +90,7 @@ export default {
                 package_item_id: this.dataEmit.package_item_id,
                 status: this.changeStatusFunc()
             }
+            console.log('0')
             this.$emit('confirm', emitData)
             this.$emit('cancel')
         }
