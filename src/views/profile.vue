@@ -1,8 +1,8 @@
 <template>
 <v-layout row>
     <v-flex xs12 sm6 offset-sm3>
-        <v-card class="ma-0">
-            <v-toolbar color="cyan" dark class="ma-0">
+        <v-card style="height: 100vh" class="ma-0">
+            <v-toolbar color="#00B7C2" dark class="ma-0">
                 <v-btn icon @click="$router.go(-1)">
                     <v-icon>arrow_back</v-icon>
                 </v-btn>
@@ -13,37 +13,37 @@
             </v-toolbar>
 
             <v-list two-line>
-                <template v-for="(item, index) in items">
+                <template style="pa-1" v-for="(item, index) in items">
                     <v-subheader v-if="item.header" :key="item.header">
                         {{ item.header }}
                     </v-subheader>
 
-                    <v-divider v-else-if="item.divider" :key="index" :inset="item.inset" />
+                    <v-divider v-else-if="item.divider" :key="index" />
 
                     <v-list-tile v-else :key="item.title" avatar @click="canClick(item)">
-                        <v-icon large>
+                        <v-icon>
                             {{ item.avatar }}
                         </v-icon>
 
-                        <v-list-tile-content>
+                        <v-list-tile-content class="ml-3">
                             <v-list-tile-title v-html="item.title" />
-                            <v-list-tile-sub-title v-html="item.subtitle" />
+                            <v-list-tile-sub-title class="font-weight-bold" v-html="item.subtitle" />
                         </v-list-tile-content>
                     </v-list-tile>
                 </template>
-                <v-dialog v-model="dialog" max-width="290">
+                <v-dialog v-model="dialog" max-width="300">
                     <v-card>
-                        <v-card-title class="headline">
-                            Xuất
+                        <v-card-title class="body-1 font-weight-bold">
+                            Đăng xuất
                         </v-card-title>
                         <v-card-actions>
                             <v-spacer />
 
-                            <v-btn color="green darken-1" text @click="logout()">
+                            <v-btn outline color="green darken-1" text @click="logout()">
                                 Đăng xuất
                             </v-btn>
 
-                            <v-btn color="green darken-1" text @click="dialog = false">
+                            <v-btn outline color="red darken-1" text @click="dialog = false">
                                 Huỷ
                             </v-btn>
                         </v-card-actions>
@@ -66,11 +66,11 @@ export default {
             dialog: false,
             profile: {},
             items: [{
-                    header: "profile"
+                    header: "Thông tin"
                 },
                 {
                     avatar: "accessibility",
-                    title: " Tên đăng nhập",
+                    title: " Tên cá nhân",
                     subtitle: " "
                 },
                 {
@@ -116,21 +116,15 @@ export default {
     },
     watch: {
         profile: function (val) {
-            this.items[1].subtitle = val.nickname;
+            this.items[1].subtitle = val.full_name;
             this.items[3].subtitle = val.email;
             this.items[5].subtitle = `<span class='text--primary'>${val.phone_number}</span> `;
         }
     },
     async created() {
         let profileLocal = JSON.parse(localStorage.getItem('user'));
-        let result = await axios
-            .get(`https://banhang.topsim.vn/api/account-admin/detail/${profileLocal.id}`, {
-                headers: {
-                    "x-access-token": localStorage.access_token,
-                    "Access-Control-Allow-Origin": "*"
-                }
-            });
-        this.profile = result.data.response;
+
+        this.profile = profileLocal;
 
     },
     methods: {

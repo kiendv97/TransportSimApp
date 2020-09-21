@@ -27,18 +27,18 @@ const messaging = firebase.messaging();
 self.addEventListener('push', function (event) {
 
     console.log("event:push", event)
-    let messageTitle = "MESSAGETITLE"
-    let messageBody = "MESSAGEBODY"
-    let messageTag = "MESSAGETAG"
+    // let messageTitle = "MESSAGETITLE"
+    // let messageBody = "MESSAGEBODY"
+    // let messageTag = "MESSAGETAG"
 
-    const notificationPromise = self.registration.showNotification(
-        messageTitle,
-        {
-            body: messageBody,
-            tag: messageTag
-        });
+    // const notificationPromise = self.registration.showNotification(
+    //     messageTitle,
+    //     {
+    //         body: messageBody,
+    //         tag: messageTag
+    //     });
 
-    event.waitUntil(notificationPromise);
+    // event.waitUntil(notificationPromise);
 
 }, false)
 

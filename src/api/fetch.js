@@ -1,6 +1,5 @@
 const axios = require('axios');
 const URL = 'https://banhang.topsim.vn/api';
-const user = JSON.parse(localStorage.getItem('user'))
 let profileUser = async (id) => {
     let result = await axios.get(`${URL}/account-admin/detail/${id}`, {
         headers: {
@@ -159,7 +158,7 @@ let getListConnect = async (status, page, sold_product = '') => {
     let result = await axios.get(`${URL}/transaction-trader/list-request`,
         {
             params: {
-                shipper_id: user.id,
+                shipper_id: 1,
                 status: status.length ? status : undefined,
                 page: page || 1,
                 page_size: 15,
