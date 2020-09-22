@@ -1,8 +1,8 @@
 <template>
 <div>
-    <div style="height: 10vh;" class="d-flex pa-2">
+    <div @click="Profile()" style="height: 9vh;" class="d-flex pa-2">
         <v-avatar>
-            <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="trevor" @click="Profile()">
+            <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="trevor">
         </v-avatar>
         <p class="pt-3" style="color: white;">Xin chào <strong>{{nameUser}} !</strong></p>
 
