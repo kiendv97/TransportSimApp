@@ -166,7 +166,7 @@
 <script>
 import {listTransactionForApp , changeStatus, searchTransation} from '@/api/fetch'
 import ConfirmDialog from '@/components/Dialog/DialogConfirm'
-import ListConnect from '@/components/main/ListConnect'
+import ListConnect from '@/components/Main/ListConnect'
 import {
     win32
 } from 'path';

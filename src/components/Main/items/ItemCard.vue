@@ -35,9 +35,9 @@
 </template>
 
 <script>
-import ItemButton from '@/components/main/items/ItemButton'
-import ItemAddress from '@/components/main/items/ItemAddress'
-import ItemComments from '@/components/main/items/ItemComments'
+import ItemButton from '@/components/Main/items/ItemButton'
+import ItemAddress from '@/components/Main/items/ItemAddress'
+import ItemComments from '@/components/Main/items/ItemComments'
 import {
     listTransactionForApp,
     changeStatus,

@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import ItemAddress from '@/components/main/items/ItemAddress'
+import ItemAddress from '@/components/Main/items/ItemAddress'
 import {
     getComment,
     postComment,

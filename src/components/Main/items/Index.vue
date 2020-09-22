@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import ItemCard from '@/components/main/items/ItemCard'
+import ItemCard from '@/components/Main/items/ItemCard'
 import ConnectDetail from '@/components/Connect/ConnectDetail'
 import {
     VclTwitch

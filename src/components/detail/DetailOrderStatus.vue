@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import ItemComments from '@/components/main/items/ItemComments'
+import ItemComments from '@/components/Main/items/ItemComments'
 import ProcessStatus from '@/components/detail/ProcessStatus'
 import {
     VclList

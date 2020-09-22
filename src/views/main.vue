@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import Header from "@/components/main/header/Index";
-import ListItem from "@/components/main/items/Index";
+import Header from "@/components/Main/header/Index";
+import ListItem from "@/components/Main/items/Index";
 import axios from "axios";
 import moment from "moment";
 import {

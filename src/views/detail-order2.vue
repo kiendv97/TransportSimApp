@@ -26,7 +26,7 @@
 import DetailBar from '@/components/detail/DetailBar'
 import DetailOrder from '@/components/detail/DetailOrder'
 import DetailOrderStatus from '@/components/detail/DetailOrderStatus'
-import ItemButton from '@/components/main/items/ItemButton'
+import ItemButton from '@/components/Main/items/ItemButton'
 import {
     VclInstagram
 } from 'vue-content-loading';

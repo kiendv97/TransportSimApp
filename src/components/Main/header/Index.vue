@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import Welcome from '@/components/main/header/HeaderWelcome'
-import Tabs from '@/components/main/header/HeaderTabs'
-import Search from '@/components/main/header/HeaderSearch'
+import Welcome from '@/components/Main/header/HeaderWelcome'
+import Tabs from '@/components/Main/header/HeaderTabs'
+import Search from '@/components/Main/header/HeaderSearch'
 export default {
     components: {
         Welcome,

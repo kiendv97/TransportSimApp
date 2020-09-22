@@ -22,7 +22,7 @@
 <script>
 import ConfirmDialog from '@/components/Dialog/DialogConfirm'
 import DialogConnected from '@/components/Dialog/DialogConnected'
-import ListConnect from '@/components/main/ListConnect'
+import ListConnect from '@/components/Main/ListConnect'
 import Itel from '@/enums/itel-can-connect'
 import {
     listTransactionForApp,
