@@ -154,11 +154,11 @@ let getRequestConnect = async (orderCode) => {
         })
     return result.data.response;
 }
-let getListConnect = async (status, page, sold_product = '') => {
+let getListConnect = async (status, page, sold_product = '', shipper_id = 1) => {
     let result = await axios.get(`${URL}/transaction-trader/list-request`,
         {
             params: {
-                shipper_id: 1,
+                shipper_id: shipper_id,
                 status: status.length ? status : undefined,
                 page: page || 1,
                 page_size: 15,

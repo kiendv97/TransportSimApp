@@ -60,7 +60,7 @@ export default {
     methods: {
         showDialogConnected() {
             this.dialogConnect = true
-            this.descriptionDialog = 'Đơn hàng có thể đấu nối'
+            this.descriptionDialog = 'đơn hàng có thể đấu nối'
         },
         canConnect() {
             return this.transaction.sold_product.startsWith(Itel.itel)

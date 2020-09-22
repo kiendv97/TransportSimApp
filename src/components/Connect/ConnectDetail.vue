@@ -3,10 +3,15 @@
     <v-card class="pa-3" v-ripple="{center: true}">
         <div>
             <p>
+                <v-icon small>pedal_bike</v-icon> Trạng thái: <strong :style="showStatusConnected(item.connected_status).styleStatus">{{showStatusConnected(item.connected_status).textStatus}}</strong>
+            </p>
+        </div>
+        <div>
+            <p>
                 <v-icon small>phone</v-icon> Số đấu nối: <strong style="color: #0F4C75">{{item.phone_register}}</strong>
             </p>
         </div>
-        <div v-if="item.message_connected_fail">
+        <div v-if="item.message_connected_fail && errorMessage">
             <p class="error--text">Lỗi: <strong>{{item.message_connected_fail}}</strong></p>
         </div>
         <div>
@@ -74,6 +79,7 @@
 import {
     getRequestConnect
 } from "@/api/fetch"
+import statusConnect from '@/enums/status-connect'
 export default {
     props: {
         orderCode: {
@@ -87,6 +93,7 @@ export default {
     },
     data() {
         return {
+            errorMessage: true
             // item: {}
         }
     },
@@ -113,6 +120,38 @@ export default {
                     break;
             }
         },
+        showStatusConnected(status) {
+            let convertStatus = {
+                styleStatus: '',
+                textStatus: 'Chưa xác định'
+            }
+            switch (status) {
+                case statusConnect.SUCCESS:
+                    convertStatus.styleStatus = "color: green"
+                    convertStatus.textStatus = "Thành công",
+                        this.errorMessage = false
+                    return convertStatus
+                    break;
+                case statusConnect.FAIL:
+                    convertStatus.styleStatus = "color: red"
+                    convertStatus.textStatus = "Thất bại"
+                    return convertStatus
+                    break;
+                case statusConnect.PEDING:
+                    convertStatus.styleStatus = "color: chocolate"
+                    convertStatus.textStatus = "Chờ gửi đấu"
+                    return convertStatus
+                    break;
+                case statusConnect.APPROVED:
+                    convertStatus.styleStatus = "color: blue"
+                    convertStatus.textStatus = "Đã gửi đấu"
+                    return convertStatus
+                    break;
+                default:
+                    return convertStatus
+                    break;
+            }
+        }
 
     }
 }

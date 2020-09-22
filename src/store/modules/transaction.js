@@ -52,7 +52,7 @@ const actions = {
             commit('lisConnect', [])
             commit('lisTransaction', [])
             commit('changeLoading', true)
-            let result = await getListConnect(payload.status, payload.page, payload.sold_product)
+            let result = await getListConnect(payload.status, payload.page, payload.sold_product, payload.shipper_id)
             commit('lisConnect', result)
             commit('changeLoading', false)
         } catch (error) {
@@ -71,7 +71,7 @@ const actions = {
             let result = []
             if (state.currenStatus == 'CONNECT') {
                 console.log(payload);
-                let result = await getListConnect('', 1, payload.search)
+                let result = await getListConnect('', 1, payload.search, payload.shipper_id)
                 commit('lisConnect', result)
             } else {
                 let result = await searchTransation(payload.search, state.currenStatus)

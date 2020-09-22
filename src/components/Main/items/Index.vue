@@ -11,7 +11,7 @@
     <div v-if="loadingItem" v-for="i in 4" :key="i">
         <vcl-twitch></vcl-twitch>
     </div>
-    <div v-if="!listTransaction.length && !loadingItem && currenStatus !== 'CONNECT'">
+    <div v-if="!listTransaction.length && !loadingItem && currenStatus !== 'CONNECT'" style="margin-top:100px;">
         <p class="text-xs-center body-2 font-weight-bold">Không có bản ghi nào</p>
     </div>
 </div>
@@ -39,14 +39,16 @@ export default {
         listConnect: state => state.transaction.listConnect
     }),
     data() {
+        let shipperId = JSON.parse(localStorage.getItem('user')).id
         return {
-
+            shipperId: shipperId
         }
     },
     mounted() {
         let payload = {
             status: this.currenStatus,
             page: 1,
+            shipper_id: this.shipperId
         }
         this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payload)
     },
@@ -57,8 +59,9 @@ export default {
         currenStatus(value) {
             if (this.currenStatus == 'CONNECT') {
                 let payload = {
-                    status: 'SUCCESS',
+                    status: '',
                     page: 1,
+                    shipper_id: this.shipperId
                 }
                 this.$store.dispatch('transaction/GET_LIST_CONNECT', payload)
             } else {

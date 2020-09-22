@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-tabs v-model="tab" color="#00B7C2" fixed-tabs background-color="red">
+    <v-tabs v-model="tab" color="#00B7C2" fixed-tabs background-color="red" slider-color="white">
         <v-tab style="color: white" class="caption font-weight-bold" v-for="item in items" :key="item.id">
             {{ item.title }}
         </v-tab>
@@ -38,8 +38,4 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.tabs__slider {
-    background-color: black !important;
-    border-color: black !important
-}
 </style>

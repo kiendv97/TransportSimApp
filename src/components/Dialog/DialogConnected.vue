@@ -1,6 +1,6 @@
 <template>
 <div class="text-center">
-    <v-dialog persistent v-model="dialog" max-width="300">
+    <v-dialog persistent v-model="dialog" max-width="400">
         <v-card>
             <v-card-title class="caption grey lighten-2">
                 Thông báo {{descriptionDialog}}

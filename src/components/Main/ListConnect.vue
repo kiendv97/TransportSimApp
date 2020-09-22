@@ -77,8 +77,10 @@ export default {
         }
     },
     data() {
+        let shipperId = JSON.parse(localStorage.getItem('user')).id
         return {
             tab: 1,
+            shipperId: shipperId,
             loading: false,
             items: [
                 {
@@ -124,7 +126,7 @@ export default {
             try {
                 this.listConnect = []
                 this.loading = true
-                let result = await getListConnect(this.items[this.tab].key, 1, search)
+                let result = await getListConnect(this.items[this.tab].key, 1, search, this.shipperId)
                 this.listConnect = result
                 this.loading = false
             } catch (error) {
