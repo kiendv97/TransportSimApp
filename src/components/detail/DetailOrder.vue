@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-card class="order-card pa-2">
+    <v-card class="order-card pa-3">
         <v-layout class="my-2" row>
             <v-flex xs6>
                 <p class="text-xs-left headline font-weight-bold mb-1" style="color: #0F4C75">
@@ -10,8 +10,8 @@
                     {{ dateTimeFormat(data.finished_date) }}
                 </p>
             </v-flex>
-            <v-flex xs6>
-                <p class="mb-1 text-xs-center" :style="'color:' + showStatus(data.status).color"> {{showStatus(data.status).text}}</p>
+            <v-flex xs6 style="text-align: right;">
+                <p :style="'color:' + showStatus(data.status).color"> {{showStatus(data.status).text}}</p>
                 <p class="mb-0">Tổng tiền thu: <strong style="color: red;">{{ convertMoney(data.total_receivable_price) }}</strong></p>
             </v-flex>
         </v-layout>
@@ -23,10 +23,10 @@
         </v-layout>
         <v-layout justify-center row>
             <v-flex justify-center xs8>
-                <v-text-field v-model="seriNumber" :label="data.sim_series ? data.sim_series : 'Nhập seri sim...'"></v-text-field>
+                <v-text-field v-model="seriNumber" class="ma-0" :label="data.sim_series ? data.sim_series : 'Nhập seri sim...'"></v-text-field>
             </v-flex>
-            <v-flex xs4>
-                <v-btn color="#0F4C75" dark :loading="loadingSendSeri" @click="putSeriSimFunc">
+            <v-flex xs4 style="text-align: right">
+                <v-btn color="#0F4C75" class="mt-2" dark :loading="loadingSendSeri" @click="putSeriSimFunc">
                     Gửi
                 </v-btn>
             </v-flex>
@@ -126,8 +126,8 @@ export default {
 
 <style>
 .order-card {
-    width: 97%;
-    border-radius: 17px;
+    width: 100%;
+    border-radius: 10px;
     margin: 0 auto;
 }
 </style>

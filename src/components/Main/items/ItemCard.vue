@@ -15,8 +15,8 @@
                             {{dateTimeFormat(data.finished_date) }}
                         </p>
                     </v-flex>
-                    <v-flex v-if="data.finished_date" xs6>
-                        <p class="mb-1 text-xs-center" :style="'color:' + showStatus(data.status).color"> {{showStatus(data.status).text}}</p>
+                    <v-flex v-if="data.finished_date" xs6 style="text-align: right">
+                        <p class="" :style="'color:' + showStatus(data.status).color"> {{showStatus(data.status).text}}</p>
                         <p class="mb-0">Tổng tiền thu: <strong style="color: red;">{{ convertMoney(data.total_receivable_price) }}</strong></p>
 
                     </v-flex>

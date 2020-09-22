@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-card class="order-card-status pa-2">
+    <v-card class="order-card-status pa-3">
         <ProcessStatus v-if="nameStatus" :name-status="nameStatus" :finished-date="finishedDate" :total-receivable-price="totalReceivablePrice" />
         <ItemComments v-if="!loadingComment" :comments="listComment" />
         <div v-else>
@@ -12,8 +12,8 @@
                 </v-text-field>
             </v-flex>
             <v-flex xs4>
-                <v-btn :loading="loadingSendComment" dark class="text--darken-1" color="#0F4C75" @click="comment">
-                    Comment
+                <v-btn :loading="loadingSendComment" dark class="text--darken-1 mt-0" color="#0F4C75" @click="comment">
+                    Bình luận
                 </v-btn>
             </v-flex>
         </v-layout>
@@ -114,8 +114,8 @@ export default {
 
 <style scoped>
 .order-card-status {
-    width: 97%;
-    border-radius: 17px;
+    width: 100%;
+    border-radius: 10px;
     margin: 0 auto;
 }
 </style>

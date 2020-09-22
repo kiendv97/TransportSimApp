@@ -1,13 +1,13 @@
 <template>
-<div>
+<div class="layout-detail">
     <DetailBar />
     <div v-if="Object.entries(item).length">
         <div>
-            <p class="font-weight-bold my-2">Thông tin người nhận</p>
+            <p class="font-weight-bold my-3">Thông tin người nhận</p>
         </div>
         <DetailOrder :data="item" />
         <div>
-            <p class="font-weight-bold my-2">Trạng thái đơn hàng</p>
+            <p class="font-weight-bold my-3">Trạng thái đơn hàng</p>
         </div>
         <DetailOrderStatus :order-id="item.order_id" :name-status="item.status" :note="item.note" :total-receivable-price="item.total_receivable_price" :finished-date="item.finished_date" />
         <div class="button-fixed">
@@ -70,5 +70,9 @@ export default {
 .button-fixed {
     position: sticky;
     bottom: 0px;
+}
+
+.layout-detail {
+    line-height: 18px;
 }
 </style>
