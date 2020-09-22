@@ -1,6 +1,6 @@
 import { search } from 'core-js/fn/symbol';
 
-const { listTransactionForApp, changeStatus, searchTransation, getListConnect } = require('../../api/fetch')
+const { listTransactionForApp, changeStatus, putConnect, searchTransation, getListConnect } = require('../../api/fetch')
 const state = {
     listTransaction: [],
     listConnect: [],
@@ -40,7 +40,11 @@ const actions = {
             commit('lisTransaction', result)
             commit('changeLoading', false)
         } catch (error) {
-            alert(error)
+            if (error && error.response && error.response.data) {
+                alert(error.response.data.message)
+            } else {
+                alert(error)
+            }
         }
     },
     async GET_LIST_CONNECT({ commit }, payload) {
@@ -52,7 +56,11 @@ const actions = {
             commit('lisConnect', result)
             commit('changeLoading', false)
         } catch (error) {
-            alert(error)
+            if (error && error.response && error.response.data) {
+                alert(error.response.data.message)
+            } else {
+                alert(error)
+            }
         }
     },
     async SEARCH({ commit, state }, payload) {
@@ -88,8 +96,19 @@ const actions = {
                 alert(error)
             }
         }
+    },
+    async PUT_CONNECT({ commit }, payload) {
+        try {
+            console.log(payload);
+            let result = await putConnect(payload.orderCode, payload.status)
+        } catch (error) {
+            if (error && error.response && error.response.data) {
+                alert(error.response.data.message)
+            } else {
+                alert(error)
+            }
+        }
     }
-
 };
 
 export default { namespaced: true, state, mutations, actions };

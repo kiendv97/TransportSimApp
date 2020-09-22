@@ -1,10 +1,10 @@
 <template>
 <div>
-    <div style="height: 10vh;" class="d-flex justify-start">
+    <div style="height: 10vh;" class="d-flex pa-2">
         <v-avatar>
             <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="trevor" @click="Profile()">
         </v-avatar>
-        <p class="pt-4" style="color: white;">Xin chào <strong>{{nameUser}} !</strong></p>
+        <p class="pt-3" style="color: white;">Xin chào <strong>{{nameUser}} !</strong></p>
 
     </div>
 </div>

@@ -29,7 +29,6 @@
 <script>
 import ConnectDetail from '@/components/Connect/ConnectDetail'
 import {
-    putConnect,
     getRequestConnect
 } from '@/api/fetch'
 import {
@@ -74,10 +73,14 @@ export default {
                 alert(error)
             }
         },
-        async connect() {
+        connect() {
             try {
                 if (confirm('Đấu nối !')) {
-                    // let result = await putConnect(this.orderCode, APPROVED)
+                    let putConnectObject = {
+                        orderCode: this.orderCode.split(' ')[0],
+                        status: 'APPROVED'
+                    }
+                    this.$store.dispatch('transaction/PUT_CONNECT', putConnectObject)
                     alert('Yêu cầu đấu nối đang được xử lý')
                 }
             } catch (error) {
