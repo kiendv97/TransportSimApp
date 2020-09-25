@@ -101,7 +101,13 @@ export default {
                 page_size: 150
             }
             await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
-            await this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
+
+            if (this.$route.path == '/main') {
+                await this.$store.dispatch('transaction/GET_LIST_TRACSACTION', payloadGetlist)
+                this.$emit('cancel')
+            } else {
+                location.reload()
+            }
         }
     },
 

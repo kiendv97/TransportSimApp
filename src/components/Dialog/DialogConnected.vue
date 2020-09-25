@@ -73,15 +73,16 @@ export default {
                 alert(error)
             }
         },
-        connect() {
+        async connect() {
             try {
                 if (confirm('Đấu nối !')) {
                     let putConnectObject = {
                         orderCode: this.orderCode.split(' ')[0],
                         status: 'APPROVED'
                     }
-                    this.$store.dispatch('transaction/PUT_CONNECT', putConnectObject)
-                    alert('Yêu cầu đấu nối đang được xử lý')
+                    await this.$store.dispatch('transaction/PUT_CONNECT', putConnectObject)
+                    alert('Đang xử lý! vào danh sách đấu nối, tìm kiếm để xem kết quả.')
+                    this.$emit('cancel')
                 }
             } catch (error) {
                 alert(error)
