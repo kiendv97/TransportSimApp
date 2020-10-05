@@ -1,13 +1,14 @@
 import { search } from 'core-js/fn/symbol';
 
-const { listTransactionForApp, changeStatus, putConnect, searchTransation, getListConnect } = require('../../api/fetch')
+const { listTransactionForApp, countTractionTrader, changeStatus, putConnect, searchTransation, getListConnect } = require('../../api/fetch')
 const state = {
     listTransaction: [],
     listConnect: [],
     currenStatus: 'SHIPPING',
     page: 1,
     loadingItem: false,
-    search: ''
+    search: '',
+    countTransactionStatus: {}
 };
 const mutations = {
     lisTransaction(state, data) {
@@ -29,9 +30,25 @@ const mutations = {
     },
     changeLoading(state, status) {
         state.loadingItem = status
+    },
+    countTransaction(state, payload) {
+        state.countTransactionStatus = payload
     }
 };
 const actions = {
+    async COUNT_TRANSACTION_STATUS({ commit, state }, payload) {
+        try {
+            let result = await countTractionTrader()
+            console.log(result);
+            commit('countTransaction', result)
+        } catch (error) {
+            if (error && error.response && error.response.data) {
+                alert(error.response.data.message)
+            } else {
+                alert(error)
+            }
+        }
+    },
     async GET_LIST_TRACSACTION({ commit }, payload) {
         try {
             commit('lisTransaction', [])
