@@ -151,7 +151,9 @@ export default {
           registration.unregister();
         }
       });
-      this.$router.push("login");
+      this.$router.push({path: "/login"});
+      window.location.reload(true)
+
     },
     canClick(item) {
       if (item.canClick) {
