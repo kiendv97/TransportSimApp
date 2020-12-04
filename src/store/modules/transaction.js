@@ -42,6 +42,9 @@ const actions = {
             console.log(result);
             commit('countTransaction', result)
         } catch (error) {
+            if(error && error.response.status == 401) { 
+                window.location.href = '/login'
+            }
             if (error && error.response && error.response.data) {
                 alert(error.response.data.message)
             } else {
