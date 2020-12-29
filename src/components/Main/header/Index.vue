@@ -61,7 +61,7 @@ export default {
       let coppyText = listTrsCoppied.map((trC) => {
         return `${trC.sold_product} - ${this.convertMoney(trC.total_receivable_price)}`;
       });
-      coppyText = coppyText.toString().replaceAll(',', '\n')
+      coppyText = coppyText.toString().replace(/,/g, '\n')
       var dummy = document.createElement("textarea");
       document.body.appendChild(dummy);
       dummy.setAttribute("id", "dummy_id");
