@@ -35,6 +35,16 @@ const tabList = [
         total: 0
     }
 ]
+
+const enumStatus = {
+    NOT_DELIVERED: 'NOT_DELIVERED',
+    SHIPPING: 'SHIPPING',
+    DELIVERED: 'DELIVERED',
+    FAIL: 'FAIL',
+    CONNECT: 'CONNECT'
+}
+
 module.exports = {
-    tabList
+    tabList,
+    enumStatus
 }
