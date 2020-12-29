@@ -67,6 +67,7 @@ export default {
       dummy.setAttribute("id", "dummy_id");
       document.getElementById("dummy_id").value = coppyText;
       dummy.select();
+      dummy.setSelectionRange(0, 999999);
       document.execCommand("copy");
       document.body.removeChild(dummy);
       this.snackbar.color = "black";
