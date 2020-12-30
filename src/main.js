@@ -13,6 +13,7 @@ Vue.mixin({
       return moment(new Date(date)).format('H:mm, DD/MM/YYYY');
     },
     convertMoney(money) {
+      if(!money) return '0 ₫';
       return new Intl.NumberFormat('it-IT', {
         style: 'currency',
         currency: 'VND',
