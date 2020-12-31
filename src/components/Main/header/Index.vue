@@ -58,10 +58,13 @@ export default {
         this.snackbar.color = "red";
         return;
       }
+      let sumTransactionCopied = 0;
       let coppyText = listTrsCoppied.map((trC) => {
+        sumTransactionCopied += parseInt(trC.total_receivable_price | 0);
         return `${trC.sold_product} - ${this.convertMoney(trC.total_receivable_price)}`;
       });
-      coppyText = coppyText.toString().replace(/,/g, '\n')
+      coppyText += `,,Tổng: ${this.convertMoney(sumTransactionCopied)}`
+      coppyText = coppyText.toString().replace(/,/g, "\n");
       var dummy = document.createElement("textarea");
       document.body.appendChild(dummy);
       dummy.setAttribute("id", "dummy_id");
