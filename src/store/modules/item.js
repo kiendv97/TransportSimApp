@@ -1,8 +1,12 @@
 const state = {
   countCopy: 0,
   listTransactionCopied: [],
+  behaviorScroll: {}
 };
 const mutations = {
+  offset_scroll(state, payload) {
+    state.behaviorScroll[payload.screenOffset] = payload.offset;
+  },
   lisTransaction(state, data) {
     let dataCopy = { ...data };
     state.listTransactionCopied.push(dataCopy);
@@ -21,13 +25,16 @@ const mutations = {
   },
 };
 const actions = {
-  async TRANSACTION_COPY({ commit, state }, payload) {
+  SAVE_OFFSET_SCROLL({ commit, state }, data) {
+    commit('offset_scroll', {offset: data.offset, screenOffset: data.status})
+  },
+  TRANSACTION_COPY({ commit, state }, payload) {
     commit("lisTransaction", payload);
   },
-  async TRANSACTION_RM_COPY({ commit, state }, payload) {
+  TRANSACTION_RM_COPY({ commit, state }, payload) {
     commit("rmTransactionCopy", payload);
   },
-  async RESET_TRANSACTION_COPY({ commit, state }) {
+  RESET_TRANSACTION_COPY({ commit, state }) {
     commit("resetCopy");
   },
 };

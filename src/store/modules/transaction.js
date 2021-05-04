@@ -2,7 +2,7 @@ import { search } from 'core-js/fn/symbol';
 
 const { listTransactionForApp, countTractionTrader, changeStatus, putConnect, searchTransation, getListConnect } = require('../../api/fetch')
 const state = {
-    listTransaction: [],
+    listTransaction: {},
     listConnect: [],
     currenStatus: 'SHIPPING',
     page: 1,
@@ -12,7 +12,7 @@ const state = {
 };
 const mutations = {
     lisTransaction(state, data) {
-        state.listTransaction = data
+        state.listTransaction[state.currenStatus] = data.slice(-30)
     },
     lisConnect(state, data) {
         state.listConnect = data
@@ -24,9 +24,9 @@ const mutations = {
         state.page = page
     },
     resetTransaction(state, page) {
-        state.listTransaction = []
+        state.listTransaction = {}
         state.currenStatus = 'SHIPPING',
-            state.page = 1
+        state.page = 1
     },
     changeLoading(state, status) {
         state.loadingItem = status
@@ -39,7 +39,6 @@ const actions = {
     async COUNT_TRANSACTION_STATUS({ commit, state }, payload) {
         try {
             let result = await countTractionTrader()
-            console.log(result);
             commit('countTransaction', result)
         } catch (error) {
             if(error && error.response.status == 401) { 
@@ -54,10 +53,11 @@ const actions = {
     },
     async GET_LIST_TRACSACTION({ commit }, payload) {
         try {
-            commit('lisTransaction', [])
             commit('changeLoading', true)
-            let result = await listTransactionForApp(payload.status, payload.page, payload.page_size)
-            commit('lisTransaction', result)
+            if(!state.listTransaction.hasOwnProperty(payload.status)) {
+                let result = await listTransactionForApp(payload.status, payload.page, payload.page_size)
+                commit('lisTransaction', result)
+            } 
             commit('changeLoading', false)
         } catch (error) {
             if (error && error.response && error.response.data) {
@@ -85,17 +85,20 @@ const actions = {
     },
     async SEARCH({ commit, state }, payload) {
         try {
-            commit('lisTransaction', [])
-            commit('lisConnect', [])
             commit('changeLoading', true)
-            let result = []
+            commit('lisTransaction', [])
             if (state.currenStatus == 'CONNECT') {
                 console.log(payload);
                 let result = await getListConnect('', 1, payload.search, payload.shipper_id)
                 commit('lisConnect', result)
             } else {
-                let result = await searchTransation(payload.search, state.currenStatus)
-                commit('lisTransaction', result)
+                if(payload.search) {
+                    let result = await searchTransation(payload.search)
+                    commit('lisTransaction', result)
+                } else {
+                    let result = await searchTransation(payload.search, state.currenStatus)
+                    commit('lisTransaction', result)
+                }
             }
             commit('changeLoading', false)
         } catch (error) {
@@ -119,7 +122,6 @@ const actions = {
     },
     async PUT_CONNECT({ commit }, payload) {
         try {
-            console.log(payload);
             let result = await putConnect(payload.orderCode, payload.status)
         } catch (error) {
             if (error && error.response && error.response.data) {

@@ -98,7 +98,7 @@ export default {
             let payloadGetlist = {
                 status: this.currenStatus,
                 page: 1,
-                page_size: 150
+                page_size: 15
             }
             await this.$store.dispatch('transaction/CHANGE_STATUS', payloadChangeStatus)
 

@@ -16,7 +16,7 @@
             </v-card>
         </div>
     </div>
-    <div v-else>
+    <div v-else class="pt-3">
         <vcl-instagram></vcl-instagram>
     </div>
 </div>

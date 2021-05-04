@@ -1,43 +1,43 @@
 <template>
-  <div v-if="data">
-    <v-card class="mb-2" @click="detail(data.package_item_id)">
-      <v-card-text>
-        <div>
-          <v-layout row>
-            <v-flex xs6>
-              <p v-if="currenStatus !== enumStatus.DELIVERED" class="text-xs-left headline font-weight-bold mb-1" style="color: #0F4C75">
-                {{ data.sold_product }}
-              </p>
-              <div v-else class="text-xs-left headline font-weight-bold mb-1" style="color: #0F4C75">
-                <v-icon color="green" value="green" class="iconCanCopy checked" v-if="circleCopied" @click.stop="rmTransactionCopy(data)">check_circle_outline</v-icon>
-                <v-icon color="red" value="red" class="iconCanCopy circleCheck" v-if="!circleCopied" @click.stop="addTransactionCopy(data)">panorama_fish_eye</v-icon>
-                <span class="pt-1 pl-2">{{ data.sold_product }}</span>
-              </div>
-              <p class="mb-1">
-                {{ data.subscription_type_name }}
-              </p>
-              <p class="text-xs-left font-weight-thin mb-1">
-                {{ dateTimeFormat(data.finished_date) }}
-              </p>
-            </v-flex>
-            <v-flex v-if="data.finished_date" xs6 style="text-align: right">
-              <p class="" :style="'color:' + showStatus(data.status).color">{{ showStatus(data.status).text }}</p>
-              <p class="mb-0">
-                Tổng tiền thu: <strong style="color: red;">{{ convertMoney(data.total_receivable_price) }}</strong>
-              </p>
-            </v-flex>
-          </v-layout>
-        </div>
-        <v-divider></v-divider>
-        <ItemAddress :customer="data.receiver_info" :assignee="assigneeProp" />
-        <v-divider></v-divider>
-        <ItemComments :comments="data.comments" />
-      </v-card-text>
-      <v-card-actions class="d-inline-block" style="width: 100%">
-        <ItemButton :transaction="data" />
-      </v-card-actions>
-    </v-card>
-  </div>
+    <div v-if="data">
+      <v-card class="mb-2" @click="detail(data.package_item_id)">
+        <v-card-text>
+          <div>
+            <v-layout row>
+              <v-flex xs6>
+                <p v-if="currenStatus !== enumStatus.DELIVERED" class="text-xs-left headline font-weight-bold mb-1" style="color: #0F4C75">
+                  {{ data.sold_product }}
+                </p>
+                <div v-else class="text-xs-left headline font-weight-bold mb-1" style="color: #0F4C75">
+                  <v-icon color="green" value="green" class="iconCanCopy checked" v-if="circleCopied" @click.stop="rmTransactionCopy(data)">check_circle_outline</v-icon>
+                  <v-icon color="red" value="red" class="iconCanCopy circleCheck" v-if="!circleCopied" @click.stop="addTransactionCopy(data)">panorama_fish_eye</v-icon>
+                  <span class="pt-1 pl-2">{{ data.sold_product }}</span>
+                </div>
+                <p class="mb-1">
+                  {{ data.subscription_type_name }}
+                </p>
+                <p class="text-xs-left font-weight-thin mb-1">
+                  {{ dateTimeFormat(data.finished_date) }}
+                </p>
+              </v-flex>
+              <v-flex v-if="data.finished_date" xs6 style="text-align: right">
+                <p class="" :style="'color:' + showStatus(data.status).color">{{ showStatus(data.status).text }}</p>
+                <p class="mb-0">
+                  Tổng tiền thu: <strong style="color: red;">{{ convertMoney(data.total_receivable_price) }}</strong>
+                </p>
+              </v-flex>
+            </v-layout>
+          </div>
+          <v-divider></v-divider>
+          <ItemAddress :customer="data.receiver_info" :assignee="assigneeProp" />
+          <v-divider></v-divider>
+          <ItemComments :comments="data.comments" />
+        </v-card-text>
+        <v-card-actions class="d-inline-block" style="width: 100%">
+          <ItemButton :transaction="data" />
+        </v-card-actions>
+      </v-card>
+    </div>
 </template>
 
 <script>

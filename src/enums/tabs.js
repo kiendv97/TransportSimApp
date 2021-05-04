@@ -27,13 +27,13 @@ const tabList = [
         status: "FAIL",
         total: 0
     },
-    {
-        id: 4,
-        title: "Đấu nối",
-        icon: "dashboard",
-        status: "CONNECT",
-        total: 0
-    }
+    // {
+    //     id: 4,
+    //     title: "Đấu nối",
+    //     icon: "dashboard",
+    //     status: "CONNECT",
+    //     total: 0
+    // }
 ]
 
 const enumStatus = {
@@ -41,7 +41,7 @@ const enumStatus = {
     SHIPPING: 'SHIPPING',
     DELIVERED: 'DELIVERED',
     FAIL: 'FAIL',
-    CONNECT: 'CONNECT'
+    // CONNECT: 'CONNECT'
 }
 
 module.exports = {

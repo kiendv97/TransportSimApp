@@ -1,7 +1,7 @@
 <template>
 <div>
     <v-tabs v-model="tab" color="#00B7C2" fixed-tabs background-color="red" slider-color="white">
-        <v-tab style="color: white" class="caption font-weight-bold" v-for="item in countTabStatus" :key="item.id">
+        <v-tab style="color: white" class="caption font-weight-bold" v-for="item in countTabStatus" :key="item.id" @click="tabSwipe(item.status)">
             {{ item.title }} {{ item.total }}
         </v-tab>
     </v-tabs>
@@ -41,13 +41,15 @@ export default {
         this.$store.dispatch('transaction/COUNT_TRANSACTION_STATUS')
     },
     methods: {
-        
+        tabSwipe(value){
+            this.$store.commit('transaction/changeStatus', value)
+        }
     },
     watch: {
-        tab(value) {
-            let nameStatus = this.tabs.find(item => item.id == value).status || 'SHIPPING'
-            this.$store.commit('transaction/changeStatus', nameStatus)
-        }
+        currenStatus(value) {
+            let idStatus = this.tabs.find(item => item.status == value).id
+            this.tab = idStatus
+        },
     },
 }
 </script>
