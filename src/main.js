@@ -10,7 +10,7 @@ Vue.config.productionTip = false;
 Vue.mixin({
   methods: {
     dateTimeFormat(date) {
-      return moment(new Date(date)).format('H:mm, DD/MM/YYYY');
+      return moment(date).format('H:mm, DD/MM/YYYY');
     },
     convertMoney(money) {
       if(!money) return '0 ₫';

@@ -12,7 +12,7 @@ const state = {
 };
 const mutations = {
     lisTransaction(state, data) {
-        state.listTransaction[state.currenStatus] = data.slice(-30)
+        state.listTransaction[state.currenStatus] = data.slice(0,50)
     },
     lisConnect(state, data) {
         state.listConnect = data

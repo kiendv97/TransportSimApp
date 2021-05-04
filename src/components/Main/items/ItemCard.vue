@@ -1,6 +1,6 @@
 <template>
     <div v-if="data">
-      <v-card class="mb-2" @click="detail(data.package_item_id)">
+      <v-card class="mb-3" @click="detail(data.package_item_id)">
         <v-card-text>
           <div>
             <v-layout row>

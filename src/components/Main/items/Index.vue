@@ -55,7 +55,7 @@ export default {
       shipperId: shipperId,
       offsetScrolltop: 0,
       options: {
-        duration: 30,
+        duration: 0,
         offset: 0,
         easing: 'linear'
       },
@@ -69,8 +69,8 @@ export default {
     };
     this.$store.dispatch("transaction/GET_LIST_TRACSACTION", payload);
   },
-  mounted() {
-  
+  beforeMount() {
+    this.$vuetify.goTo(this.behaviorScroll[this.currenStatus] || 0, this.options)
   },
   methods: {
     onScroll(e) {
@@ -149,6 +149,9 @@ export default {
       }
     },
   },
+  destroyed() {
+    this.$store.dispatch("item/SAVE_OFFSET_SCROLL", {offset: this.offsetScrolltop, status: this.currenStatus});
+  }
 };
 </script>
 <style lang="css" scoped>
