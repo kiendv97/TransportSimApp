@@ -15,8 +15,13 @@ const actions = {
         newPwd: payload.newPwd,
         reNewPwd: payload.reNewPwd,
       };
+      // success thì result là {}
       let result = await resetPwd(data);
-      alert(result);
+      if(!Object.keys(result).length) {
+        alert('Thành công')
+      } else {
+        alert(JSON.stringify(result))
+      }
     } catch (error) {
       if (error && error.response && error.response.data) {
         alert(error.response.data.message);
