@@ -87,7 +87,7 @@ let putSeriSim = async (packageId, seri) => {
         });
     return result.data.message;
 };
-let resetPwd = async (userId, oldPwd, newPwd, reNewPwd) => {
+let resetPwd = async ({userId, oldPwd, newPwd, reNewPwd}) => {
     let result = await axios.put(`${URL}/account-admin/reset-pass/${userId}`,
         {
             password: newPwd,
