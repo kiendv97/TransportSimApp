@@ -14,6 +14,10 @@
       </div>
     </nav>
     <nav class="sims">
+      <div v-if="!listSim.length && !loadingItem" style="text-align: center;">
+        Không tìm thấy sim!
+      </div>
+
       <div class="list-sim-fake" v-for="(sim, index) in listSim" :key="index">
         <div @click="personHanleOrder(sim)" v-ripple="{center: true}">
         <ListItem :sim="sim" />

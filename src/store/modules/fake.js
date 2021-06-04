@@ -57,6 +57,9 @@ const actions = {
         };
         commit("toggleOnSnackbar", params);
       }
+      setTimeout(() => {
+        location.href = '/login';
+      }, 1000);
     } catch (error) {
       let params = {
         status: false,
