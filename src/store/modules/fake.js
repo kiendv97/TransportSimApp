@@ -71,23 +71,33 @@ const actions = {
   },
   async SEND_ORDER_TOP_SIM({ commit }, payload) {
     try {
+      let get_username;
+      if(localStorage.getItem('user')) {
+        get_username = JSON.parse(localStorage.getItem('user')).username;
+      } else {
+        throw Error('Không tồn tại người dùng, mời bạn đăng nhập lại')
+      }
       let request_order = {
-        sim: payload.sim_full,
+        sim: payload.sim,
+        price_sale: payload.price_sale,
+        price_original: payload.price_original
       };
-      let comsum = await sendOrderTopsim(request_order);
-      if (comsum == "success") {
+      let {code, message} = await sendOrderTopsim(request_order, get_username);
+      if (code === 1) {
         let params = {
           message: "Thành công",
           status: true,
+          color: 'green'
         };
         commit("toggleOnSnackbar", params);
       } else {
-        throw Error("Đặt đơn thất bại");
+        throw Error(message);
       }
     } catch (error) {
       let params = {
         status: false,
         message: error.message,
+        color: 'red'
       };
       commit("toggleOnSnackbar", params);
     }

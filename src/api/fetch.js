@@ -33,21 +33,27 @@ let getListSimAppsim = async (keysearch, limit, offset)  =>{
     return result.data.data ? result.data.data.sims : [];
 }
 
-let sendOrderTopsim = async (order) => {
-    const opp_request = [{
-        customer_name: "appsim",
-        customer_phone: "0969997197",
-        customer_address: 'Đơn test',
-        sold_product: order.sim,
-        sold_product_root: order.sim,
-        request_date: Date.now(),
-        source_text: "appsim_test",
-        source: "Website",
-        type_order: "Dev Kien"
-    }]
-    let result = await axios.post(`${URL_APP_TOPSIM_URL}/opportunities/bulk-create`, opp_request)
-
-    return result.data.data
+let sendOrderTopsim = async (order, username) => {
+    const request_body = qs.stringify({
+        'phone': username,
+       'name': username,
+       'sim': order.sim,
+       'price_sale': `${order.price_sale}`,
+       'price_original': `${order.price_original}` 
+       });
+    let result = await axios.post(`${URL_APPSIM_TEST}/v3/api/order/create`, request_body, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', 
+            'device_type': 'POSTMAN', 
+            'device_name': 'POSTMAN', 
+            'device_code': 'POSTMAN'
+        }
+    })
+    let output = {
+        code: result.data.code,
+        message: result.data.message
+    }
+    return output
 
 }
 
