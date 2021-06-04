@@ -34,7 +34,7 @@ export default {
       switch (type) {
         case 1:
           return 'Trả trước'
-       case 3:
+       case 2: 
           return 'Trả sau'
         default:
           return ''

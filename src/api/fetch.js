@@ -1,8 +1,9 @@
 const axios = require('axios');
 const URL = 'https://banhang.topsim.vn/api';
-const URL_APPSIM_TEST = 'https://api.appsim.net'
+const URL_APPSIM_TEST = 'https://api-test01.appsim.net'
+// const URL_APPSIM_TEST = 'http://localhost:3333'
 const URL_APP_TOPSIM_URL = 'https://banhang.topsim.vn'
-
+const qs = require('qs')
 
 let register = async (username, password) => {
     let result = await axios.post(`${URL}/account-admin/create-appsim`, {
@@ -21,7 +22,7 @@ let getListSimAppsim = async (keysearch, limit, offset)  =>{
         limit: limit,
         offset: offset,
       };
-    let result = await axios.post(`${URL_APPSIM_TEST}/v3/api/search/sim`, JSON.stringify(payload), {
+    let result = await axios.post(`${URL_APPSIM_TEST}/v3/api/search/sim`, qs.stringify(payload), {
         headers: { 
             'Content-Type': 'application/x-www-form-urlencoded', 
             'device_type': 'POSTMAN', 
