@@ -146,6 +146,7 @@ export default {
       await unsubcribeDevice(this.profile.username);
       localStorage.removeItem("user");
       localStorage.removeItem("access_token");
+      localStorage.removeItem("role");
       navigator.serviceWorker.getRegistrations().then(function (registrations) {
         for (let registration of registrations) {
           registration.unregister();

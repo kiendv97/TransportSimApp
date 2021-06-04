@@ -1,5 +1,55 @@
 const axios = require('axios');
 const URL = 'https://banhang.topsim.vn/api';
+const URL_APPSIM_TEST = 'https://api.appsim.net'
+const URL_APP_TOPSIM_URL = 'https://banhang.topsim.vn'
+
+
+let register = async (username, password) => {
+    let result = await axios.post(`${URL}/account-admin/create-appsim`, {
+       username, password
+    }, {
+        headers: {
+            'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJodGFkbWluIiwiZnVsbF9uYW1lIjoiVOG6oSBWaeG7h3QgVGjhuqNvIiwicGhvbmVfbnVtYmVyIjoiMDk0NDE5OTk5MSIsImVtYWlsIjoiaHRfYWRtaW5AZ21haWwuY29tIiwiZGV2aWNlX2NvZGUiOiIiLCJ0eXBlX3VzZXIiOjIsInNtc19wb3J0IjoiIiwicm9sZXMiOnsiZGVwYXJ0X2lkIjoxLCJkZXBhcnRfbmFtZSI6IkNPTVBBTlkiLCJkZXBhcnRtZW50X2NvZGUiOiJDT01QQU5ZIiwicm9sZSI6InN1cGVyX2FkbWluIiwiZ3JvdXB0X2lkcyI6WzQyXSwiZ3JvdXB0X2NvZGVzIjpbIkNPTU1PTiJdLCJvd25lcl9ncm91cCI6W119LCJpYXQiOjE2MjI3OTAxMzMsImV4cCI6MTYyNTM4MjEzM30.5z3hwQcsKbQoFUDQC1zjL9AoC8Hxd4N2BQgOnbj04Ok'
+        }
+    });
+    return result.data.status;
+}
+
+let getListSimAppsim = async (keysearch, limit, offset)  =>{
+    let payload = {
+        key: keysearch,
+        limit: limit,
+        offset: offset,
+      };
+    let result = await axios.post(`${URL_APPSIM_TEST}/v3/api/search/sim`, JSON.stringify(payload), {
+        headers: { 
+            'Content-Type': 'application/x-www-form-urlencoded', 
+            'device_type': 'POSTMAN', 
+            'device_name': 'POSTMAN', 
+            'device_code': 'POSTMAN'
+          },
+    });
+    return result.data.data ? result.data.data.sims : [];
+}
+
+let sendOrderTopsim = async (order) => {
+    const opp_request = [{
+        customer_name: "appsim",
+        customer_phone: "0969997197",
+        customer_address: 'Đơn test',
+        sold_product: order.sim,
+        sold_product_root: order.sim,
+        request_date: Date.now(),
+        source_text: "appsim_test",
+        source: "Website",
+        type_order: "Dev Kien"
+    }]
+    let result = await axios.post(`${URL_APP_TOPSIM_URL}/opportunities/bulk-create`, opp_request)
+
+    return result.data.data
+
+}
+
 let profileUser = async (id) => {
     let result = await axios.get(`${URL}/account-admin/detail/${id}`, {
         headers: {
@@ -193,9 +243,12 @@ export {
     resetPwd,
     getOrder,
     profileUser,
+    getListSimAppsim,
     changeStatus,
+    sendOrderTopsim,
     countTractionTrader,
     login,
+    register,
     getComment,
     putSeriSim,
     postComment

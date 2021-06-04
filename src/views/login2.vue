@@ -1,6 +1,6 @@
 <template>
 <v-container>
-    <v-layout>
+    <v-layout> 
         <v-flex class="main" style="margin-top: 100px   ">
             <!-- <div class="title-div">
                   <p class="title text-center text-uppercase">Đăng nhập</p>
@@ -13,12 +13,14 @@
             <div class="action-button">
                 <v-btn class="button-login" :loading="loading" rounded color="#00B7C2" @click="loginFunc()" block>ĐĂNG NHẬP </v-btn>
             </div>
+            <div class="register">
+                <router-link to="/register" class="text-uppercase"> Đăng kí </router-link>
+            </div>
         </v-flex>
     </v-layout>
     <Footer />
 </v-container>
 </template>
-
 <script>
 import axios from "axios";
 import {
@@ -51,8 +53,12 @@ export default {
                         let user = response.data.response
                         localStorage.access_token = response.data.response.token;
                         localStorage.user = JSON.stringify(user);
+                        if(user.role === 'fake') {
+                            localStorage.role = 'fake';
+                            this.$router.push('/fake');
+                            return;
+                        }
                         let result1 = await postDevice(user.username)
-                        // this.messageError = result1
                         this.$router.push('/main')
                     }
                     this.loading = false
@@ -131,5 +137,11 @@ export default {
 
 .input-value.v-text-field--solo>.v-input__control>.v-input__slot {
     border-radius: 20px
+}
+.register {
+    text-align: center;
+}
+.register a {
+
 }
 </style>
