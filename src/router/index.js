@@ -59,15 +59,23 @@ let router = new Router({
   routes: routers,
 });
 let publicRouter = ["/login", "/register"];
+let redirectRole = localStorage.getItem("role") ? localStorage.getItem("role") == "fake" : false;
 router.beforeEach((to, from, next) => {
   if (routers.find((item) => item.path == to.path)) {
     if (publicRouter.includes(to.path) && !localStorage.getItem("access_token")) {
       next();
+    } else if (publicRouter.includes(to.path) && localStorage.getItem("access_token")) {
+      if (redirectRole) {
+        next({ path: "/customer" });
+      } else {
+        next({ path: "/main" });
+      }
+    } else if(!localStorage.getItem("access_token")) {
+      next({path: '/login'});
     } else {
-      next();
+        next()
     }
   } else {
-    let redirectRole = localStorage.getItem("role") ? localStorage.getItem("role") == "fake" : false;
     if (redirectRole) {
       next({ path: "/customer" });
     } else {
