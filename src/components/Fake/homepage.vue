@@ -15,9 +15,7 @@
       </div>
     </div>
     <div class="slice-carousel">
-      <v-carousel width="100%" height="100px" hide-delimiters>
-        <v-carousel-item v-for="(item, i) in caroselItems" :key="i" :src="item.src" alt="Quảng cáo"></v-carousel-item>
-      </v-carousel>
+      <img width="100%" height="100px" src="@/assets/slider-ctv.gif" alt="">
     </div>
     <div class="title-filter"><v-icon small color="#c16353" dark>format_quote</v-icon>&nbsp;Sim theo mạng</div>
     <div class="sim-by-telco-homepage">
