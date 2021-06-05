@@ -20,22 +20,14 @@
 
             <v-divider v-else-if="item.divider" :key="index" />
 
-            <v-list-tile
-              v-else
-              :key="item.title"
-              avatar
-              @click="canClick(item)"
-            >
+            <v-list-tile v-else :key="item.title" avatar @click="canClick(item)">
               <v-icon>
                 {{ item.avatar }}
               </v-icon>
 
               <v-list-tile-content class="ml-3">
                 <v-list-tile-title v-html="item.title" />
-                <v-list-tile-sub-title
-                  class="font-weight-bold"
-                  v-html="item.subtitle"
-                />
+                <v-list-tile-sub-title class="font-weight-bold" v-html="item.subtitle" />
               </v-list-tile-content>
             </v-list-tile>
           </template>
@@ -51,12 +43,7 @@
                   Đăng xuất
                 </v-btn>
 
-                <v-btn
-                  outline
-                  color="red darken-1"
-                  text
-                  @click="dialog = false"
-                >
+                <v-btn outline color="red darken-1" text @click="dialog = false">
                   Huỷ
                 </v-btn>
               </v-card-actions>
@@ -68,8 +55,7 @@
   </v-layout>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
 
 <script>
 import axios from "axios";
@@ -130,15 +116,18 @@ export default {
     };
   },
   watch: {
-    profile: function (val) {
+    profile: function(val) {
       this.items[1].subtitle = val.full_name;
       this.items[3].subtitle = val.email;
       this.items[5].subtitle = `<span class='text--primary'>${val.phone_number}</span> `;
     },
   },
   async created() {
-    let profileLocal = JSON.parse(localStorage.getItem("user"));
-
+    let profileLocal = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : false;
+    if (!profileLocal) {
+      this.$router.push("/login");
+      return;
+    }
     this.profile = profileLocal;
   },
   methods: {
@@ -147,14 +136,13 @@ export default {
       localStorage.removeItem("user");
       localStorage.removeItem("access_token");
       localStorage.removeItem("role");
-      navigator.serviceWorker.getRegistrations().then(function (registrations) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
         for (let registration of registrations) {
           registration.unregister();
         }
       });
-      this.$router.push({path: "/login"});
-      window.location.reload(true)
-
+      this.$router.push({ path: "/login" });
+      window.location.reload(true);
     },
     canClick(item) {
       if (item.canClick) {

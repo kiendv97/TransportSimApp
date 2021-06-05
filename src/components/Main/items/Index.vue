@@ -48,7 +48,10 @@ export default {
     behaviorScroll: (state) => state.item.behaviorScroll,
   }),
   data() {
-    let shipperId = JSON.parse(localStorage.getItem("user")).id;
+    let shipperId = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).id : false;
+    if (!shipperId) {
+      this.$router.push("/login");
+    }
     return {
       enumStatus: enumStatus,
       tabList: tabList,

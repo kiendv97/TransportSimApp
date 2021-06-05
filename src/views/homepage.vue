@@ -66,7 +66,7 @@ export default {
     async mounted() {
         let userLocal = localStorage.getItem('user') ?  JSON.parse(localStorage.getItem('user')) : false
         if (!userLocal) {
-            this.$route.push('/login');
+            this.$router.push('/login');
             return;
         }
         this.nameClient = userLocal.username;

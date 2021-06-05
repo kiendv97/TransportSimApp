@@ -7,7 +7,10 @@
 <script>
 export default {
   data() {
-    let user = JSON.parse(localStorage.getItem("user"));
+    let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : false;
+    if (!user) {
+      this.$router.push("/login");
+    }
     return {
       nameUser: user.full_name,
       shipperId: user.id,
