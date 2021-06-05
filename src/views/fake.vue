@@ -1,10 +1,5 @@
 <template>
   <div class="main-fake">
-    <div>
-      <v-snackbar v-model="snackbar.status" dark top width="100" :color="snackbar.color">
-        {{snackbar.message}}
-      </v-snackbar>
-    </div>
     <nav class="header-bar">
       <div class="searching">
         <Search v-model="key_search" @searchEvent="searchFunc()" />
@@ -13,27 +8,58 @@
         <Person />
       </div>
     </nav>
-    <nav class="sims">
-      <div v-if="!listSim.length && !loadingItem" style="text-align: center;">
-        Không tìm thấy sim!
-      </div>
+    <nav class="tabs-bar">
+      <Tabs :tabs="tabs" @change-tab="changeTabEvent">
+        <template slot="slot-introduce">
+          <div>
+            <Introduce />
+          </div>
+        </template>
 
-      <div class="list-sim-fake" v-for="(sim, index) in listSim" :key="index">
-        <div @click="personHanleOrder(sim)" v-ripple="{center: true}">
-        <ListItem :sim="sim" />
-        <v-divider></v-divider>
-        </div>
-      </div>
-      <Loading v-if="loadingItem" :loading="loadingItem" />
-      <Order v-if="dialogOrder" :dialog="dialogOrder" :detail-sim="simChoose" @cancel="dialogOrder = false" @save="saveOrder" />
+
+        <template slot="slot-homepage">
+          <div>
+            <Homepage @change-tab="changeTabEvent" />
+          </div>
+        </template>
+
+
+        <template slot="slot-search">
+          <div>
+              <div>
+                <v-snackbar v-model="snackbar.status" dark top width="100" :color="snackbar.color">
+                  {{ snackbar.message }}
+                </v-snackbar>
+              </div>
+
+              <nav class="sims">
+                <div v-if="!listSim.length && !loadingItem" style="text-align: center;">
+                  Không tìm thấy sim!
+                </div>
+
+                <div class="list-sim-fake" v-for="(sim, index) in listSim" :key="index">
+                  <div @click="personHanleOrder(sim)" v-ripple="{ center: true }">
+                    <ListItem :sim="sim" />
+                    <v-divider></v-divider>
+                  </div>
+                </div>
+                <Loading v-if="loadingItem" :loading="loadingItem" />
+                <Order v-if="dialogOrder" :dialog="dialogOrder" :detail-sim="simChoose" @cancel="dialogOrder = false" @save="saveOrder" />
+              </nav>
+          </div>
+        </template>
+      </Tabs>
     </nav>
   </div>
 </template>
 <script>
 import ListItem from "@/components/Fake/item";
 import Order from "@/components/Fake/order";
+import Homepage from "@/components/Fake/homepage";
+import Introduce from "@/components/Fake/introduce";
 import Loading from "@/components/Fake/loading";
 import Search from "@/components/Fake/search";
+import Tabs from "@/components/Fake/tabs";
 import Person from "@/components/Fake/person";
 import { VclBulletList } from "vue-content-loading";
 import { mapState } from "vuex";
@@ -41,8 +67,11 @@ import { MOCK_LIST_SIM } from "@/mock/fake.js";
 export default {
   components: {
     VclBulletList,
+    Homepage,
+    Tabs,
     ListItem,
     Search,
+    Introduce,
     Order,
     Person,
     Loading,
@@ -57,25 +86,31 @@ export default {
       dialogOrder: false,
       simChoose: {},
       key_search: "",
+      tabs: null,
       bottom: false,
       listSim_del: MOCK_LIST_SIM.sims,
     };
   },
   watch: {
+    tabs: {
+      handler: function(oldVal, newVal) {
+      },
+      deep: true,
+    },
     loadingItem: {
       handler: function(oldVal, newVal) {
-        this.dialogOrder = false
+        this.dialogOrder = false;
       },
-      deep: true
+      deep: true,
     },
     snackbar: {
-      handler: function(oldVal, newVal){
-        if(!newVal) {
-          this.$store.commit('fake/toggleOffSnackbar');
+      handler: function(oldVal, newVal) {
+        if (!newVal) {
+          this.$store.commit("fake/toggleOffSnackbar");
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
 
   mounted() {
@@ -83,24 +118,29 @@ export default {
     this.fetchData();
   },
   methods: {
+    changeTabEvent(e) {
+      this.tabs = e
+    },
     personHanleOrder(item) {
-
       this.dialogOrder = true;
       this.simChoose = item;
     },
     async saveOrder() {
       await this.$store.dispatch("fake/SEND_ORDER_TOP_SIM", this.simChoose);
-      this.dialogOrder = false
+      this.dialogOrder = false;
     },
     searchFunc() {
-      this.$store.commit('fake/clearListSim')
+      if(this.tabs !== 1) {
+        this.tabs = 1
+      }
+      this.$store.commit("fake/clearListSim");
       this.fetchData(true);
     },
     fetchData(status_search) {
       /** payload */
       this.$store.dispatch("fake/GET_LIST_TRACSACTION", {
         keysearch: this.key_search,
-        is_new: status_search 
+        is_new: status_search,
       });
     },
     srollBottom() {
@@ -127,8 +167,11 @@ export default {
   z-index: 9;
   top: 0;
 }
-.sims {
+.tabs-bar {
   margin-top: 72px;
+}
+.sims {
+  margin-top: 24px;
 }
   .searching {
     width: 80%;
