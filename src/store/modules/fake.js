@@ -67,6 +67,8 @@ const actions = {
         color: 'red'
       };
       commit("toggleOnSnackbar", params);
+
+
     }
   },
   async SEND_ORDER_TOP_SIM({ commit }, payload) {
@@ -144,6 +146,8 @@ const actions = {
         message: error.message,
       };
       commit("toggleOnSnackbar", params);
+      commit("changeLoading", false);
+
     }
   },
 };
