@@ -16,34 +16,34 @@
     </div>
     <div class="slice-carousel">
       <v-carousel width="100%" height="100px" hide-delimiters>
-        <v-carousel-item v-for="(item, i) in caroselItems" :key="i" :src="item.src"></v-carousel-item>
+        <v-carousel-item v-for="(item, i) in caroselItems" :key="i" :src="item.src" alt="Quảng cáo"></v-carousel-item>
       </v-carousel>
     </div>
     <div class="title-filter"><v-icon small color="#c16353" dark>format_quote</v-icon>&nbsp;Sim theo mạng</div>
     <div class="sim-by-telco-homepage">
-      <div class="item" v-ripple="{ center: true }">
+      <div class="item" v-ripple="{ center: true }" @click="$emit('change-tab', 1)">
         <img src="@/assets/viettel.png" width="55px" height="35px" />
       </div>
-      <div class="item" v-ripple="{ center: true }">
+      <div class="item" v-ripple="{ center: true }" @click="$emit('change-tab', 1)">
         <img src="@/assets/vinaphone.png" width="55px" height="35px" />
       </div>
-      <div class="item" v-ripple="{ center: true }">
+      <div class="item" v-ripple="{ center: true }" @click="$emit('change-tab', 1)">
         <img src="@/assets/vietnammobile.png" width="55px" height="35px" />
       </div>
-      <div class="item" v-ripple="{ center: true }">
+      <div class="item" v-ripple="{ center: true }" @click="$emit('change-tab', 1)">
         <img src="@/assets/itel_logo.png" width="55px" height="35px" />
       </div>
     </div>
 
     <div class="title-filter"><v-icon small color="#c16353" dark>format_quote</v-icon> &nbsp;Sim theo giá</div>
     <div class="sim-by-price-homepage">
-      <v-card v-for="(item, index) in simByPrice" :key="index" v-ripple="{ center: true }">
+      <v-card v-for="(item, index) in simByPrice" :key="index" v-ripple="{ center: true }" @click="$emit('change-tab', 1)">
         {{ item.text }}
       </v-card>
     </div>
     <div class="title-filter"><v-icon small color="#c16353" dark>format_quote</v-icon> &nbsp;Sim theo dạng</div>
     <div class="sim-by-cate-homepage">
-      <v-card v-for="(item, index) in simByCate" :key="index" v-ripple="{ center: true }">
+      <v-card v-for="(item, index) in simByCate" :key="index" v-ripple="{ center: true }" @click="$emit('change-tab', 1)">
         {{ item.text }}
       </v-card>
     </div>
@@ -59,10 +59,7 @@ export default {
         },
         {
           src: "https://vip.simthanglong.vn/img/icons/slider-ctv.gif",
-        },
-        {
-          src: "https://vip.simthanglong.vn/img/icons/slider-ctv.gif",
-        },
+        }
       ],
       simByCate: [
         {

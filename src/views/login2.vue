@@ -55,7 +55,7 @@ export default {
                         localStorage.user = JSON.stringify(user);
                         if(user.role === 'fake') {
                             localStorage.role = 'fake';
-                            this.$router.push('/fake');
+                            this.$router.push('/customer');
                             return;
                         }
                         let result1 = await postDevice(user.username)

@@ -42,6 +42,6 @@ export default {
   .v-tabs__bar {
     position: sticky;
     top: 72px;
-    z-index: 100;
+    z-index: 8;
   }
 </style>

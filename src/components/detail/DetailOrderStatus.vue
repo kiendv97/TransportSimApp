@@ -48,7 +48,7 @@ export default {
         VclList
     },
     data() {
-        let username = JSON.parse(localStorage.getItem('user')).username
+        let username = localStorage.getItem('user') ?  JSON.parse(localStorage.getItem('user')).username : ""
         return {
             listComment: [],
             username: username,

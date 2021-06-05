@@ -64,7 +64,7 @@ export default {
         };
     },
     async mounted() {
-        let userLocal = JSON.parse(localStorage.getItem('user'));
+        let userLocal = localStorage.getItem('user') ?  JSON.parse(localStorage.getItem('user')) : false
         if (!userLocal) {
             this.$route.push('/login');
             return;
