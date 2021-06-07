@@ -20,16 +20,16 @@
     <div class="title-filter"><v-icon small color="#c16353" dark>format_quote</v-icon>&nbsp;Sim theo mạng</div>
     <div class="sim-by-telco-homepage">
       <div class="item" v-ripple="{ center: true }" @click="$emit('change-tab', 1)">
-        <img src="@/assets/viettel.png" width="55px" height="35px" />
+        <img src="@/assets/viettel.png" width="auto" height="38px" />
       </div>
       <div class="item" v-ripple="{ center: true }" @click="$emit('change-tab', 1)">
-        <img src="@/assets/vinaphone.png" width="55px" height="35px" />
+        <img src="@/assets/vinaphone.png" width="auto" height="38px" />
       </div>
       <div class="item" v-ripple="{ center: true }" @click="$emit('change-tab', 1)">
-        <img src="@/assets/vietnammobile.png" width="55px" height="35px" />
+        <img src="@/assets/vietnammobile.png" width="auto" height="38px" />
       </div>
       <div class="item" v-ripple="{ center: true }" @click="$emit('change-tab', 1)">
-        <img src="@/assets/itel_logo.png" width="55px" height="35px" />
+        <img src="@/assets/itel_logo.png" width="auto" height="38px" />
       </div>
     </div>
 
