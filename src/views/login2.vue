@@ -6,8 +6,8 @@
                   <p class="title text-center text-uppercase">Đăng nhập</p>
                 </div> -->
             <div class="form-login">
-                <v-text-field class="input-value" solo flat v-model="username" background-color="#fff" label="Số điện thoại" prepend-inner-icon="smartphone"></v-text-field>
-                <v-text-field class="input-value" solo v-model="password" @click:append="show = !show" @keypress.enter="loginFunc()" :type="show ? 'text' : 'password'" :append-icon="show ? 'mdi-eye':'mdi-eye-off'" background-color="#fff" rounded outlined dense label="Mật khẩu" prepend-inner-icon="lock"></v-text-field>
+                <v-text-field class="input-value-login" solo flat v-model="username" background-color="#fff" label="Số điện thoại" prepend-inner-icon="smartphone"></v-text-field>
+                <v-text-field class="input-value-login" solo v-model="password" @click:append="show = !show" @keypress.enter="loginFunc()" :type="show ? 'text' : 'password'" :append-icon="show ? 'mdi-eye':'mdi-eye-off'" background-color="#fff" rounded outlined dense label="Mật khẩu" prepend-inner-icon="lock"></v-text-field>
             </div>
             <v-alert class="alert-text" v-if="messageError" outlined dense type="error">{{messageError}}</v-alert>
             <div class="action-button">
@@ -146,7 +146,7 @@ export default {
     border-radius: 20px
 }
 
-.input-value.v-text-field--solo>.v-input__control>.v-input__slot {
+.input-value-login.v-text-field--solo>.v-input__control>.v-input__slot {
     border-radius: 20px
 }
 .register {

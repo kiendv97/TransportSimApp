@@ -17,6 +17,7 @@
   </v-menu>
 </template>
 <script>
+import WebView from '@/constants/webview-constant.js'
 export default {
   data() {
     return {
@@ -30,6 +31,7 @@ export default {
       localStorage.removeItem("user");
       localStorage.removeItem("role");
       localStorage.removeItem("access_token");
+      this.$postMessage(WebView.LOGOUT)
       this.$router.push({path: "/login"});
       window.location.reload(true)
     }

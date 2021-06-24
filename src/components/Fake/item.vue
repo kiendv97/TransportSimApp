@@ -5,7 +5,7 @@
         <p class="telco">{{convertTelco(sim.telco)}}</p>
       </div>
       <div class="price_n_type">
-        <p class="price">{{convertMoney(sim.price_sale).replace(/\sVND|\sđ/, '')}}<span class="caption font-weight-bold">đ</span></p>
+        <p class="price">{{convertMoney(sim.price_sale).replace(/\sVND|\sđ|\s₫/, '')}}<span class="caption font-weight-bold">đ</span></p>
         <p class="type">{{convertType(sim.sim_type)}}</p>
       </div>
   </div>

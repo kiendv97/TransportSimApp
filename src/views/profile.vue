@@ -59,6 +59,7 @@
 
 <script>
 import axios from "axios";
+import WebView from '@/constants/webview-constant.js'
 import { unsubcribeDevice } from "@/api/firebase";
 export default {
   data() {
@@ -136,6 +137,7 @@ export default {
       localStorage.removeItem("user");
       localStorage.removeItem("access_token");
       localStorage.removeItem("role");
+      this.$postMessage(WebView.LOGOUT)
       navigator.serviceWorker.getRegistrations().then(function(registrations) {
         for (let registration of registrations) {
           registration.unregister();

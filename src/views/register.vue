@@ -11,9 +11,9 @@
                   <p class="title text-center text-uppercase">Đăng nhập</p>
                 </div> -->
         <div class="form-register">
-          <v-text-field class="input-value" type="tel" solo hint="" flat v-model="username" background-color="#fff" label="Số điện thoại" prepend-inner-icon="smartphone"></v-text-field>
-          <v-text-field class="input-value" solo v-model="password" @click:append="show = !show" @keypress.enter="registerFunc()" :type="show ? 'text' : 'password'" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" background-color="#fff" rounded outlined dense label="Mật khẩu" prepend-inner-icon="lock"></v-text-field>
-          <v-text-field class="input-value" solo v-model="re_password" @click:append="show1 = !show1" @keypress.enter="registerFunc()" :type="show ? 'text' : 'password'" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" background-color="#fff" rounded outlined dense label="Xác nhận mật khẩu" prepend-inner-icon="lock"></v-text-field>
+          <v-text-field class="input-value-register" type="tel" solo hint="" flat v-model="username" background-color="#fff" label="Số điện thoại" prepend-inner-icon="smartphone"></v-text-field>
+          <v-text-field class="input-value-register" solo v-model="password" @click:append="show = !show" @keypress.enter="registerFunc()" :type="show ? 'text' : 'password'" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" background-color="#fff" rounded outlined dense label="Mật khẩu" prepend-inner-icon="lock"></v-text-field>
+          <v-text-field class="input-value-register" solo v-model="re_password" @click:append="show1 = !show1" @keypress.enter="registerFunc()" :type="show ? 'text' : 'password'" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" background-color="#fff" rounded outlined dense label="Xác nhận mật khẩu" prepend-inner-icon="lock"></v-text-field>
         </div>
         <p class="red--text" style="text-align: center;">{{ messageError }}</p>
         <div class="action-button">
@@ -129,7 +129,7 @@ export default {
     border-radius: 20px
 }
 
-.input-value.v-text-field--solo>.v-input__control>.v-input__slot {
+.input-value-register.v-text-field--solo>.v-input__control>.v-input__slot {
     border-radius: 20px
 }
 </style>
