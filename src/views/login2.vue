@@ -65,7 +65,9 @@ export default {
                             token: user.token,
                             username: user.username
                         }
-                        this.$postMessage(`${WebView.LOGIN_SUCCESS}:${JSON.stringify(payloadEventReact)}`)
+                        setTimeout(() => {
+                            this.$postMessage(`${WebView.LOGIN_SUCCESS}:${JSON.stringify(payloadEventReact)}`)
+                        }, 500);
                         this.$router.push('/main')
                     }
                     this.loading = false
