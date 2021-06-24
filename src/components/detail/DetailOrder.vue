@@ -24,7 +24,7 @@
         </v-layout>
         <v-layout justify-center row>
             <v-flex justify-center xs8>
-                <v-text-field v-model="seriNumber" solo outline></v-text-field>
+                <v-text-field v-model="seriNumber" :label="data.sim_series ? data.sim_series : 'Nhập seri sim!'"  single-line outline></v-text-field>
             </v-flex>
             <v-flex xs4 style="text-align: right">
                 <v-btn color="#0F4C75" class="mt-2" dark :loading="loadingSendSeri" @click="putSeriSimFunc">

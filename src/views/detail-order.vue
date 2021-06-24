@@ -148,8 +148,9 @@
       <vcl-bullet-list v-if="loadingComment"></vcl-bullet-list>
       <div v-else class="ma-2" style="width: 100%;">
         <div
-          v-for="comment in listComment"
+          v-for="(comment, index) in listComment"
           class="inline ma-2 "
+          :key="index"
         >
           ({{ dateTimeFormat(comment.date) }})
           {{ comment.username }}:
