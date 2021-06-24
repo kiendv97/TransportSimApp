@@ -35,6 +35,16 @@
             <p class="mb-0">{{ assignee.assignee_full_name }} - <a @click.stop="callPhone(assignee.assignee_phone_number)">{{ assignee.assignee_phone_number }}</a> </p>
         </v-flex>
     </v-layout>
+    <v-layout class="mb-2" row>
+        <v-flex xs1>
+            <v-icon small>
+                work_outline
+            </v-icon>
+        </v-flex>
+        <v-flex xs11>
+            <p class="mb-0">{{ assignee.subscription_type_name }}</p>
+        </v-flex>
+    </v-layout>
 </div>
 </template>
 

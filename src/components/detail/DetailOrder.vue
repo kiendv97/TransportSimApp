@@ -7,13 +7,14 @@
                     {{ data.sold_product }}
                 </p>
                 <p class="text-xs-left font-weight-thin mb-1">
-                    {{ dateTimeFormat(data.finished_date) }}
+                    {{ data.finished_date ?  dateTimeFormat(data.finished_date): '' }}
                 </p>
             </v-flex>
             <v-flex xs6 style="text-align: right;">
                 <p :style="'color:' + showStatus(data.status).color"> {{showStatus(data.status).text}}</p>
                 <p class="mb-0">Tổng tiền thu: <strong style="color: red;">{{ convertMoney(data.total_receivable_price) }}</strong></p>
             </v-flex>
+          
         </v-layout>
         <ItemAddress :customer="detailProp" :assignee="detailProp" />
         <v-layout>
@@ -23,7 +24,7 @@
         </v-layout>
         <v-layout justify-center row>
             <v-flex justify-center xs8>
-                <v-text-field v-model="seriNumber" class="ma-0" :label="data.sim_series ? data.sim_series : 'Nhập seri sim...'"></v-text-field>
+                <v-text-field v-model="seriNumber" solo outline></v-text-field>
             </v-flex>
             <v-flex xs4 style="text-align: right">
                 <v-btn color="#0F4C75" class="mt-2" dark :loading="loadingSendSeri" @click="putSeriSimFunc">
@@ -67,7 +68,8 @@ export default {
             receiver_name: this.data.customer_profile.customer_name,
             receiver_address: this.data.customer_profile.customer_address,
             assignee_phone_number: this.data.assignee_phone_number,
-            assignee_full_name: this.data.assignee_full_name
+            assignee_full_name: this.data.assignee_full_name,
+            subscription_type_name: this.data.subscription_type_name
         }
     },
     methods: {

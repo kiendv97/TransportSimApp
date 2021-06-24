@@ -5,7 +5,7 @@
             <v-icon small left :color="nameStatus == 'FAIL' &&  i == 3? 'red': '#FE805C'" >
                 fiber_manual_record
             </v-icon>
-            {{ statusName[i-1]}} <i v-if="i == 3">({{dateTimeFormat(finishedDate)}})</i>
+            {{ statusName[i-1]}} <i v-if="i == 3">{{ finishedDate ? `(${dateTimeFormat(finishedDate)})`: ''}}</i>
         </div>
       <div v-if="i < statusName.length">
         <v-icon small left color="#FE805C">

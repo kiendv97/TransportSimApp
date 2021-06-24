@@ -8,7 +8,7 @@
         </div>
         <v-layout class="mt-2">
             <v-flex xs8>
-                <v-text-field outline v-model="textComment" outlined height="10vh" label="Nhập comment">
+                <v-text-field outline v-model="textComment" solo height="10vh">
                 </v-text-field>
             </v-flex>
             <v-flex xs4>
