@@ -23,6 +23,7 @@
 </template>
 <script>
 import axios from "axios";
+import WebView from '@/constants/webview-constant.js'
 import {
     postDevice
 } from '@/api/firebase.js'
@@ -59,6 +60,12 @@ export default {
                             return;
                         }
                         let result1 = await postDevice(user.username)
+                        let payloadEventReact = {
+                            id: user.id,
+                            token: user.token,
+                            username: user.username
+                        }
+                        this.$postMessage(`${WebView.LOGIN_SUCCESS}:${JSON.stringify(payloadEventReact)}`)
                         this.$router.push('/main')
                     }
                     this.loading = false
@@ -66,6 +73,7 @@ export default {
                     alert("Vui lòng nhập");
                 }
             } catch (error) {
+                this.$postMessage(WebView.LOGIN_FAILED)
                 this.loading = false
                 if (error && error.response && error.response.data.message) {
                     alert(error.response.data.message);

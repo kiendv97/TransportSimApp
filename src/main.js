@@ -4,6 +4,7 @@ import Vuetify from 'vuetify';
 import router from './router';
 import store from "./store/index"
 import moment from 'moment';
+import "./utils/webview";
 Vue.use(Vuetify);
 import 'vuetify/dist/vuetify.min.css';
 Vue.config.productionTip = false;
