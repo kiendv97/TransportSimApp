@@ -1,6 +1,6 @@
 <template>
 <div class="search-bar">
-    <v-text-field :value="value" type="tel" label="Tìm sim" @input="emitInputKey" hide-details background-color="#E9E9E9" append-icon="search" @click:append="enterToSearch()" @keyup.enter="enterToSearch()" solo flat dense maxLength="15">
+    <v-text-field :value="value"  @change="enterToSearch()" type="tel" label="Tìm sim"  @input="emitInputKey" hide-details background-color="#E9E9E9" append-icon="search" @click:append="enterToSearch()" @keyup.enter="enterToSearch()" solo flat dense maxLength="15">
     </v-text-field>
     </div>
 </template>

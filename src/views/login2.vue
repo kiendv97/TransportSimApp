@@ -53,21 +53,22 @@ export default {
                         self.statusResponse = true;
                         let user = response.data.response
                         localStorage.access_token = response.data.response.token;
+                         let payloadEventReact = {
+                            id: user.id,
+                            token: user.token,
+                            username: user.username
+                        }
                         localStorage.user = JSON.stringify(user);
+                        setTimeout(() => {
+                            this.$postMessage(`${WebView.LOGIN_SUCCESS}:${JSON.stringify(payloadEventReact)}`)
+                        }, 500);
                         if(user.role === 'fake') {
                             localStorage.role = 'fake';
                             this.$router.push('/customer');
                             return;
                         }
                         let result1 = await postDevice(user.username)
-                        let payloadEventReact = {
-                            id: user.id,
-                            token: user.token,
-                            username: user.username
-                        }
-                        setTimeout(() => {
-                            this.$postMessage(`${WebView.LOGIN_SUCCESS}:${JSON.stringify(payloadEventReact)}`)
-                        }, 500);
+                       
                         this.$router.push('/main')
                     }
                     this.loading = false
