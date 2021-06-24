@@ -1,10 +1,10 @@
 <template>
 <v-container>
     <v-layout> 
-        <v-flex class="main" style="margin-top: 100px   ">
-            <!-- <div class="title-div">
-                  <p class="title text-center text-uppercase">Đăng nhập</p>
-                </div> -->
+        <v-flex class="main" style="margin-top: 100px">
+            <div class="logo" style="text-align: center">
+                <img src="@/assets/logo_giaosim.jpg" alt="" width="70px">
+            </div>
             <div class="form-login">
                 <v-text-field class="input-value-login" solo flat v-model="username" background-color="#fff" label="Số điện thoại" prepend-inner-icon="smartphone"></v-text-field>
                 <v-text-field class="input-value-login" solo v-model="password" @click:append="show = !show" @keypress.enter="loginFunc()" :type="show ? 'text' : 'password'" :append-icon="show ? 'mdi-eye':'mdi-eye-off'" background-color="#fff" rounded outlined dense label="Mật khẩu" prepend-inner-icon="lock"></v-text-field>
