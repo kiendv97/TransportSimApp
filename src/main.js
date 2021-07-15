@@ -13,6 +13,9 @@ Vue.mixin({
     dateTimeFormat(date) {
       return moment(date).format('H:mm, DD/MM/YYYY');
     },
+    dateTimeFormatComment(date) {
+      return moment(date).format('H:mm, DD/MM');
+    },
     convertMoney(money) {
       if(!money) return '0 ₫';
       return new Intl.NumberFormat('it-IT', {

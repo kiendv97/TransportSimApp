@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-tabs v-model="tab" color="#00B7C2" fixed-tabs background-color="red" slider-color="white">
+    <v-tabs v-model="tab" color="#2196f3" fixed-tabs background-color="red" slider-color="white">
         <v-tab style="color: white" class="caption font-weight-bold" v-for="item in countTabStatus" :key="item.id" @click="tabSwipe(item.status)">
             {{ item.title }} {{ item.total }}
         </v-tab>

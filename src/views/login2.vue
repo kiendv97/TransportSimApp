@@ -6,12 +6,12 @@
                 <img src="@/assets/logo_giaosim.jpg" alt="" width="70px">
             </div>
             <div class="form-login">
-                <v-text-field class="input-value-login" solo flat v-model="username" background-color="#fff" label="Số điện thoại" prepend-inner-icon="smartphone"></v-text-field>
+                <v-text-field class="input-value-login" solo flat v-model="username" background-color="#fff" label="Tài khoản" prepend-inner-icon="smartphone"></v-text-field>
                 <v-text-field class="input-value-login" solo v-model="password" @click:append="show = !show" @keypress.enter="loginFunc()" :type="show ? 'text' : 'password'" :append-icon="show ? 'mdi-eye':'mdi-eye-off'" background-color="#fff" rounded outlined dense label="Mật khẩu" prepend-inner-icon="lock"></v-text-field>
             </div>
             <v-alert class="alert-text" v-if="messageError" outlined dense type="error">{{messageError}}</v-alert>
             <div class="action-button">
-                <v-btn class="button-login" :loading="loading" rounded color="#00B7C2" @click="loginFunc()" block>ĐĂNG NHẬP </v-btn>
+                <v-btn class="button-login" :loading="loading" rounded color="#2196f3" @click="loginFunc()" block>ĐĂNG NHẬP </v-btn>
             </div>
             <div class="register">
                 <router-link to="/register" class="text-uppercase"> Đăng kí </router-link>

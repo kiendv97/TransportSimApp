@@ -2,7 +2,7 @@
   <v-layout row>
     <v-flex xs12 sm6 offset-sm3>
       <v-card style="height: 100vh" class="ma-0">
-        <v-toolbar color="#00B7C2" dark class="ma-0">
+        <v-toolbar color="#2196f3" dark class="ma-0">
           <v-btn icon @click="$router.go(-1)">
             <v-icon>arrow_back</v-icon>
           </v-btn>

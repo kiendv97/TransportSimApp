@@ -152,7 +152,7 @@
           class="inline ma-2 "
           :key="index"
         >
-          ({{ dateTimeFormat(comment.date) }})
+          ({{ dateTimeFormatComment(comment.date) }})
           {{ comment.username }}:
           {{ comment.content }}
         </div>

@@ -38,6 +38,6 @@ export default {
   z-index: 2;
 }
 .listItem {
-  margin-top: 160px;
+  margin-top: 115px;
 }
 </style>

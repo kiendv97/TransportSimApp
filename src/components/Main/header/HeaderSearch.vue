@@ -1,6 +1,18 @@
 <template>
-  <div>
-    <v-text-field v-model="search" clearable label="Tìm kiếm .... " append-icon="search" @click:clear="searchOrder" ref="searchRef" @keyup.enter="searchOrder" class="search-field" style="width: 95%; margin: 0 auto;" solo solo-inverted hide-details dark flat autofocus @click:append="searchOrder" />
+  <div class="py-2">
+    <v-layout>
+      <v-flex xs10 sm10>
+        <v-text-field v-model="search" clearable label="Tìm kiếm .... " append-icon="search" @click:clear="searchOrder" ref="searchRef" @keyup.enter="searchOrder" class="search-field" style="width: 95%; margin: 0 auto;" solo solo-inverted hide-details dark flat autofocus @click:append="searchOrder" />
+      </v-flex>
+      <v-flex>
+        <v-avatar @click="Profile()">
+          <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="trevor" />
+        </v-avatar>
+      </v-flex>
+      <v-flex>
+        <v-btn icon dark @click="renewOrder()"><v-icon>autorenew</v-icon></v-btn>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
@@ -19,6 +31,16 @@ export default {
     };
   },
   methods: {
+    renewOrder() {
+      this.$router.go(this.$router.currentRoute)
+        // this.$store.dispatch('transaction/COUNT_TRANSACTION_STATUS')
+      // this.$store.commit('transaction/changeStatus', this.currenStatus)
+    },
+    Profile() {
+      this.$router.push({
+        name: "Profile",
+      });
+    },
     async searchOrder(e) {
       this.$vuetify.goTo(0);
       this.$nextTick(() => {

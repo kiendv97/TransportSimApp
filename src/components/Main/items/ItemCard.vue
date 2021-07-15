@@ -14,7 +14,7 @@
                   <span class="pt-1 pl-2">{{ data.sold_product }}</span>
                 </div>
                 <p class="mb-1">
-                  {{ data.subscription_type_name }}
+                  {{convertType(data.subscription_type) }}
                 </p>
                 <p class="text-xs-left font-weight-thin mb-1">
                   {{ dateTimeFormat(data.finished_date) }}
@@ -82,13 +82,24 @@ export default {
     this.assigneeProp = {
       assignee_full_name: this.data.assignee_full_name,
       assignee_phone_number: this.data.assignee_phone_number,
-      subscription_type_name: this.data.subscription_type_name
+      subscription_type_name: this.data.subscription_type_name,
+      subscription_type: this.data.subscription_type,
     };
     if (this.data.sold_product && this.listTransactionCopied.find((tsC) => this.data.sold_product == tsC.sold_product)) {
       this.circleCopied = true;
     }
   },
   methods: {
+     convertType(type) {
+      switch (type) {
+        case "PREPAID":
+          return 'Trả trước'
+       case "POSTPAID": 
+          return 'Trả sau'
+        default:
+          return ''
+      }
+    },
     showStatus(status) {
       let colorAndText = {
         text: "",

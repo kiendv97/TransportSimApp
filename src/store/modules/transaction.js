@@ -54,10 +54,13 @@ const actions = {
     async GET_LIST_TRACSACTION({ commit }, payload) {
         try {
             commit('changeLoading', true)
-            if(!state.listTransaction.hasOwnProperty(payload.status)) {
-                let result = await listTransactionForApp(payload.status, payload.page, payload.page_size)
-                commit('lisTransaction', result)
-            } 
+            /** bỏ cache */
+            // if(!state.listTransaction.hasOwnProperty(payload.status)) {
+            //     let result = await listTransactionForApp(payload.status, payload.page, payload.page_size)
+            //     commit('lisTransaction', result)
+            // } 
+            let result = await listTransactionForApp(payload.status, payload.page, payload.page_size)
+            commit('lisTransaction', result)
             commit('changeLoading', false)
         } catch (error) {
             if (error && error.response && error.response.data) {

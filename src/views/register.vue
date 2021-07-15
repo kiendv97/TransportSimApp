@@ -17,7 +17,7 @@
         </div>
         <p class="red--text" style="text-align: center;">{{ messageError }}</p>
         <div class="action-button">
-          <v-btn class="button-register" :loading="loading" rounded color="#00B7C2" @click="registerFunc()" block>ĐĂNG KÍ </v-btn>
+          <v-btn class="button-register" :loading="loading" rounded color="#2196f3" @click="registerFunc()" block>ĐĂNG KÍ </v-btn>
         </div>
         <div>
           <router-link to="/login">Đăng nhập</router-link>

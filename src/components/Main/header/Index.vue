@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-card color="#00B7C2" class="my-0">
-      <Welcome />
+    <v-card color="#2196f3" class="my-0">
+      <!-- <Welcome /> -->
       <Search />
       <Tabs />
     </v-card>

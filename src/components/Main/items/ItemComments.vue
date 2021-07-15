@@ -7,7 +7,7 @@
     </v-layout>
     <v-layout column>
         <v-flex style="width: 100%; line-height: 20px" class="inline ma-2" v-for="(comment,index) in comments" :key="index">
-            {{dateTimeFormat(comment.date)}} <strong> {{comment.username}}: </strong>
+            {{dateTimeFormatComment(comment.date)}} <strong> {{comment.username}}: </strong>
             <i>{{comment.content}}</i>
         </v-flex>
     </v-layout>

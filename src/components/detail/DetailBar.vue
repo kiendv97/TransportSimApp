@@ -1,6 +1,6 @@
 <template>
 <div class="bar">
-    <v-toolbar color="#00b7c2" dark>
+    <v-toolbar color="#2196f3" dark>
         <v-btn icon @click="$router.go(-1)">
             <v-icon>arrow_back</v-icon>
         </v-btn>
